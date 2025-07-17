@@ -1,0 +1,268 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: white;
+    height: 100vh;
+    overflow-x: hidden;
+    background: none;
+    /* veya bu satırı tamamen kaldırabilirsiniz */
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    min-width: 100vw;
+    min-height: 100vh;
+    z-index: -2;
+    background: url('ay.jpeg') center top no-repeat;
+    background-size: cover;
+}
+
+/* Bulutlar yatayda tüm alt kenarı kaplar */
+.clouds {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 160px;
+    z-index: -1;
+    pointer-events: none;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: 0;
+}
+
+.cloud {
+    background: #fff;
+    opacity: 0.95;
+    border-radius: 50%;
+    position: relative;
+    width: 180px;
+    height: 80px;
+    margin-bottom: 0;
+    margin-left: -40px;
+    box-shadow:
+        60px 0 0 0 #fff,
+        120px 10px 0 0 #fff,
+        30px 30px 0 0 #fff,
+        90px 30px 0 0 #fff;
+}
+
+/* Farklı boyutlarda bulutlar için ek classlar */
+.cloud.sm {
+    width: 120px;
+    height: 60px;
+    opacity: 0.8;
+    margin-left: -60px;
+}
+
+.cloud.md {
+    width: 150px;
+    height: 70px;
+    opacity: 0.7;
+    margin-left: -40px;
+}
+
+.cloud.lg {
+    width: 200px;
+    height: 90px;
+    opacity: 0.85;
+    margin-left: -50px;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+    position: relative;
+    z-index: 2;
+}
+
+.logo {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    display: flex;
+    align-items: center;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.95em;
+    padding: 8px 14px;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.nav-links a:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.login-btn {
+    background: white;
+    color: #003366;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 8px;
+}
+
+.hero {
+    text-align: center;
+    position: relative;
+    height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.moon {
+    width: 160px;
+    margin-bottom: 30px;
+    animation: glow 4s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    0% {
+        filter: drop-shadow(0 0 5px #fff);
+    }
+
+    100% {
+        filter: drop-shadow(0 0 20px #fff);
+    }
+}
+
+.hero h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    display: inline-block;
+    text-align: center;
+    line-height: 1.2;
+    height: 3em;
+
+    min-width: 360px;
+
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+}
+
+
+.cta-btn {
+    background: white;
+    color: #003366;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.cta-btn:hover {
+    background: #e0e0e0;
+}
+
+#stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -3;
+    display: block;
+    pointer-events: none;
+}
+
+/* Responsive Navbar ve Hero */
+@media (max-width: 900px) {
+    .navbar {
+        padding: 16px 24px;
+    }
+
+    .hero h1 {
+        font-size: 2em;
+        min-width: 220px;
+    }
+
+    .cta-btn {
+        font-size: 0.95em;
+        padding: 10px 18px;
+    }
+}
+
+@media (max-width: 600px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px 8px;
+        gap: 10px;
+    }
+
+    .logo {
+        font-size: 1.1em;
+        margin-bottom: 8px;
+    }
+
+    .nav-links {
+        gap: 10px;
+        font-size: 0.95em;
+    }
+
+    .hero {
+        padding: 0 10px;
+    }
+
+    .hero h1 {
+        font-size: 1.2em;
+        min-width: 120px;
+    }
+
+    .cta-btn {
+        font-size: 0.9em;
+        padding: 8px 12px;
+    }
+
+    .moon {
+        width: 90px;
+        margin-bottom: 18px;
+    }
+
+    .clouds {
+        height: 80px;
+    }
+
+    .cloud,
+    .cloud.sm,
+    .cloud.md,
+    .cloud.lg {
+        width: 60px !important;
+        height: 30px !important;
+        margin-left: -20px !important;
+    }
+}
