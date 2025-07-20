@@ -1,19 +1,20 @@
 import express from "express";
-import mongoose from "mongoose";
+import connectDB from "./database/database.js";
+import words from "./routes/words.js"
 import "dotenv/config";
 
 //.env dosyasından gerekli değişkenleri çekelim
 const PORT = process.env.PORT || 5000;
-const URI = process.env.MONGODB_URI;
+const URI = process.env.MONGO_URI;
 
-//mongo db bağlantısını sağlayalım
-await mongoose.connect(URI)
-              .then(() => console.log("MongoDB connection established"))
-              .catch(err => console.error(`MongoDB connection error. ${err}`));
+// burada hata var düzelicek    
+// await connectDB(URI);
 
 //API keylerimizi hazırlayalım
 const app = express();
 app.use(express.json());
+
+app.use('/words', words);
 
 // API çalışıyor mu diye bakmak için bir health-checkup yapalım(olmasada olur)
 app.get('/health-checkup', (req, res) => res.status(200).send('API is working'));
