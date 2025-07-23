@@ -52,3 +52,8 @@ document.addEventListener("DOMContentLoaded", function () {
     h1.textContent = "";
     startAnimation();
 });
+
+//login sayfasına yonlendir
+document.querySelector('.login-btn').onclick = function () {
+    window.location.href = "login.html";
+};

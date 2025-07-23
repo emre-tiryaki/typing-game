@@ -10,20 +10,18 @@ body {
     height: 100vh;
     overflow-x: hidden;
     background: none;
-    /* veya bu satırı tamamen kaldırabilirsiniz */
 }
 
 .background {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw !important;
-    height: 100vh !important;
-    min-width: 100vw;
-    min-height: 100vh;
-    z-index: -2;
-    background: url('ay.jpeg') center top no-repeat;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("../images/backgrnd3.jpg");
     background-size: cover;
+    background-position: center;
+    z-index: -1;
 }
 
 /* Bulutlar yatayda tüm alt kenarı kaplar */

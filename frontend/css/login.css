@@ -1,0 +1,178 @@
+body {
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e0e7ef;
+}
+
+
+
+.login-name {
+    margin-bottom: 25px;
+    font-size: larger;
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("../images/backgrnd3.jpg");
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
+.login-container {
+    backdrop-filter: blur(6px);
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.37);
+    padding: 40px 32px;
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+.login-container input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+}
+
+.login-container button {
+    max-width: fit-content;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.enter-btn {
+    background: #373737;
+    width: 50%;
+    min-width: 48px;
+    height: 48px;
+    margin: 0 auto 16px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    position: relative;
+    font-size: 16px;
+    color: #fff;
+    font-weight: 500;
+    transition:
+        background 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        border-radius 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+        width 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+        height 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+        font-size 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.enter-btn::after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    font-size: 0;
+    font-weight: 700;
+    color: #fff;
+    transition:
+        opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        font-size 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.enter-btn:hover {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    font-size: 0;
+    color: transparent;
+    transition:
+        background 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        border-radius 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+        width 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+        height 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+        font-size 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.enter-btn:hover::after {
+    content: "→";
+    opacity: 1;
+    font-size: 2rem;
+    font-weight: 900;
+    color: #fff;
+    transition:
+        opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        font-size 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.google-btn {
+    background: #fff;
+    color: #444;
+    border: 1px solid #ddd;
+}
+
+.google-btn:hover {
+    background: #c4c1c1;
+}
+
+.facebook-btn {
+    background: #000;
+    color: #fff;
+    border: 1px solid #222;
+}
+
+.facebook-btn:hover {
+    background: #2651e1;
+}
+
+.facebook-btn svg path {
+    fill: #fff;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 16px 0;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    border-top: 1px solid #ccc;
+    height: 1px;
+}
+
+.divider span {
+    margin: 0 16px;
+    color: #888;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 0 8px;
+    position: relative;
+    z-index: 1;
+}
