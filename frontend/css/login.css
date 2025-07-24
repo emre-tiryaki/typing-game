@@ -7,8 +7,6 @@ body {
     background: #e0e7ef;
 }
 
-
-
 .login-name {
     margin-bottom: 25px;
     font-size: larger;
@@ -37,8 +35,6 @@ body {
     flex-direction: column;
     align-items: center;
 }
-
-
 
 .login-container input {
     width: 100%;

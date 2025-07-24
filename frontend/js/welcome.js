@@ -57,3 +57,34 @@ document.addEventListener("DOMContentLoaded", function () {
 document.querySelector('.login-btn').onclick = function () {
     window.location.href = "login.html";
 };
+
+// Sayfa yuklenınce localStorageı kontrol etme yeri
+function applyTheme(theme) {
+    document.body.classList.remove('dark', 'light');
+    document.body.classList.add(theme);
+    const bg = document.querySelector('.background');
+    if (bg) {
+        bg.classList.remove('dark', 'light');
+        bg.classList.add(theme);
+    }
+}
+
+function getTheme() {
+    return localStorage.getItem('theme') || 'light';
+}
+
+function setTheme(theme) {
+    localStorage.setItem('theme', theme);
+    applyTheme(theme);
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    applyTheme(getTheme());
+    const toggleBtn = document.getElementById('theme-toggle');
+    if (toggleBtn) {
+        toggleBtn.onclick = function () {
+            const newTheme = getTheme() === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        };
+    }
+});
