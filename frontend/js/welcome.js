@@ -2,7 +2,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const texts = [
         "Klavyede hızlan!",
         "On parmak yazmayı öğren",
-        "Yavaş yazmaktan sıkılmadın mı?"
+        "dönerci olmak vardı şimdi",
+        "Yavaş yazmaktan sıkılmadın mı?",
+        "osbir"                // :D sarıyo
     ];
     const h1 = document.querySelector(".hero h1");
     let i = 0;
