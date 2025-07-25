@@ -7,6 +7,16 @@ body {
     background: #e0e7ef;
 }
 
+body.dark {
+    background: #23272f;
+    color: #fff;
+}
+
+body.light {
+    background: #e0e7ef;
+    color: #222;
+}
+
 .login-name {
     margin-bottom: 25px;
     font-size: larger;
@@ -22,6 +32,14 @@ body {
     background-size: cover;
     background-position: center;
     z-index: -1;
+}
+
+.background.dark {
+    background-image: url("../images/backgrnd2.jpg");
+}
+
+.background.light {
+    background-image: url("../images/backgrnd3.jpg");
 }
 
 .login-container {
