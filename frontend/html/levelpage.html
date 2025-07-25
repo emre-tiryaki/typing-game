@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypingClub - Klavye Öğrenme Platformu</title>
+    <link rel="stylesheet" href="../css/levelpage.css" />
+</head>
+
+<body class="light">
+    <div class="page-background light"></div>
+
+    <header class="glass-header">
+        <nav class="navbar">
+            <div class="logo">TypingClub clone</div>
+            <ul class="nav-links">
+                <li><a href="#">Başla</a></li>
+                <li><a href="#">Dil</a></li>
+                <li><button class="login-btn">Giriş yap</button></li>
+                <li>
+                    <button id="theme-toggle" class="theme-btn" title="Tema Değiştir">🌗</button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="glass-card progress-stats">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value">25%</div>
+                    <div class="stat-label">Genel İlerleme</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 25%"></div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">★ 12</div>
+                    <div class="stat-label">Toplam Yıldız</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">1200</div>
+                    <div class="stat-label">Toplam Puan</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">35 WPM</div>
+                    <div class="stat-label">En İyi Hız</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-sections">
+            <section class="lesson-section">
+                <h2 class="section-title">
+                    <span class="section-icon">🎯</span>
+                    Ana Tuşlar (Home Row)
+                </h2>
+                <div class="lesson-grid">
+                    <div class="lesson-card lesson-card-available" onclick="startLesson(1)">
+                        <div class="lesson-content">
+                            <div class="lesson-number">Ders 1</div>
+                            <div class="lesson-icon">▶️</div>
+                            <h3 class="lesson-title">Klavyeye Giriş</h3>
+                            <p class="lesson-description">Temel parmak pozisyonlarını öğrenin</p>
+                            <div class="lesson-footer">
+                                <div class="lesson-stars">
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                </div>
+                                <div class="lesson-wpm">-</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lesson-card lesson-card-available" onclick="startLesson(2)">
+                        <div class="lesson-content">
+                            <div class="lesson-number">Ders 2</div>
+                            <div class="lesson-icon">▶️</div>
+                            <h3 class="lesson-title">F ve J Tuşları</h3>
+                            <p class="lesson-description">Temel pozisyon tuşlarını pratik edin</p>
+                            <div class="lesson-footer">
+                                <div class="lesson-stars">
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                </div>
+                                <div class="lesson-wpm">-</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lesson-card lesson-card-locked">
+                        <div class="lesson-content">
+                            <div class="lesson-number">Ders 3</div>
+                            <div class="lesson-icon">🔒</div>
+                            <h3 class="lesson-title">D ve K Tuşları</h3>
+                            <p class="lesson-description">Ana sıra genişlemesi</p>
+                            <div class="lesson-footer">
+                                <div class="lesson-stars">
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                </div>
+                                <div class="lesson-wpm">🔒</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lesson-card lesson-card-locked">
+                        <div class="lesson-content">
+                            <div class="lesson-number">Ders 4</div>
+                            <div class="lesson-icon">🔒</div>
+                            <h3 class="lesson-title">S ve L Tuşları</h3>
+                            <p class="lesson-description">Ana sıra tamamlanması</p>
+                            <div class="lesson-footer">
+                                <div class="lesson-stars">
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                </div>
+                                <div class="lesson-wpm">🔒</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lesson-card lesson-card-locked">
+                        <div class="lesson-content">
+                            <div class="lesson-number">Ders 5</div>
+                            <div class="lesson-icon">🔒</div>
+                            <h3 class="lesson-title">A ve Noktalı Virgül</h3>
+                            <p class="lesson-description">Ana sıra kenar tuşları</p>
+                            <div class="lesson-footer">
+                                <div class="lesson-stars">
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                </div>
+                                <div class="lesson-wpm">🔒</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lesson-card lesson-card-locked">
+                        <div class="lesson-content">
+                            <div class="lesson-number">Ders 6</div>
+                            <div class="lesson-icon">🔒</div>
+                            <h3 class="lesson-title">G ve H Tuşları</h3>
+                            <p class="lesson-description">Ana sıra merkez genişleme</p>
+                            <div class="lesson-footer">
+                                <div class="lesson-stars">
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                </div>
+                                <div class="lesson-wpm">🔒</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="section-title">
+                    <span class="section-icon">⬆️</span>
+                    Üst Sıra Tuşları
+                </h2>
+                <div class="lesson-grid">
+                    <div class="lesson-card lesson-card-locked">
+                        <div class="lesson-content">
+                            <div class="lesson-number">Ders 7</div>
+                            <div class="lesson-icon">🔒</div>
+                            <h3 class="lesson-title">R ve U Tuşları</h3>
+                            <p class="lesson-description">Üst sıra başlangıç</p>
+                            <div class="lesson-footer">
+                                <div class="lesson-stars">
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                </div>
+                                <div class="lesson-wpm">🔒</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lesson-card lesson-card-locked">
+                        <div class="lesson-content">
+                            <div class="lesson-number">Ders 8</div>
+                            <div class="lesson-icon">🔒</div>
+                            <h3 class="lesson-title">E ve I Tuşları</h3>
+                            <p class="lesson-description">Üst sıra genişleme</p>
+                            <div class="lesson-footer">
+                                <div class="lesson-stars">
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                </div>
+                                <div class="lesson-wpm">🔒</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+
+        </div>
+        </div>
+    </main>
+    <script src="../js/levelpage.js"></script>
+</body>
+
+</html>

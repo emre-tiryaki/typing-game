@@ -8,15 +8,19 @@
     <link rel="stylesheet" href="../css/welcome.css" />
 </head>
 
-<body>
+<body class="bg-white text-black dark:bg-gray-900 dark:text-white transition-colors duration-300">
     <div class="background"></div>
     <header>
+        <!-- Ortak Navbar kodu -->
         <nav class="navbar">
             <div class="logo">TypingClub clone</div>
             <ul class="nav-links">
                 <li><a href="#">Başla</a></li>
                 <li><a href="#">Dil</a></li>
                 <li><button class="login-btn">Giriş yap</button></li>
+                <li>
+                    <button id="theme-toggle" class="theme-btn" title="Tema Değiştir">🌗</button>
+                </li>
             </ul>
         </nav>
     </header>

@@ -24,6 +24,24 @@ body {
     z-index: -1;
 }
 
+.background.dark {
+    background-image: url("../images/backgrnd2.jpg");
+}
+
+.theme-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: color 0.2s;
+    color: #222;
+}
+
+body.dark .theme-btn {
+    color: #fff;
+}
+
 /* Bulutlar yatayda tüm alt kenarı kaplar */
 .clouds {
     position: fixed;

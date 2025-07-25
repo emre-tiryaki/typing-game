@@ -7,7 +7,15 @@ body {
     background: #e0e7ef;
 }
 
+body.dark {
+    background: #23272f;
+    color: #fff;
+}
 
+body.light {
+    background: #e0e7ef;
+    color: #222;
+}
 
 .login-name {
     margin-bottom: 25px;
@@ -26,6 +34,14 @@ body {
     z-index: -1;
 }
 
+.background.dark {
+    background-image: url("../images/backgrnd2.jpg");
+}
+
+.background.light {
+    background-image: url("../images/backgrnd3.jpg");
+}
+
 .login-container {
     backdrop-filter: blur(6px);
     background: rgba(255, 255, 255, 0.25);
@@ -37,8 +53,6 @@ body {
     flex-direction: column;
     align-items: center;
 }
-
-
 
 .login-container input {
     width: 100%;
