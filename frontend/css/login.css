@@ -42,6 +42,101 @@ body.light {
     background-image: url("../images/backgrnd3.jpg");
 }
 
+
+.login.dark {
+    background: rgbargba(255, 0, 0, 0.25)
+}
+
+.top-buttons {
+    position: absolute;
+    top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.top-buttons button {
+    padding: 10px 20px;
+    background: #373737;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.top-buttons button:hover {
+    background: #555;
+}
+
+
+.register-container {
+    backdrop-filter: blur(6px);
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.37);
+    padding: 40px 32px;
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /*margin: 15px;*/
+}
+
+.register-container input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+}
+
+.register-container button {
+    max-width: fit-content;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.msg {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 12px;
+}
+
+.forgot-container {
+    backdrop-filter: blur(6px);
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.37);
+    padding: 40px 32px;
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.forgot-link {
+    position: fixed;
+    bottom: 15px;
+    right: 20px;
+    color: #007bff;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.forgot-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
 .login-container {
     backdrop-filter: blur(6px);
     background: rgba(255, 255, 255, 0.25);
@@ -64,6 +159,16 @@ body.light {
     font-size: 16px;
 }
 
+.register-btn {
+    background: #fff;
+    color: #444;
+    border: 1px solid #ddd;
+}
+
+.register-btn:hover {
+    background: #6ca441;
+}
+
 .login-container button {
     max-width: fit-content;
     padding: 12px;
@@ -74,6 +179,7 @@ body.light {
     cursor: pointer;
     transition: background 0.2s;
 }
+
 
 .enter-btn {
     background: #373737;

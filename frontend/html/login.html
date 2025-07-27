@@ -9,6 +9,10 @@
 </head>
 
 <body>
+    <div class="top-buttons">
+        <button id="showLogin">Giriş Yap</button>
+        <button id="showRegister">Kayıt Ol</button>
+    </div>
     <div class="background"></div>
     <div class="login-container">
         <div class="login-name">
@@ -43,6 +47,48 @@
             Facebook ile Giriş Yap
         </button>
     </div>
+    <div class="register-container" style="display:none;">
+        <div class="register-name">
+            <h2>Kayıt Ol</h2>
+        </div>
+        <input type="text" id="regName" placeholder="İsim" required />
+
+        <input type="email" id="regEmail" placeholder="E-posta" required />
+        <small id="emailMsg" style="color:red; display:block; margin-bottom:5px;"></small>
+
+        <input type="password" id="regPass1" placeholder="Şifre" required />
+        <small id="pass1Msg" style="color:red; display:block; margin-bottom:5px;"></small>
+
+        <input type="password" id="regPass2" placeholder="Şifreyi tekrar" required />
+        <small id="pass2Msg" style="color:red; display:block; margin-bottom:5px;"></small>
+
+        <button class="register-btn" id="registerBtn">Kayıt ol</button>
+    </div>
+
+    <div class="forgot-container" style="display:none;">
+        <div class="forgot-name">
+            <h2>Şifre Sıfırlama</h2>
+        </div>
+        <input type="email" id="forgotEmail" placeholder="Kayıtlı e-posta adresiniz" required />
+        <small id="forgotMsg" style="color:red; display:block; margin-bottom:5px;"></small>
+
+        <button id="sendResetCode">Kod Gönder</button>
+
+
+
+        <div id="verifySection" style="display:none; margin-top:10px;">
+            <input type="text" id="resetCode" placeholder="Doğrulama Kodu" />
+            <small id="codeMsg" style="color:red; display:block; margin-bottom:5px;"></small>
+
+            <input type="password" id="newPass1" placeholder="Yeni Şifre" />
+            <input type="password" id="newPass2" placeholder="Yeni Şifre (Tekrar)" />
+            <small id="newPassMsg" style="color:red; display:block; margin-bottom:5px;"></small>
+
+            <button id="confirmReset">Şifreyi Sıfırla</button>
+        </div>
+    </div>
+
+    <a href="#" id="forgotPasswordLink" class="forgot-link">Şifremi Unuttum?</a>
     <script src="../js/login.js"></script>
 
 </body>
