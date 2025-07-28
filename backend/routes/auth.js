@@ -2,6 +2,10 @@ import express from "express";
 import userModel from "../models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { OAuth2Client } from "google-auth-library";
+
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const auth = express.Router();
 
@@ -37,13 +41,16 @@ auth.post("/register", async (req, res) => {
     // frontend'de cookie olarak jwt saklansın
     res.cookie("token", token, {
       httpOnly: true, // JS tarafından okunmaz sadece http isteklerinde
-      secure: process.env.NODE_ENV === "production",  // deploy zamanı https zorunlu olsun diye
+      secure: process.env.NODE_ENV === "production", // deploy zamanı https zorunlu olsun diye
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", // farklı sitelere veri falan
       maxAge: 2 * 60 * 1000,
     });
 
     // bitiş
-    return res.json({ success: true, msg: `${user.name} registered successfully` });
+    return res.json({
+      success: true,
+      msg: `${user.name} registered successfully`,
+    });
   } catch (error) {
     return res.json({ success: false, msg: error.message });
   }
@@ -52,26 +59,25 @@ auth.post("/register", async (req, res) => {
 //giriş yapmak
 auth.post("/login", async (req, res) => {
   // email ve şifreyi al
-  const {email, password} = req.body;
+  const { email, password } = req.body;
 
   // geçerliler mi diye bak
-  if(!email || !password)
-    return res.json({ success: false, msg: 'email and password are required' });
+  if (!email || !password)
+    return res.json({ success: false, msg: "email and password are required" });
 
   try {
     // veritabanından kişiyi çek
     const user = await userModel.findOne({ email });
 
     //kişi yoksa hata
-    if(!user)
-      return res.json({ success: false, msg: 'email is wrong' });
+    if (!user) return res.json({ success: false, msg: "email is wrong" });
 
     //şifreleri karşılaştır
     const arePasswordsSame = await bcrypt.compare(password, user.password);
 
     //şifreler uyuşmuyor ise hata
-    if(!arePasswordsSame)
-      return res.json({ success: false, msg: 'Password is wrong' });
+    if (!arePasswordsSame)
+      return res.json({ success: false, msg: "Password is wrong" });
 
     // yeni token oluştur
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -81,32 +87,88 @@ auth.post("/login", async (req, res) => {
     // frontend'de cookie olarak jwt saklansın
     res.cookie("token", token, {
       httpOnly: true, // JS tarafından okunmaz sadece http isteklerinde
-      secure: process.env.NODE_ENV === "production",  // deploy zamanı https zorunlu olsun diye
+      secure: process.env.NODE_ENV === "production", // deploy zamanı https zorunlu olsun diye
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", // farklı sitelere veri falan
       maxAge: 2 * 60 * 1000,
     });
 
     // bitiş
-    return res.json({ success: true, msg: `${user.name} registered successfully` });
+    return res.json({
+      success: true,
+      msg: `${user.name} logged in successfully`,
+    });
   } catch (error) {
     return res.json({ success: false, msg: error.message });
   }
 });
 
 //çıkış
-auth.post('/logout', (req, res) => {
+auth.post("/logout", (req, res) => {
   try {
     //cookieleri temizle
-    res.clearCookie('token', {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict'
-        })
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+    });
 
-    return res.json({ success: true, msg: 'logged out' });
+    return res.json({ success: true, msg: "logged out" });
   } catch (error) {
     return res.json({ success: false, msg: error.message });
   }
-})
+});
+
+//google ile giriş yapmak
+auth.post("/google-login", async (req, res) => {
+  // gelen google token'ını al
+  const { token } = req.body;
+
+  try {
+    // google tokenı mı kontrol et
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    //token içeriğini al
+    const payload = token.getPayload();
+    const { name, email } = payload;
+
+    //kullanıcı var mı bak
+    const user = await userModel.findOne({ email });
+
+    //yoksa oluştur
+    if (!user) {
+      user = new userModel({
+        name,
+        email,
+        password: "google-oauth-user",
+        isAccountVerified: true,
+      });
+      await user.save();
+    }
+
+    // yeni token oluştur
+    const jwtToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "2m",
+    });
+
+    // frontend'de cookie olarak jwt saklansın
+    res.cookie("token", jwtToken, {
+      httpOnly: true, // JS tarafından okunmaz sadece http isteklerinde
+      secure: process.env.NODE_ENV === "production", // deploy zamanı https zorunlu olsun diye
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", // farklı sitelere veri falan
+      maxAge: 2 * 60 * 1000,
+    });
+
+    // bitiş
+    return res.json({
+      success: true,
+      msg: `${user.name} logged in with google successfully`,
+    });
+  } catch (error) {
+    return res.json({ success: false, msg: error.message });
+  }
+});
 
 export default auth;

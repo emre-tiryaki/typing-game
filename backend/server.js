@@ -6,6 +6,7 @@ import connectDB from "./database/database.js";
 import words from "./routes/words.js";
 import guest from "./routes/guest.js";
 import auth from "./routes/auth.js";
+import accountRecovery from "./routes/account-recovery.js";
 
 dotenv.config({path: '../.env'});
 
@@ -23,12 +24,14 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({ origin: CLIENT, credentials: true }));
 
-//for getting words
+//kelimeler için
 app.use('/words', words);
-//for authorization
+//kullanıcı girişi ve kaydı için
 app.use('/auth', auth);
-//for guests
+//misafir kullanıcılar için
 app.use('/guest', guest);
+//hesap kurtarma için
+app.use('/account-recovery', accountRecovery);
 
 // API çalışıyor mu diye bakmak için bir health-checkup yapalım(olmasada olur)
 app.get('/health-checkup', (req, res) => res.status(200).send('API is working'));
