@@ -110,3 +110,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 });
+const blocks = document.querySelectorAll(".block");
+function revealOnScroll() {
+    blocks.forEach((block, index) => {
+        const rect = block.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+            setTimeout(() => block.classList.add("show"), index * 150);
+        }
+    });
+}
+window.addEventListener("scroll", revealOnScroll);
+revealOnScroll();
