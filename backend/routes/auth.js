@@ -131,7 +131,7 @@ auth.post("/google-login", async (req, res) => {
     });
 
     //token içeriğini al
-    const payload = token.getPayload();
+    const payload = ticket.getPayload();
     const { name, email } = payload;
 
     //kullanıcı var mı bak
