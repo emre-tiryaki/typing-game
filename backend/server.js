@@ -7,6 +7,7 @@ import words from "./routes/words.js";
 import guest from "./routes/guest.js";
 import auth from "./routes/auth.js";
 import accountRecovery from "./routes/account-recovery.js";
+import accessDatabase from "./routes/access-database.js";
 
 dotenv.config({path: '../.env'});
 
@@ -32,6 +33,8 @@ app.use('/auth', auth);
 app.use('/guest', guest);
 //hesap kurtarma için
 app.use('/account-recovery', accountRecovery);
+//database verilerine erişmek için
+app.use('/database', accessDatabase);
 
 // API çalışıyor mu diye bakmak için bir health-checkup yapalım(olmasada olur)
 app.get('/health-checkup', (req, res) => res.status(200).send('API is working'));
