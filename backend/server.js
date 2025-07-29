@@ -9,7 +9,7 @@ import auth from "./routes/auth.js";
 import accountRecovery from "./routes/account-recovery.js";
 import accessDatabase from "./routes/access-database.js";
 
-dotenv.config({path: '../.env'});
+dotenv.config({ path: "../.env" });
 
 //.env dosyasından gerekli değişkenleri çekelim
 const PORT = process.env.PORT || 5000;
@@ -26,18 +26,24 @@ app.use(cookieParser());
 app.use(cors({ origin: CLIENT, credentials: true }));
 
 //kelimeler için
-app.use('/words', words);
+app.use("/words", words);
 //kullanıcı girişi ve kaydı için
-app.use('/auth', auth);
+app.use("/auth", auth);
 //misafir kullanıcılar için
-app.use('/guest', guest);
+app.use("/guest", guest);
 //hesap kurtarma için
-app.use('/account-recovery', accountRecovery);
+app.use("/account-recovery", accountRecovery);
 //database verilerine erişmek için
-app.use('/database', accessDatabase);
+app.use("/database", accessDatabase);
 
 // API çalışıyor mu diye bakmak için bir health-checkup yapalım(olmasada olur)
-app.get('/health-checkup', (req, res) => res.status(200).send('API is working'));
+app.get("/health-checkup", (req, res) =>
+  res.status(200).send("API is working")
+);
 
 //serverı başlatalım.
-app.listen(PORT, err => console.log(err ? `Something went wrong ${err}` : `Server is listening on port ${PORT}`));
+app.listen(PORT, (err) =>
+  console.log(
+    err ? `Something went wrong ${err}` : `Server is listening on port ${PORT}`
+  )
+);
