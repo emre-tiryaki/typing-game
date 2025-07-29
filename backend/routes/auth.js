@@ -85,6 +85,8 @@ auth.post("/login", async (req, res) => {
     if (!arePasswordsSame)
       return res.status(401).json({ success: false, msg: "Password is wrong" });
 
+    user.lastLogin = Date.now();
+
     // yeni token oluştur
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "2m",

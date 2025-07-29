@@ -15,6 +15,15 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  accountCreatedAt: {
+    type: Date,
+    default: Date.now(),
+    immutable: false,
+  },
+  lastLogin: {
+    type: Date,
+    default: Date.now()
+  },
   // email'i doğrulama kodu (OTP: One Time Password)
   verifyOtp: {
     type: String,
