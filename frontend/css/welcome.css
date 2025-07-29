@@ -10,6 +10,22 @@ body {
     height: 100vh;
     overflow-x: hidden;
     background: none;
+    transition: color 0.5s ease;
+
+}
+
+.glass-header {
+    backdrop-filter: blur(6px);
+    background: rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+body.dark .glass-header {
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .background {
@@ -34,35 +50,41 @@ body {
     font-size: 1.5rem;
     cursor: pointer;
     margin-left: 10px;
-    transition: color 0.2s;
+    transition: color 0.5s ease;
     color: #222;
 }
 
 body.dark .theme-btn {
     color: #fff;
+
 }
 
-/* Bulutlar yatayda tüm alt kenarı kaplar */
 .clouds {
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100vw;
     height: 160px;
-    z-index: -1;
+    z-index: 15;
     pointer-events: none;
     display: flex;
     align-items: flex-end;
     justify-content: flex-start;
     gap: 0;
     animation: moveClouds 60s linear infinite;
-    transition: opacity 0.3s ease-in-out;
+    transition: filter 0.5s ease;
     filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
-    z-index: 15;
+}
+
+
+body.dark .clouds {
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.5));
+
 }
 
 .cloud {
     background: #fff;
+
     opacity: 0.95;
     border-radius: 50%;
     position: relative;
@@ -76,6 +98,19 @@ body.dark .theme-btn {
         30px 30px 0 0 #fff,
         90px 30px 0 0 #fff;
 
+    transition: background 0.5s ease, opacity 0.5s ease, box-shadow 0.5s ease;
+}
+
+
+body.dark .cloud {
+    background: #ccc;
+
+    opacity: 0.8;
+    box-shadow:
+        60px 0 0 0 #ccc,
+        120px 10px 0 0 #ccc,
+        30px 30px 0 0 #ccc,
+        90px 30px 0 0 #ccc;
 }
 
 .cloud.sm {
@@ -99,6 +134,9 @@ body.dark .theme-btn {
     margin-left: -50px;
 }
 
+
+
+
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -106,12 +144,23 @@ body.dark .theme-btn {
     padding: 20px 60px;
     position: relative;
     z-index: 2;
+
+    transition: background-color 0.5s ease;
+
 }
 
 .logo {
     font-size: 1.5em;
     font-weight: bold;
+
+    transition: color 0.5s ease;
 }
+
+body.dark .logo {
+    color: #fff;
+
+}
+
 
 .nav-links {
     list-style: none;
@@ -129,11 +178,18 @@ body.dark .theme-btn {
 
 .nav-links a {
     color: white;
+
     text-decoration: none;
     font-size: 0.95em;
     padding: 8px 14px;
     border-radius: 6px;
-    transition: background 0.2s;
+    transition: background 0.2s, color 0.5s ease;
+
+}
+
+body.dark .nav-links a {
+    color: #eee;
+
 }
 
 .nav-links a:hover {
@@ -142,14 +198,26 @@ body.dark .theme-btn {
 
 .login-btn {
     background: white;
+
     color: #003366;
+
     border: none;
     padding: 8px 18px;
     border-radius: 20px;
     cursor: pointer;
     font-weight: bold;
     margin-left: 8px;
+
+    transition: background 0.5s ease, color 0.5s ease;
 }
+
+body.dark .login-btn {
+    background: #555;
+
+    color: #fff;
+
+}
+
 
 .hero {
     text-align: center;
@@ -159,12 +227,17 @@ body.dark .theme-btn {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    transition: color 0.5s ease;
 }
 
 .moon {
     width: 160px;
     margin-bottom: 30px;
     animation: glow 4s ease-in-out infinite alternate;
+
+    transition: transform 0.5s ease, filter 0.5s ease;
+
 }
 
 @keyframes glow {
@@ -184,12 +257,17 @@ body.dark .theme-btn {
     text-align: center;
     line-height: 1.2;
     height: 3em;
-
     min-width: 360px;
-
     overflow: hidden;
     white-space: nowrap;
     position: relative;
+
+    transition: color 0.5s ease;
+}
+
+body.dark .hero h1 {
+    color: #eee;
+
 }
 
 
@@ -201,15 +279,19 @@ body.dark .theme-btn {
     border-radius: 8px;
     font-size: 1em;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background 0.3s, color 0.3s;
+
+}
+
+body.dark .cta-btn {
+    background: #666;
+    color: #fff;
 }
 
 .cta-btn:hover {
     background: #e0e0e0;
 }
 
-
-/* Responsive Navbar ve Hero */
 @media (max-width: 900px) {
     .navbar {
         padding: 16px 24px;
@@ -313,12 +395,44 @@ body.dark .theme-btn {
     border-radius: 12px;
     transform: translateY(50px) scale(0.9);
     filter: blur(5px);
-    transition: all 0.8s ease-out;
+    transition: all 0.8s ease-out, background-color 0.5s ease;
     margin: 15px;
     z-index: 10;
 }
 
-/* görünür olduğunda */
+body.dark .block:nth-child(1) {
+    background: #d35400;
+}
+
+body.dark .block:nth-child(2) {
+    background: #00796b;
+}
+
+body.dark .block:nth-child(3) {
+    background: #512da8;
+}
+
+body.dark .block:nth-child(4) {
+    background: #fbc02d;
+}
+
+body.dark .block:nth-child(5) {
+    background: #4caf50;
+}
+
+body.dark .block:nth-child(6) {
+    background: #e64a19;
+}
+
+body.dark .block:nth-child(7) {
+    background: #ab47bc;
+}
+
+body.dark .block:nth-child(8) {
+    background: #607d8b;
+}
+
+
 .block.show {
     opacity: 1;
     transform: translateY(0) scale(1);

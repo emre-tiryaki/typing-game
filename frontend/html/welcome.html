@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title> Hızlı yazmayı öğren</title>
+    <title>Hızlı yazmayı öğren</title>
     <link rel="stylesheet" href="../css/welcome.css" />
 </head>
 
 <body class="bg-white text-black dark:bg-gray-900 dark:text-white transition-colors duration-300">
     <div class="background"></div>
-    <header>
+
+    <header class="glass-header">
         <nav class="navbar">
             <div class="logo">TypingClub clone</div>
             <ul class="nav-links">
@@ -18,7 +19,7 @@
                 <li><a href="#">Dil</a></li>
                 <li><button class="login-btn">Giriş yap</button></li>
                 <li>
-                    <button id="theme-toggle" class="theme-btn" title="Tema Değiştir">🌗</button>
+                    <button id="themeToggle" class="theme-btn" title="Tema Değiştir">🌗</button>
                 </li>
             </ul>
         </nav>
@@ -28,6 +29,7 @@
         <h1>Klavyede hızlan!</h1>
         <button class="cta-btn">Başla</button>
     </section>
+
     <div class="clouds">
         <div class="cloud"></div>
         <div class="cloud sm"></div>
@@ -57,8 +59,10 @@
             <div class="block"></div>
         </div>
     </div>
-
     <script src="../js/welcome.js"></script>
+    <script src="../js/themeManager.js"></script>
+
+
 </body>
 
 </html>
