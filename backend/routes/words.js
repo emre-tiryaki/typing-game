@@ -4,7 +4,9 @@ const words = express.Router();
 const BASE_URL = "https://random-word-api.herokuapp.com/word";
 
 //sadece route çalışıyor mu bakmak için
-words.get("/health-check", (req, res) => res.send("word route is working"));
+words.get("/health-check", (req, res) =>
+  res.status(200).send("word route is working")
+);
 
 //istenen uzunlukta ve sayıda kelimeler döndürmesi için(free mode'da kullanılır)
 words.get("/get-random-words", async (req, res) => {

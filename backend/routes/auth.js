@@ -4,7 +4,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { OAuth2Client } from "google-auth-library";
 
-
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const auth = express.Router();
@@ -16,7 +15,9 @@ auth.post("/register", async (req, res) => {
 
   // check if the parameters are valid
   if (!name || !email || !password)
-    return res.json({ success: false, msg: "insufficient parameters" });
+    return res
+      .status(400)
+      .json({ success: false, msg: "insufficient parameters" });
 
   try {
     // search for the user
@@ -24,7 +25,9 @@ auth.post("/register", async (req, res) => {
 
     //if there is someone with the same email abort
     if (existingUser)
-      return res.json({ success: false, msg: "User already registered" });
+      return res
+        .status(409)
+        .json({ success: false, msg: "User already registered" });
 
     //şifreyi hashle
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -47,12 +50,12 @@ auth.post("/register", async (req, res) => {
     });
 
     // bitiş
-    return res.json({
+    return res.status(201).json({
       success: true,
       msg: `${user.name} registered successfully`,
     });
   } catch (error) {
-    return res.json({ success: false, msg: error.message });
+    return res.status(500).json({ success: false, msg: error.message });
   }
 });
 
@@ -63,21 +66,24 @@ auth.post("/login", async (req, res) => {
 
   // geçerliler mi diye bak
   if (!email || !password)
-    return res.json({ success: false, msg: "email and password are required" });
+    return res
+      .status(400)
+      .json({ success: false, msg: "email and password are required" });
 
   try {
     // veritabanından kişiyi çek
     const user = await userModel.findOne({ email });
 
     //kişi yoksa hata
-    if (!user) return res.json({ success: false, msg: "email is wrong" });
+    if (!user)
+      return res.status(401).json({ success: false, msg: "email is wrong" });
 
     //şifreleri karşılaştır
     const arePasswordsSame = await bcrypt.compare(password, user.password);
 
     //şifreler uyuşmuyor ise hata
     if (!arePasswordsSame)
-      return res.json({ success: false, msg: "Password is wrong" });
+      return res.status(401).json({ success: false, msg: "Password is wrong" });
 
     // yeni token oluştur
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -93,12 +99,12 @@ auth.post("/login", async (req, res) => {
     });
 
     // bitiş
-    return res.json({
+    return res.status(200).json({
       success: true,
       msg: `${user.name} logged in successfully`,
     });
   } catch (error) {
-    return res.json({ success: false, msg: error.message });
+    return res.status(500).json({ success: false, msg: error.message });
   }
 });
 
@@ -112,9 +118,9 @@ auth.post("/logout", (req, res) => {
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
     });
 
-    return res.json({ success: true, msg: "logged out" });
+    return res.status(200).json({ success: true, msg: "logged out" });
   } catch (error) {
-    return res.json({ success: false, msg: error.message });
+    return res.status(500).json({ success: false, msg: error.message });
   }
 });
 
@@ -146,7 +152,8 @@ auth.post("/google-login", async (req, res) => {
         isAccountVerified: true,
       });
       await user.save();
-    }
+      res.status(201);
+    } else res.status(200);
 
     // yeni token oluştur
     const jwtToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -167,7 +174,7 @@ auth.post("/google-login", async (req, res) => {
       msg: `${user.name} logged in with google successfully`,
     });
   } catch (error) {
-    return res.json({ success: false, msg: error.message });
+    return res.status(500).json({ success: false, msg: error.message });
   }
 });
 

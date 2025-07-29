@@ -9,7 +9,8 @@ accessDatabase.get("/user", async (req, res) => {
   const { email } = req.body;
 
   //email yoksa hata döndür
-  if (!email) return res.json({ success: false, msg: "email required" });
+  if (!email)
+    return res.status(400).json({ success: false, msg: "email required" });
 
   try {
     // veritabanında kullanıcıyı arayalım
@@ -17,15 +18,17 @@ accessDatabase.get("/user", async (req, res) => {
 
     //yoksa hata
     if (!user)
-      return res.json({ success: false, msg: "user couldn't have been found" });
+      return res
+        .status(404)
+        .json({ success: false, msg: "user couldn't have been found" });
 
-    return res.json({
+    return res.status(200).json({
       success: true,
       msg: `${user.name} found`,
       data: { name: user.name, email: user.email },
     });
   } catch (error) {
-    return res.json({ success: false, msg: error.message });
+    return res.status(500).json({ success: false, msg: error.message });
   }
 });
 
