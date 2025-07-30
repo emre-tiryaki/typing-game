@@ -1,3 +1,9 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: Arial, sans-serif;
     min-height: 100vh;
@@ -5,11 +11,7 @@ body {
     align-items: center;
     justify-content: center;
     background: #e0e7ef;
-}
-
-body.dark {
-    background: #23272f;
-    color: #fff;
+    transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 body.light {
@@ -20,6 +22,7 @@ body.light {
 .login-name {
     margin-bottom: 25px;
     font-size: larger;
+    transition: color 0.5s ease;
 }
 
 .background {
@@ -28,23 +31,28 @@ body.light {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-image: url("../images/backgrnd3.jpg");
     background-size: cover;
     background-position: center;
     z-index: -1;
-}
-
-.background.dark {
-    background-image: url("../images/backgrnd2.jpg");
+    background-image: url("../images/backgrnd3.jpg");
+    transition: opacity 0.7s ease;
 }
 
 .background.light {
     background-image: url("../images/backgrnd3.jpg");
 }
 
-
-.login.dark {
-    background: rgbargba(255, 0, 0, 0.25)
+.login-container {
+    backdrop-filter: blur(6px);
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.37);
+    padding: 40px 32px;
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: background 0.5s ease, box-shadow 0.5s ease;
 }
 
 .top-buttons {
@@ -61,53 +69,15 @@ body.light {
     border: none;
     border-radius: 6px;
     cursor: pointer;
+    transition: background 0.5s ease, color 0.5s ease;
 }
+
 
 .top-buttons button:hover {
     background: #555;
 }
 
-
-.register-container {
-    backdrop-filter: blur(6px);
-    background: rgba(255, 255, 255, 0.25);
-    border-radius: 18px;
-    box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.37);
-    padding: 40px 32px;
-    width: 340px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /*margin: 15px;*/
-}
-
-.register-container input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 16px;
-    border: none;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.7);
-    font-size: 16px;
-}
-
-.register-container button {
-    max-width: fit-content;
-    padding: 12px;
-    margin-bottom: 12px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.msg {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 12px;
-}
-
+.register-container,
 .forgot-container {
     backdrop-filter: blur(6px);
     background: rgba(255, 255, 255, 0.25);
@@ -118,37 +88,10 @@ body.light {
     display: flex;
     flex-direction: column;
     align-items: center;
-
+    transition: background 0.5s ease, box-shadow 0.5s ease;
 }
 
-.forgot-link {
-    position: fixed;
-    bottom: 15px;
-    right: 20px;
-    color: #007bff;
-    font-weight: bold;
-    text-decoration: none;
-    font-size: 14px;
-    transition: 0.3s;
-}
-
-.forgot-link:hover {
-    color: #0056b3;
-    text-decoration: underline;
-}
-
-.login-container {
-    backdrop-filter: blur(6px);
-    background: rgba(255, 255, 255, 0.25);
-    border-radius: 18px;
-    box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.37);
-    padding: 40px 32px;
-    width: 340px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
+.register-container input,
 .login-container input {
     width: 100%;
     padding: 12px;
@@ -157,6 +100,20 @@ body.light {
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.7);
     font-size: 16px;
+    transition: background 0.5s ease, color 0.5s ease;
+}
+
+
+.register-container button,
+.login-container button {
+    max-width: fit-content;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.5s ease, color 0.5s ease, border 0.5s ease;
 }
 
 .register-btn {
@@ -167,19 +124,33 @@ body.light {
 
 .register-btn:hover {
     background: #6ca441;
+    color: #fff;
 }
 
-.login-container button {
-    max-width: fit-content;
-    padding: 12px;
-    margin-bottom: 12px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background 0.2s;
+.msg {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 12px;
+    transition: color 0.5s ease;
 }
 
+
+.forgot-link {
+    position: fixed;
+    bottom: 15px;
+    right: 20px;
+    color: #007bff;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.5s ease;
+}
+
+
+.forgot-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
 
 .enter-btn {
     background: #373737;
@@ -204,6 +175,7 @@ body.light {
         color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
 }
+
 
 .enter-btn::after {
     content: "";
@@ -252,6 +224,7 @@ body.light {
     background: #fff;
     color: #444;
     border: 1px solid #ddd;
+    transition: background 0.5s ease, color 0.5s ease, border-color 0.5s ease;
 }
 
 .google-btn:hover {
@@ -262,6 +235,7 @@ body.light {
     background: #000;
     color: #fff;
     border: 1px solid #222;
+    transition: background 0.5s ease, color 0.5s ease, border-color 0.5s ease;
 }
 
 .facebook-btn:hover {
@@ -270,6 +244,7 @@ body.light {
 
 .facebook-btn svg path {
     fill: #fff;
+    transition: fill 0.5s ease;
 }
 
 .divider {
@@ -277,6 +252,7 @@ body.light {
     align-items: center;
     width: 100%;
     margin: 16px 0;
+    transition: color 0.5s ease;
 }
 
 .divider::before,
@@ -285,14 +261,15 @@ body.light {
     flex: 1;
     border-top: 1px solid #ccc;
     height: 1px;
+    transition: border-color 0.5s ease;
 }
 
 .divider span {
     margin: 0 16px;
     color: #888;
-    font-size: 14px;
     background: rgba(255, 255, 255, 0.8);
     padding: 0 8px;
     position: relative;
     z-index: 1;
+    transition: color 0.5s ease, background 0.5s ease;
 }

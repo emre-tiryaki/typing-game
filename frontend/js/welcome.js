@@ -1,4 +1,10 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
+  // Login sayfasına yönlendirme
+  document.querySelector(".login-btn").addEventListener("click", () => {
+    window.location.href = "login.html";
+  });
+
+  // Yazı animasyonu
   const texts = [
     "Klavyede hızlan!",
     "On parmak yazmayı öğren",
@@ -85,48 +91,17 @@ document.addEventListener("DOMContentLoaded", function () {
   const body = document.body;
   const background = document.querySelector(".background");
 
-  // Tema geçişinde smooth animasyon için transition ekle
-  body.style.transition = "background-color 0.5s, color 0.5s";
-  if (background)
-    background.style.transition = "background-image 0.7s, opacity 0.7s";
-
-  // Sayfa açılışında tema ayarla
-  const theme = localStorage.getItem("theme") || "light";
-  applyTheme(theme);
-
-  themeToggle.addEventListener("click", function () {
-    const newTheme = body.classList.contains("dark") ? "light" : "dark";
-    applyTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-  });
-
-  function applyTheme(theme) {
-    body.classList.remove(
-      "dark",
-      "bg-gray-900",
-      "text-white",
-      "bg-white",
-      "text-black"
-    );
-    if (background) background.classList.remove("dark", "light");
-
-    if (theme === "dark") {
-      body.classList.add("dark", "bg-gray-900", "text-white");
-      if (background) background.classList.add("dark");
-    } else {
-      body.classList.add("bg-white", "text-black");
-      if (background) background.classList.add("light");
-    }
+  // 🔹 Scroll ile block animasyonu
+  const blocks = document.querySelectorAll(".block");
+  function revealOnScroll() {
+    blocks.forEach((block, index) => {
+      const rect = block.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 100) {
+        setTimeout(() => block.classList.add("show"), index * 150);
+      }
+    });
   }
+  window.addEventListener("scroll", revealOnScroll);
+  revealOnScroll();
 });
-const blocks = document.querySelectorAll(".block");
-function revealOnScroll() {
-  blocks.forEach((block, index) => {
-    const rect = block.getBoundingClientRect();
-    if (rect.top < window.innerHeight - 100) {
-      setTimeout(() => block.classList.add("show"), index * 150);
-    }
-  });
-}
-window.addEventListener("scroll", revealOnScroll);
-revealOnScroll();
+
