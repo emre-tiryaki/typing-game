@@ -1,0 +1,204 @@
+body.dark {
+    background: #23272f;
+    color: #fff;
+}
+
+body.dark .glass-header {
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.background.dark {
+    background-image: url("../images/backgrnd2.jpg");
+}
+
+body.dark .theme-btn {
+    color: #fff;
+}
+
+body.dark .clouds {
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.5));
+
+}
+
+body.dark .cloud {
+    background: #ccc;
+    opacity: 0.8;
+    box-shadow:
+        60px 0 0 0 #ccc,
+        120px 10px 0 0 #ccc,
+        30px 30px 0 0 #ccc,
+        90px 30px 0 0 #ccc;
+}
+
+body.dark .logo {
+    color: #fff;
+
+}
+
+body.dark .nav-links a {
+    color: #eee;
+
+}
+
+body.dark .login-btn {
+    background: #555;
+    color: #fff;
+}
+
+body.dark .hero h1 {
+    color: #eee;
+}
+
+body.dark .cta-btn {
+    background: #666;
+    color: #fff;
+}
+
+body.dark .block:nth-child(1) {
+    background: #d35400;
+}
+
+body.dark .block:nth-child(2) {
+    background: #00796b;
+}
+
+body.dark .block:nth-child(3) {
+    background: #512da8;
+}
+
+body.dark .block:nth-child(4) {
+    background: #fbc02d;
+}
+
+body.dark .block:nth-child(5) {
+    background: #4caf50;
+}
+
+body.dark .block:nth-child(6) {
+    background: #e64a19;
+}
+
+body.dark .block:nth-child(7) {
+    background: #ab47bc;
+}
+
+body.dark .block:nth-child(8) {
+    background: #607d8b;
+}
+
+/* login*/
+body.dark .login-container {
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+body.dark .top-buttons button {
+    background: #555;
+    color: #eee;
+}
+
+body.dark .register-container,
+body.dark .forgot-container {
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+body.dark .register-container input,
+body.dark .login-container input {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+body.dark .register-btn {
+    background: #777;
+    color: #fff;
+    border: 1px solid #666;
+}
+
+body.dark .msg {
+    color: #ccc;
+}
+
+body.dark .forgot-link {
+    color: #64b5f6;
+}
+
+body.dark .enter-btn {
+    background: #555;
+    color: #eee;
+}
+
+body.dark .google-btn {
+    background: #eee;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+body.dark .facebook-btn svg path {
+    fill: #eee;
+}
+
+body.dark .facebook-btn {
+    background: #1a1a1a;
+    color: #fff;
+    border: 1px solid #333;
+}
+
+body.dark .divider::before,
+body.dark .divider::after {
+    border-color: #666;
+}
+
+body.dark .divider span {
+    color: #bbb;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+/*levelpage*/
+.background.dark {
+    background-image: url("../images/backgrnd2.jpg");
+}
+
+body.dark .glass-card {
+    background: rgba(0, 0, 0, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.login-btn .dark {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: currentColor;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition: all 0.2s;
+}
+
+.login-btn:hover {
+    background: rgba(30, 28, 28, 0.3);
+}
+
+body.dark .glass-header {
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark .glass-footer {
+    background: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark .lesson-card-available {
+    background: rgba(22, 101, 52, 0.4);
+}
+
+body.dark .lesson-card-locked {
+    background: rgba(55, 65, 81, 0.4);
+}
+
+body.dark .lesson-card-completed {
+    background: rgba(30, 64, 175, 0.4);
+}

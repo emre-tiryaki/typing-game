@@ -14,11 +14,6 @@ body {
     transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-body.dark {
-    background: #23272f;
-    color: #fff;
-}
-
 body.light {
     background: #e0e7ef;
     color: #222;
@@ -43,10 +38,6 @@ body.light {
     transition: opacity 0.7s ease;
 }
 
-.background.dark {
-    background-image: url("../images/backgrnd2.jpg");
-}
-
 .background.light {
     background-image: url("../images/backgrnd3.jpg");
 }
@@ -62,11 +53,6 @@ body.light {
     flex-direction: column;
     align-items: center;
     transition: background 0.5s ease, box-shadow 0.5s ease;
-}
-
-body.dark .login-container {
-    background: rgba(0, 0, 0, 0.4);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
 .top-buttons {
@@ -86,10 +72,6 @@ body.dark .login-container {
     transition: background 0.5s ease, color 0.5s ease;
 }
 
-body.dark .top-buttons button {
-    background: #555;
-    color: #eee;
-}
 
 .top-buttons button:hover {
     background: #555;
@@ -109,12 +91,6 @@ body.dark .top-buttons button {
     transition: background 0.5s ease, box-shadow 0.5s ease;
 }
 
-body.dark .register-container,
-body.dark .forgot-container {
-    background: rgba(0, 0, 0, 0.4);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-}
-
 .register-container input,
 .login-container input {
     width: 100%;
@@ -127,11 +103,6 @@ body.dark .forgot-container {
     transition: background 0.5s ease, color 0.5s ease;
 }
 
-body.dark .register-container input,
-body.dark .login-container input {
-    background: rgba(255, 255, 255, 0.2);
-    color: #fff;
-}
 
 .register-container button,
 .login-container button {
@@ -151,12 +122,6 @@ body.dark .login-container input {
     border: 1px solid #ddd;
 }
 
-body.dark .register-btn {
-    background: #777;
-    color: #fff;
-    border: 1px solid #666;
-}
-
 .register-btn:hover {
     background: #6ca441;
     color: #fff;
@@ -169,9 +134,6 @@ body.dark .register-btn {
     transition: color 0.5s ease;
 }
 
-body.dark .msg {
-    color: #ccc;
-}
 
 .forgot-link {
     position: fixed;
@@ -184,9 +146,6 @@ body.dark .msg {
     transition: color 0.5s ease;
 }
 
-body.dark .forgot-link {
-    color: #64b5f6;
-}
 
 .forgot-link:hover {
     color: #0056b3;
@@ -217,10 +176,6 @@ body.dark .forgot-link {
     overflow: hidden;
 }
 
-body.dark .enter-btn {
-    background: #555;
-    color: #eee;
-}
 
 .enter-btn::after {
     content: "";
@@ -272,12 +227,6 @@ body.dark .enter-btn {
     transition: background 0.5s ease, color 0.5s ease, border-color 0.5s ease;
 }
 
-body.dark .google-btn {
-    background: #eee;
-    color: #333;
-    border: 1px solid #ccc;
-}
-
 .google-btn:hover {
     background: #c4c1c1;
 }
@@ -289,12 +238,6 @@ body.dark .google-btn {
     transition: background 0.5s ease, color 0.5s ease, border-color 0.5s ease;
 }
 
-body.dark .facebook-btn {
-    background: #1a1a1a;
-    color: #fff;
-    border: 1px solid #333;
-}
-
 .facebook-btn:hover {
     background: #2651e1;
 }
@@ -302,10 +245,6 @@ body.dark .facebook-btn {
 .facebook-btn svg path {
     fill: #fff;
     transition: fill 0.5s ease;
-}
-
-body.dark .facebook-btn svg path {
-    fill: #eee;
 }
 
 .divider {
@@ -325,11 +264,6 @@ body.dark .facebook-btn svg path {
     transition: border-color 0.5s ease;
 }
 
-body.dark .divider::before,
-body.dark .divider::after {
-    border-color: #666;
-}
-
 .divider span {
     margin: 0 16px;
     color: #888;
@@ -338,9 +272,4 @@ body.dark .divider::after {
     position: relative;
     z-index: 1;
     transition: color 0.5s ease, background 0.5s ease;
-}
-
-body.dark .divider span {
-    color: #bbb;
-    background: rgba(0, 0, 0, 0.6);
 }

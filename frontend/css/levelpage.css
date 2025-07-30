@@ -1,3 +1,9 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: Arial, sans-serif;
     min-height: 100vh;
@@ -27,9 +33,7 @@ body {
     background-image: url("../images/backgrnd2.jpg");
 }
 
-body.dark {
-    color: #fff;
-}
+
 
 .glass-card {
     backdrop-filter: blur(6px);
@@ -56,21 +60,6 @@ body.dark {
     margin-top: 4rem;
 }
 
-body.dark .glass-card {
-    background: rgba(0, 0, 0, 0.25);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-body.dark .glass-header {
-    background: rgba(0, 0, 0, 0.2);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-body.dark .glass-footer {
-    background: rgba(0, 0, 0, 0.2);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
 
 .navbar {
     display: flex;
@@ -124,6 +113,16 @@ body.dark .glass-footer {
     margin-left: 8px;
 }
 
+.theme-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: color 0.5s ease;
+    color: #222;
+}
+
 .theme-toggle {
     background: transparent;
     border: none;
@@ -150,7 +149,7 @@ body.dark .glass-footer {
 }
 
 .login-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(30, 28, 28, 0.3);
 }
 
 .main-content {
@@ -257,7 +256,7 @@ body.dark .glass-footer {
     background: rgba(243, 244, 246, 0.8);
     border: 2px solid rgba(209, 213, 219, 0.5);
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-    opacity: 0.6;
+    opacity: 1;
     cursor: not-allowed;
 }
 
@@ -266,18 +265,6 @@ body.dark .glass-footer {
     background: rgba(224, 242, 254, 0.8);
     border: 2px solid rgba(59, 130, 246, 0.3);
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-}
-
-body.dark .lesson-card-available {
-    background: rgba(22, 101, 52, 0.4);
-}
-
-body.dark .lesson-card-locked {
-    background: rgba(55, 65, 81, 0.4);
-}
-
-body.dark .lesson-card-completed {
-    background: rgba(30, 64, 175, 0.4);
 }
 
 .lesson-content {
