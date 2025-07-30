@@ -41,7 +41,7 @@ auth.post("/register", async (req, res) => {
       { id: user._id, name: name },
       process.env.JWT_SECRET,
       {
-        expiresIn: "7d",
+        expiresIn: "30d",
       }
     );
 
@@ -50,7 +50,7 @@ auth.post("/register", async (req, res) => {
       httpOnly: true, // JS tarafından okunmaz sadece http isteklerinde
       secure: process.env.NODE_ENV === "production", // deploy zamanı https zorunlu olsun diye
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", // farklı sitelere veri falan
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 gün
     });
 
     // bitiş
@@ -96,7 +96,7 @@ auth.post("/login", async (req, res) => {
       { id: user._id, name: user.name },
       process.env.JWT_SECRET,
       {
-        expiresIn: "7d",
+        expiresIn: "30d",
       }
     );
 
@@ -105,7 +105,7 @@ auth.post("/login", async (req, res) => {
       httpOnly: true, // JS tarafından okunmaz sadece http isteklerinde
       secure: process.env.NODE_ENV === "production", // deploy zamanı https zorunlu olsun diye
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", // farklı sitelere veri falan
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 gün
     });
 
     // bitiş
