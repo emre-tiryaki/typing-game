@@ -22,14 +22,14 @@ const userSchema = new mongoose.Schema({
   },
   lastLogin: {
     type: Date,
-    default: Date.now()
+    default: Date.now(),
   },
   // email'i doğrulama kodu (OTP: One Time Password)
   verifyOtp: {
     type: String,
     default: "",
   },
-  // doğrulama kodunun geçerlilik süresi
+  // email doğrulama kodunun geçerlilik süresi
   verifyOtpExpiresAt: {
     type: Number,
     default: 0,

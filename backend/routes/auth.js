@@ -37,16 +37,20 @@ auth.post("/register", async (req, res) => {
     await user.save();
 
     // yeni kullanıcı için token oluşturalım
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "2m",
-    });
+    const token = jwt.sign(
+      { id: user._id, name: name },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
 
     // frontend'de cookie olarak jwt saklansın
     res.cookie("token", token, {
       httpOnly: true, // JS tarafından okunmaz sadece http isteklerinde
       secure: process.env.NODE_ENV === "production", // deploy zamanı https zorunlu olsun diye
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", // farklı sitelere veri falan
-      maxAge: 2 * 60 * 1000,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     // bitiş
@@ -88,16 +92,20 @@ auth.post("/login", async (req, res) => {
     user.lastLogin = Date.now();
 
     // yeni token oluştur
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "2m",
-    });
+    const token = jwt.sign(
+      { id: user._id, name: user.name },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
 
     // frontend'de cookie olarak jwt saklansın
     res.cookie("token", token, {
       httpOnly: true, // JS tarafından okunmaz sadece http isteklerinde
       secure: process.env.NODE_ENV === "production", // deploy zamanı https zorunlu olsun diye
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", // farklı sitelere veri falan
-      maxAge: 2 * 60 * 1000,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     // bitiş
@@ -158,16 +166,20 @@ auth.post("/google-login", async (req, res) => {
     } else res.status(200);
 
     // yeni token oluştur
-    const jwtToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "2m",
-    });
+    const jwtToken = jwt.sign(
+      { id: user._id, name: name },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
 
     // frontend'de cookie olarak jwt saklansın
     res.cookie("token", jwtToken, {
       httpOnly: true, // JS tarafından okunmaz sadece http isteklerinde
       secure: process.env.NODE_ENV === "production", // deploy zamanı https zorunlu olsun diye
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", // farklı sitelere veri falan
-      maxAge: 2 * 60 * 1000,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     // bitiş

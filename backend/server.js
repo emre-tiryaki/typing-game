@@ -26,14 +26,14 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({ origin: CLIENT, credentials: true }));
 
-//kelimeler için
-app.use("/words", words);
 //kullanıcı girişi ve kaydı için
 app.use("/auth", auth);
 //misafir kullanıcılar için
 app.use("/guest", guest);
 //hesap kurtarma için
 app.use("/account-recovery", accountRecovery);
+//kelimeler için
+app.use("/words", verifyToken, words);
 //database verilerine erişmek için
 app.use("/database", verifyToken, accessDatabase);
 
