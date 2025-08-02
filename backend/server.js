@@ -24,7 +24,7 @@ connectDB(URI);
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: CLIENT, credentials: true }));
+app.use(cors({ credentials: true }));
 
 //kullanıcı girişi ve kaydı için
 app.use("/auth", auth);
