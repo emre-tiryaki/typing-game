@@ -14,7 +14,7 @@ accessDatabase.get("/me", async (req, res) => {
     return res.status(200).json({
       success: true,
       msg: `${user.name} found`,
-      data: { name: user.name, email: user.email, lastLogin: user.lastLogin },
+      data: { name: user.name, email: user.email, lastLogin: user.lastLogin, isAccountVerified: user.isAccountVerified },
     });
   } catch (error) {
     return res.status(500).json({ success: false, msg: error.message });
@@ -43,7 +43,7 @@ accessDatabase.get("/user", async (req, res) => {
     return res.status(200).json({
       success: true,
       msg: `${user.name} found`,
-      data: { name: user.name, email: user.email, lastLogin: user.lastLogin },
+      data: { name: user.name, email: user.email, lastLogin: user.lastLogin, isAccountVerified: user.isAccountVerified },
     });
   } catch (error) {
     return res.status(500).json({ success: false, msg: error.message });
