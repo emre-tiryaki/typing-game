@@ -3,10 +3,6 @@ import userModel from "../models/user.js";
 import levelsModel from "../models/levels.js";
 
 const accessDatabase = express.Router();
-/**
- * TODO: kullanıcıya isim, levelsCompleted, topWPM, isAccountVerified, completion percentage
- *
- */
 //kendi verini çekmek için
 accessDatabase.get("/me", async (req, res) => {
   //req.user tanımlı değilse hata
