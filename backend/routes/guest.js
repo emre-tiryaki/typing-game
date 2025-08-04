@@ -11,9 +11,13 @@ guest.post("/", (req, res) => {
 
   try {
     // yeni token oluştur
-    const jwtToken = jwt.sign({ id: id, name: name }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
+    const jwtToken = jwt.sign(
+      { id: id, name: name, isGuest: true },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
 
     // frontend'de cookie olarak jwt saklansın
     res.cookie("token", jwtToken, {
