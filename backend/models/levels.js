@@ -9,6 +9,12 @@ const levelsSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  category: {
+    //kategori (ders mi, free-mode'mu)
+    type: String,
+    required: true,
+    enum: ["lesson", "free-mode"], //sadece bu değerlerden birini alabilir
+  },
   description: {
     //level açıklaması
     type: String,
@@ -20,20 +26,24 @@ const levelsSchema = new mongoose.Schema({
     //level verisi
     type: Object,
     of: {
-      text: { //level yazısı
+      text: {
+        //level yazısı
         type: string,
         default: null,
       },
-      difficulty: { //level zorluğu(görüntü olsun diye)
+      difficulty: {
+        //level zorluğu(görüntü olsun diye)
         type: string,
         default: "easy",
         enum: ["easy", "medium", "hard"], //sadece bu 3 değerden birini alır
       },
-      wordCount: {  //kelime sayısı(otomatik hesaplanıcak)
+      wordCount: {
+        //kelime sayısı(otomatik hesaplanıcak)
         type: Number,
         default: 0,
       },
-      timeLimit: {  //(varsa) süre sınırı
+      timeLimit: {
+        //(varsa) süre sınırı
         type: Number,
         default: 0,
       },
