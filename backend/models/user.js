@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import levelsModel from "./levels";
+import levelsModel from "./levels.js";
 
 //  user bilgilerinin veritabanında tutulma şeması
 const userSchema = new mongoose.Schema({

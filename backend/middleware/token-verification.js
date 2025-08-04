@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import userModel from "../models/user";
+import userModel from "../models/user.js";
 
 //kullanıcı token'ını doğrulamak için
 export const verifyToken = async (req, res, next) => {
@@ -15,19 +15,19 @@ export const verifyToken = async (req, res, next) => {
     //token'ı ayrıştır, eğer token geçersizse hata çıkar
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     //kullanıcı bilgileri burada
-    req.user = await userModel.findById(decoded._id);
+    req.user = await userModel.findById(decoded.id);
     next();
   } catch (error) {
     //token süresi geçmiş
     if (error.name === "TokenExpiredError")
       return res
         .status(403)
-        .json({ success: false, msg: "Token süresi dolmuş." });
+        .json({ success: false, msg: "Token expired" });
     else if (error.name === "JsonWebTokenError")
-      return res.status(403).json({ success: false, msg: "Token geçersiz." });
+      return res.status(403).json({ success: false, msg: "invalid Token" });
     else
       return res
         .status(500)
-        .json({ success: false, msg: "Token doğrulama hatası." });
+        .json({ success: false, msg: "Token verification error." });
   }
 };

@@ -1,10 +1,11 @@
 import express from "express";
 import userModel from "../models/user.js";
+import levelsModel from "../models/levels.js";
 
 const accessDatabase = express.Router();
 /**
- * TODO: kullanıcıya isim, levelsCompleted, topWPM, isAccountVerified
- * 
+ * TODO: kullanıcıya isim, levelsCompleted, topWPM, isAccountVerified, completion percentage
+ *
  */
 //kendi verini çekmek için
 accessDatabase.get("/me", async (req, res) => {
@@ -15,28 +16,33 @@ accessDatabase.get("/me", async (req, res) => {
 
   try {
     if (user.isGuest) {
+      //misafir kullanıcı yanıtı
       return res.status(200).json({
         success: true,
-        msg: `${user.name} found`,
+        msg: "Guest user data",
         data: {
           name: user.name,
-          email: null,
-          lastLogin: user.lastLogin,
+          isGuest: true,
+          levelCompleted: user.levelsCompleted || {},
+          topWPM: user.topWPM || 0,
+          completionStats: user.completionStats || { percentage: 0 },
+        },
+      });
+    } else {
+      //Normal kullanıcı yanıtı
+      return res.status(200).json({
+        success: true,
+        msg: "Normal user data",
+        data: {
+          name: user.name,
+          isGuest: false,
+          levelCompleted: user.levelsCompleted || {},
+          topWPM: user.topWPM || 0,
+          completionStats: user.completionStats || { percentage: 0 },
           isAccountVerified: user.isAccountVerified,
         },
       });
     }
-
-    return res.status(200).json({
-      success: true,
-      msg: `${user.name} found`,
-      data: {
-        name: user.name,
-        email: user.email,
-        lastLogin: user.lastLogin,
-        isAccountVerified: user.isAccountVerified,
-      },
-    });
   } catch (error) {
     return res.status(500).json({ success: false, msg: error.message });
   }

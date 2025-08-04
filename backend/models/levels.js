@@ -28,12 +28,12 @@ const levelsSchema = new mongoose.Schema({
     of: {
       text: {
         //level yazısı
-        type: string,
+        type: String,
         default: null,
       },
       difficulty: {
         //level zorluğu(görüntü olsun diye)
-        type: string,
+        type: String,
         default: "easy",
         enum: ["easy", "medium", "hard"], //sadece bu 3 değerden birini alır
       },
