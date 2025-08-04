@@ -4,8 +4,7 @@ import jwt from "jsonwebtoken";
 export const verifyToken = (req, res, next) => {
   //token'ı cookie'lerden yada header'lardan al
   const authHeader = req.headers.authorization;
-  const token =
-    req.cookies.token || (authHeader && authHeader.split(" ")[1]);
+  const token = req.cookies.token || (authHeader && authHeader.split(" ")[1]);
 
   //token verilmemişse hata
   if (!token)
@@ -20,10 +19,14 @@ export const verifyToken = (req, res, next) => {
   } catch (error) {
     //token süresi geçmiş
     if (err.name === "TokenExpiredError")
-      return res.status(403).json({ success: false, msg: "Token süresi dolmuş." });
+      return res
+        .status(403)
+        .json({ success: false, msg: "Token süresi dolmuş." });
     else if (err.name === "JsonWebTokenError")
       return res.status(403).json({ success: false, msg: "Token geçersiz." });
     else
-      return res.status(500).json({ success: false, msg: "Token doğrulama hatası." });
+      return res
+        .status(500)
+        .json({ success: false, msg: "Token doğrulama hatası." });
   }
 };

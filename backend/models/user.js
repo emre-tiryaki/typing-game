@@ -36,6 +36,14 @@ const userSchema = new mongoose.Schema({
     },
     default: new Map(), //varsayılan olarak boş
   },
+  // Misafir Kullanıcı Özellikleri
+  guest: {
+    guestId: { type: String }, //misafir id'si
+    expiresAt: { type: Date },//ne zaman geçersiz olacak
+    createdBy: {
+      ip: { type: String }, //oluşturan kişinin ip'si
+    },
+  },
   completionStats: {
     //kullanıcının
     percentage: { type: Number, default: 0 }, // bitirilme yüzdesi

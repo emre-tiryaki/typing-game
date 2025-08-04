@@ -90,6 +90,7 @@ auth.post("/login", async (req, res) => {
       return res.status(401).json({ success: false, msg: "Password is wrong" });
 
     user.lastLogin = Date.now();
+    await user.save(); //kullanıcının son girişini güncelleyip kayıt ediyoruz
 
     // yeni token oluştur
     const token = jwt.sign(
@@ -161,6 +162,7 @@ auth.post("/google-login", async (req, res) => {
         password: "google-oauth-user",
         isAccountVerified: true,
       });
+      user.lastLogin = Date.now();
       await user.save();
       res.status(201);
     } else res.status(200);
