@@ -10,6 +10,18 @@ accessDatabase.get("/me", async (req, res) => {
   if (!user)
     return res.status(400).json({ success: false, msg: "token error" });
 
+  let data = {};
+
+  if(user.isGuest){
+    res.status(200) // değişir burdaki kod
+    data = {
+      name: user.name,
+      levelsCompleted: new Map({}),
+      starCount: 0,
+      topWPM: 0,
+    }
+  }
+
   try {
     if (user.isGuest) {
       //misafir kullanıcı yanıtı

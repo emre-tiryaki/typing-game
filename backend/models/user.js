@@ -19,6 +19,28 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  //kullanıcının bitirdiği levelleri bir Map veri tipinin içerisinde tutuyoruz
+  levelsCompleted: {
+    type: Map,
+    of: {
+      CompletedAt: { type: Date, default: Date.now() }, //ne zaman bitirildi
+      score: { type: Number, default: 0 }, //hangi skor ile bitirildi
+      timeSpent: { type: Number, default: 0 }, //level üzerine harcanan zaman
+      WPM: { type: Number, default: 0 }, //kullanıcının yazma hızı WPM(Words Per Minute)
+      stars: { type: Number, enum: [0, 1, 2, 3], default: 0 }, //kullanıcının levelden aldığı yıldız sayısı.
+    },
+    default: new Map(),
+  },
+  //kullanıcının sahip olduğu toplam yıldız sayısı
+  starCount: {
+    type: Number,
+    default: 0,
+  },
+  //kullanıcının yaptığı en yüksek WPM değeri
+  topWPM: {
+    type: Number,
+    default: 0.0,
+  },
   accountCreatedAt: {
     // hesabın oluşturulma tarihi
     type: Date,
@@ -102,7 +124,7 @@ userSchema.pre("save", async function (next) {
   const levelCount = await levelsModel.countDocuments(); //tüm levellerin sayısı
   const completedLevelCount = this.levelsCompleted.size; //bitirilen level sayısı
 
-  //yeni yüzde
+  //yeni yüde
   const newPercentage =
     levelCount > 0 && completedLevelCount
       ? Math.round((completedLevelCount / levelCount) * 100)
@@ -111,7 +133,6 @@ userSchema.pre("save", async function (next) {
   // yeni yüzde eski yüzdeden farklıysa yüzdeyi değiştir.
   if (newPercentage !== this.completionStats.percentage)
     this.completionStats.percentage = newPercentage;
-
   next();
 });
 
