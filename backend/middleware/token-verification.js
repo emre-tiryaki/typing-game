@@ -12,17 +12,20 @@ export const verifyToken = async (req, res, next) => {
     return res.status(401).json({ success: false, msg: "Token is missing " });
 
   try {
-    //token'ı ayrıştır, eğer token geçersizse hata çıkar
+    // Token'ı doğrula ve çöz
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    //kullanıcı bilgileri burada
-    req.user = await userModel.findById(decoded.id);
+    // Kullanıcıyı veritabanından bul
+    const user = await userModel.findById(decoded.id).lean();
+
+    if (!user)
+      return res.status(404).json({ success: false, msg: "User not found" });
+    
+    req.user = user;
     next();
   } catch (error) {
     //token süresi geçmiş
     if (error.name === "TokenExpiredError")
-      return res
-        .status(403)
-        .json({ success: false, msg: "Token expired" });
+      return res.status(403).json({ success: false, msg: "Token expired" });
     else if (error.name === "JsonWebTokenError")
       return res.status(403).json({ success: false, msg: "invalid Token" });
     else
