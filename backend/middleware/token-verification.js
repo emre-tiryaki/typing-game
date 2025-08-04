@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
+import userModel from "../models/user";
 
 //kullanıcı token'ını doğrulamak için
-export const verifyToken = (req, res, next) => {
+export const verifyToken = async (req, res, next) => {
   //token'ı cookie'lerden yada header'lardan al
   const authHeader = req.headers.authorization;
   const token = req.cookies.token || (authHeader && authHeader.split(" ")[1]);
@@ -14,15 +15,15 @@ export const verifyToken = (req, res, next) => {
     //token'ı ayrıştır, eğer token geçersizse hata çıkar
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     //kullanıcı bilgileri burada
-    req.user = decoded;
+    req.user = await userModel.findById(decoded._id);
     next();
   } catch (error) {
     //token süresi geçmiş
-    if (err.name === "TokenExpiredError")
+    if (error.name === "TokenExpiredError")
       return res
         .status(403)
         .json({ success: false, msg: "Token süresi dolmuş." });
-    else if (err.name === "JsonWebTokenError")
+    else if (error.name === "JsonWebTokenError")
       return res.status(403).json({ success: false, msg: "Token geçersiz." });
     else
       return res
