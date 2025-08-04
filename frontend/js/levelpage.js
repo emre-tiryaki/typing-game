@@ -150,3 +150,6 @@ if (typeof module !== "undefined" && module.exports) {
     TypingTutorApp,
   };
 }
+document.querySelector(".login-btn").onclick = function () {
+  window.location.href = "login.html";
+};

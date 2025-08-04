@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const registerContainer = document.querySelector(".register-container");
   const forgotContainer = document.querySelector(".forgot-container");
 
-  // Login / Register geçiş
+  // Login / Register gecis
   document.getElementById("showLogin")?.addEventListener("click", () => {
     loginContainer.style.display = "flex";
     registerContainer.style.display = "none";
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     forgotContainer.style.display = "none";
   });
 
-  // ✅ E-posta kontrolü
+  //E-posta kontrolü
   function isValidEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
@@ -31,7 +31,8 @@ document.addEventListener("DOMContentLoaded", () => {
     emailMsg.style.color = isValidEmail(regEmail.value) ? "green" : "red";
   });
 
-  // ✅ Şifre kontrolü
+  
+  //  sifre kontrolü
   const pass1 = document.getElementById("regPass1");
   const pass2 = document.getElementById("regPass2");
   const pass1Msg = document.getElementById("pass1Msg");
