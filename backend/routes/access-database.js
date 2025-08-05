@@ -1,6 +1,4 @@
 import express from "express";
-import userModel from "../models/user.js";
-import levelsModel from "../models/levels.js";
 
 const accessDatabase = express.Router();
 //kendi verini çekmek için
