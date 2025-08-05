@@ -8,7 +8,11 @@ import guest from "./routes/guest.js";
 import auth from "./routes/auth.js";
 import accountRecovery from "./routes/account-recovery.js";
 import accessDatabase from "./routes/access-database.js";
+
+//token doğrulama middleware'i
 import { verifyToken } from "./middleware/token-verification.js";
+//veritabanı temizleme middleware'i
+import "./middleware/database-cleaner.js";
 
 dotenv.config({ path: "../.env" });
 
