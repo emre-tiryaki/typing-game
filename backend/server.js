@@ -14,7 +14,10 @@ import { verifyToken } from "./middleware/token-verification.js";
 //veritabanı temizleme middleware'i
 import "./middleware/database-cleaner.js";
 
-dotenv.config({ path: "../.env" });
+dotenv.config({
+  path: "../.env",
+  silent: process.env.NODE_ENV !== "development",
+});
 
 //.env dosyasından gerekli değişkenleri çekelim
 const PORT = process.env.PORT || 5000;
