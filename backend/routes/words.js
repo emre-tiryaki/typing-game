@@ -28,7 +28,7 @@ words.get("/get-random-words", async (req, res) => {
     const resultJSON = await result.json();
     res.status(200).send(resultJSON);
   } catch (error) {
-    res.status(404).send(`fetch error: ${error}`);
+    res.status(500).send(`fetch error: ${error}`);
   }
 });
 

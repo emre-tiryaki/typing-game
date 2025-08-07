@@ -44,7 +44,7 @@ guest.post("/", async (req, res) => {
     });
 
     // bitiş
-    return res.json({
+    return res.status(201).json({
       success: true,
       msg: `${name} logged in as guest`,
     });

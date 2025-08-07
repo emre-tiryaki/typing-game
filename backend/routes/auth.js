@@ -164,8 +164,7 @@ auth.post("/google-login", async (req, res) => {
       });
       user.lastLogin = Date.now();
       await user.save();
-      res.status(201);
-    } else res.status(200);
+    }
 
     // yeni token oluştur
     const jwtToken = jwt.sign(
@@ -185,7 +184,7 @@ auth.post("/google-login", async (req, res) => {
     });
 
     // bitiş
-    return res.json({
+    return res.status(200).json({
       success: true,
       msg: `${user.name} logged in with google successfully`,
     });
