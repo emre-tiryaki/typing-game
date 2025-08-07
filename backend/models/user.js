@@ -19,6 +19,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  role: {
+    type: String,
+    default: "user",
+    enum: ["user", "guest", "admin"],
+  },
   accountCreatedAt: {
     // hesabın oluşturulma tarihi
     type: Date,
@@ -39,7 +44,7 @@ const userSchema = new mongoose.Schema({
   // Misafir Kullanıcı Özellikleri
   guest: {
     guestId: { type: String }, //misafir id'si
-    expiresAt: { type: Date },//ne zaman geçersiz olacak
+    expiresAt: { type: Date }, //ne zaman geçersiz olacak
     createdBy: {
       ip: { type: String }, //oluşturan kişinin ip'si
     },
