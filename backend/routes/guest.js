@@ -10,7 +10,7 @@ const guest = express.Router();
 guest.post("/", async (req, res) => {
   try {
     //(varsa) body'den misafir id'sini al.
-    const { guestId } = req.body;
+    const { guestId } = req.body || {};
 
     //halihazırda aynı yerden gelen misafir kullanıcı var mı yok mu ona bak
     let existingGuest = null;
@@ -52,6 +52,7 @@ guest.post("/", async (req, res) => {
       name: name,
       email: `guest_${id}@temp.com`,
       password: await bcrypt.hash(id, 10),
+      role: "guest",
       guest: {
         guestId: id,
         expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 gün sonra silinir
