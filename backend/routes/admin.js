@@ -19,10 +19,10 @@ admin.post("/add-level", async (req, res) => {
     if (existingLevel)
       return res.status(409).json({
         success: false,
-        msg: `there is already a level with that name: ${name}`,
+        msg: `Level with name '${name}' already exists`,
       });
 
-    //verileri gir
+    //level verisini hazırla
     const levelData = {
       name: name.trim(),
       data: data,
