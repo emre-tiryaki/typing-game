@@ -36,7 +36,7 @@ const databaseClean = async () => {
       //log şemasını hazırla
       const log = `[${new Date().toISOString()}] Deleted: ${user.name}-${
         user.email
-      }-${user._id}`;
+      }-${user._id}\n`;
 
       //logu yazdır
       fs.appendFileSync(logPath, log);

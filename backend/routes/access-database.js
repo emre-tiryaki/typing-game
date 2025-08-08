@@ -11,34 +11,19 @@ accessDatabase.get("/me", async (req, res) => {
     return res.status(401).json({ success: false, msg: "token error" });
 
   try {
-    if (user.isGuest) {
-      //misafir kullanıcı yanıtı
-      return res.status(200).json({
-        success: true,
-        msg: "Guest user data",
-        data: {
-          name: user.name,
-          role: user.role,
-          levelCompleted: user.levelsCompleted || {},
-          topWPM: user.topWPM || 0,
-          completionStats: user.completionStats || { percentage: 0 },
-        },
-      });
-    } else {
-      //Normal kullanıcı yanıtı
-      return res.status(200).json({
-        success: true,
-        msg: "Normal user data",
-        data: {
-          name: user.name,
-          role: user.role,
-          levelCompleted: user.levelsCompleted || {},
-          topWPM: user.topWPM || 0,
-          completionStats: user.completionStats || { percentage: 0 },
-          isAccountVerified: user.isAccountVerified,
-        },
-      });
-    }
+    //Normal kullanıcı yanıtı
+    return res.status(200).json({
+      success: true,
+      msg:  `${user.role === "guest" ? "Guest" : "Normal"} user data`,
+      data: {
+        name: user.name,
+        role: user.role,
+        levelCompleted: user.levelsCompleted || {},
+        topWPM: user.topWPM || 0,
+        completionStats: user.completionStats || { percentage: 0 },
+        isAccountVerified: user.isAccountVerified,
+      },
+    });
   } catch (error) {
     return res.status(500).json({ success: false, msg: error.message });
   }
