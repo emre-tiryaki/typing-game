@@ -51,6 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const response = await axios.post(url, data);
       console.log("Response:", response.data);
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("isLoggedIn", "true");
+      }
       window.location.href = successRedirect;
     } catch (error) {
       const errMsg = error.response?.data?.message || "Bir hata oluştu.";

@@ -153,3 +153,97 @@ if (typeof module !== "undefined" && module.exports) {
 document.querySelector(".login-btn").onclick = function () {
   window.location.href = "login.html";
 };
+
+// /me endpoint'inden kullanıcı verilerini çek
+async function fetchUserData() {
+  const token = localStorage.getItem("token"); //  token anahtarı cek
+  if (!token) {
+    console.error("Token bulunamadı, lütfen önce giriş yapın.");
+    showAlert("Oturumunuz kapalı, lütfen giriş yapın.");
+    return;
+  }
+
+  try {
+    // Kullanıcı verilerini çek
+    const response = await axios.get(`http://localhost:4000/database/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    // Kullanıcı verilerini isle
+    const userData = response.data;
+    console.log("Kullanıcı Verileri:", userData);
+    // Verileri sayfada göster
+    const progressElement = document.querySelector(".progress-text");
+    const bestWPMElement = document.querySelector(".best-wpm-text");
+    const userNameElement = document.getElementById("userNameDisplay");
+
+    if (progressElement) {
+      progressElement.textContent = `${userData.progress || 0}%`;
+    }
+    if (bestWPMElement) {
+      bestWPMElement.textContent = `${userData.bestWPM || 0} WPM`;
+    }
+    if (userNameElement) {
+      userNameElement.textContent = userData.name || "Kullanıcı";
+    }
+  } catch (error) {
+    // Hata durumunu ele al
+    const errMsg = error.response?.data?.message || "Kullanıcı verileri alınamadı.";
+    console.error("Hata:", errMsg);
+    // Eğer 401 Unauthorized hatası alırsak, kullanıcıyı login sayfasına yönlendir
+    if (error.response?.status === 401) {
+      showAlert("Oturumunuz geçersiz, lütfen tekrar giriş yapın.");
+      localStorage.removeItem("token");
+      localStorage.removeItem("isLoggedIn");
+      window.location.href = "../html/login.html"; // Örnek yönlendirme
+    } else {
+      // Diğer hataları göster
+      showAlert(errMsg);
+    }
+  }
+}
+
+// girişi kontrol et
+function checkLoginStatus() {
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const loginButton = document.getElementById("loginButton");
+  const logoutButton = document.getElementById("logoutButton");
+
+  // Giriş yapıldıysa butonları güncelle
+  if (loginButton && logoutButton) {
+    if (isLoggedIn) {
+      loginButton.style.display = "none"; // Giriş yaptıysa  gizle
+      logoutButton.style.display = "block"; // Çıkış Yap butonunu göster
+    } else {
+      loginButton.style.display = "block"; // Misafir ise  göster
+      logoutButton.style.display = "none"; // Çıkış Yap butonunu gizle
+    }
+  }
+}
+
+// Sayfa yüklendiğinde giriş durumunu kontrol et
+document.addEventListener("DOMContentLoaded", async () => {
+  checkLoginStatus();
+  await fetchUserData();
+
+  // Giriş Yap butonu: login.html'ye yönlendir
+  const loginButton = document.getElementById("loginButton");
+  if (loginButton) {
+    loginButton.onclick = () => {
+      window.location.href = "login.html";
+    };
+  }
+
+  // Çıkış Yap butonu: LocalStorage'ı temizle ve butonları güncelle
+  const logoutButton = document.getElementById("logoutButton");
+  if (logoutButton) {
+    logoutButton.onclick = () => {
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("token");
+      checkLoginStatus();
+    };
+  }
+});

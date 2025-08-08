@@ -17,9 +17,11 @@
         <nav class="navbar">
             <div class="logo">TypingClub clone</div>
             <ul class="nav-links">
-                <li><a href="#">Başla</a></li>
                 <li><a href="#">Dil</a></li>
-                <li><button class="login-btn">Giriş yap</button></li>
+                <div>
+                    <button class="login-btn" id="loginButton">Giriş Yap</button>
+                    <button class="logout-btn" id="logoutButton" style="display: none;">Çıkış Yap</button>
+                </div>
                 <li>
                     <button id="themeToggle" class="theme-btn" title="Tema Değiştir">🌗</button>
                 </li>
@@ -28,6 +30,12 @@
     </header>
 
     <main class="main-content">
+        <div class="user-info-panel">
+            <p>Hoş geldin, <span id="userNameDisplay">Kullanıcı</span> 👋</p>
+            <p>İlerleme: <span class="progress-text">0%</span></p>
+            <p>En iyi WPM: <span class="best-wpm-text">0 WPM</span></p>
+        </div>
+
         <div class="glass-card progress-stats">
             <div class="stats-grid">
                 <div class="stat-item">
@@ -44,6 +52,39 @@
                 </div>
             </div>
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         <div class="lesson-sections">
             <section class="lesson-section">
@@ -204,6 +245,7 @@
         </div>
     </main>
     <script src="../js/levelpage.js"></script>
+    <script src="../js/logger.js"></script>
     <script src="../genel/themeManager.js"></script>
 
 </body>
