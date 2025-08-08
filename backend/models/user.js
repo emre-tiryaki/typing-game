@@ -19,25 +19,43 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  //kullanıcının bitirdiği levelleri bir Map veri tipinin içerisinde tutuyoruz
+  role: {
+    type: String,
+    default: "user",
+    enum: ["user", "guest", "admin"],
+  },
+  accountCreatedAt: {
+    // hesabın oluşturulma tarihi
+    type: Date,
+    default: Date.now(),
+    immutable: false,
+  },
   levelsCompleted: {
+    //bitirilen leveller'in listesi
     type: Map,
     of: {
-      CompletedAt: { type: Date, default: Date.now() }, //ne zaman bitirildi
-      score: { type: Number, default: 0 }, //hangi skor ile bitirildi
-      timeSpent: { type: Number, default: 0 }, //level üzerine harcanan zaman
-      WPM: { type: Number, default: 0 }, //kullanıcının yazma hızı WPM(Words Per Minute)
-      stars: { type: Number, enum: [0, 1, 2, 3], default: 0 }, //kullanıcının levelden aldığı yıldız sayısı.
+      completedAt: { type: Date, default: Date.now() }, // ne zaman bitirildi
+      wpm: { type: Number, required: true }, //wpm değeri
+      timeSpent: { type: Number, required: true }, //ne kadar sürede bitirildi
+      mistakes: { type: Number, default: 0 }, //hata miktarı
     },
-    default: new Map(),
+    default: new Map(), //varsayılan olarak boş
   },
-  //kullanıcının sahip olduğu toplam yıldız sayısı
-  starCount: {
-    type: Number,
-    default: 0,
+  // Misafir Kullanıcı Özellikleri
+  guest: {
+    guestId: { type: String }, //misafir id'si
+    expiresAt: { type: Date }, //ne zaman geçersiz olacak
+    createdBy: {
+      ip: { type: String }, //oluşturan kişinin ip'si
+    },
   },
-  //kullanıcının yaptığı en yüksek WPM değeri
+  completionStats: {
+    //kullanıcının
+    percentage: { type: Number, default: 0 }, // bitirilme yüzdesi
+    // sonradan daha fazla eklenebilir diye böyle yazıldı
+  },
   topWPM: {
+    //kullanıcının yaptığı en yüksek WPM (Word Per Minute) değeri
     type: Number,
     default: 0.0,
   },

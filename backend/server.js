@@ -6,11 +6,19 @@ import connectDB from "./database/database.js";
 import words from "./routes/words.js";
 import guest from "./routes/guest.js";
 import auth from "./routes/auth.js";
+import admin from "./routes/admin.js"
 import accountRecovery from "./routes/account-recovery.js";
 import accessDatabase from "./routes/access-database.js";
-import { verifyToken } from "./middleware/token-verification.js";
 
-dotenv.config({ path: "../.env" });
+//token doğrulama middleware'i
+import { verifyAdmin, verifyToken } from "./middleware/token-verification.js";
+//veritabanı temizleme middleware'i
+import "./middleware/database-cleaner.js";
+
+dotenv.config({
+  path: "../.env",
+  silent: process.env.NODE_ENV !== "development",
+});
 
 //.env dosyasından gerekli değişkenleri çekelim
 const PORT = process.env.PORT || 5000;
@@ -32,6 +40,8 @@ app.use("/auth", auth);
 app.use("/guest", guest);
 //hesap kurtarma için
 app.use("/account-recovery", accountRecovery);
+//admin endpoint'i (seviye eklemek, kullanıcı verisine erişmek falan)
+app.use("/admin", verifyToken, verifyAdmin, admin)
 //kelimeler için
 app.use("/words", verifyToken, words);
 //database verilerine erişmek için

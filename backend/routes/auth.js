@@ -10,20 +10,20 @@ const auth = express.Router();
 
 //kayıt olmak
 auth.post("/register", async (req, res) => {
-  // get the parameters
+  // parametreleri al
   const { name, email, password } = req.body;
 
-  // check if the parameters are valid
+  // parametreler geçerli mi kontrol et
   if (!name || !email || !password)
     return res
       .status(400)
       .json({ success: false, msg: "insufficient parameters" });
 
   try {
-    // search for the user
+    // kullanıcıyı ara
     const existingUser = await userModel.findOne({ email });
 
-    //if there is someone with the same email abort
+    //aynı email ile birisi varsa iptal et
     if (existingUser)
       return res
         .status(409)
@@ -122,7 +122,7 @@ auth.post("/login", async (req, res) => {
 //çıkış
 auth.post("/logout", (req, res) => {
   try {
-    //cookieleri temizle
+    //çerezleri temizle
     res.clearCookie("token", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -141,7 +141,7 @@ auth.post("/google-login", async (req, res) => {
   const { token } = req.body;
 
   try {
-    // google tokenı mı kontrol et
+    // google token'ı mı kontrol et
     const ticket = await client.verifyIdToken({
       idToken: token,
       audience: process.env.GOOGLE_CLIENT_ID,
@@ -164,8 +164,7 @@ auth.post("/google-login", async (req, res) => {
       });
       user.lastLogin = Date.now();
       await user.save();
-      res.status(201);
-    } else res.status(200);
+    }
 
     // yeni token oluştur
     const jwtToken = jwt.sign(
@@ -185,7 +184,7 @@ auth.post("/google-login", async (req, res) => {
     });
 
     // bitiş
-    return res.json({
+    return res.status(200).json({
       success: true,
       msg: `${user.name} logged in with google successfully`,
     });

@@ -8,19 +8,7 @@ accessDatabase.get("/me", async (req, res) => {
   //req.user tanımlı değilse hata
   const user = req.user;
   if (!user)
-    return res.status(400).json({ success: false, msg: "token error" });
-
-  let data = {};
-
-  if(user.isGuest){
-    res.status(200) // değişir burdaki kod
-    data = {
-      name: user.name,
-      levelsCompleted: new Map({}),
-      starCount: 0,
-      topWPM: 0,
-    }
-  }
+    return res.status(401).json({ success: false, msg: "token error" });
 
   try {
     if (user.isGuest) {
@@ -30,7 +18,7 @@ accessDatabase.get("/me", async (req, res) => {
         msg: "Guest user data",
         data: {
           name: user.name,
-          isGuest: true,
+          role: user.role,
           levelCompleted: user.levelsCompleted || {},
           topWPM: user.topWPM || 0,
           completionStats: user.completionStats || { percentage: 0 },
@@ -43,7 +31,7 @@ accessDatabase.get("/me", async (req, res) => {
         msg: "Normal user data",
         data: {
           name: user.name,
-          isGuest: false,
+          role: user.role,
           levelCompleted: user.levelsCompleted || {},
           topWPM: user.topWPM || 0,
           completionStats: user.completionStats || { percentage: 0 },
