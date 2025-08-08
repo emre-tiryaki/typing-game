@@ -52,7 +52,7 @@ const databaseClean = async () => {
   }
 };
 
-cron.schedule("0 2 * * *", () => {
+cron.schedule("0 12 * * *", () => {
   console.log("Database Cleanup has started to process");
   databaseClean();
 });

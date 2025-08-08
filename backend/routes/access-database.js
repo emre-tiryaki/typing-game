@@ -16,10 +16,11 @@ accessDatabase.get("/me", async (req, res) => {
         msg: "Guest user data",
         data: {
           name: user.name,
-          isGuest: true,
+          role: user.role,
           levelCompleted: user.levelsCompleted || {},
           topWPM: user.topWPM || 0,
           completionStats: user.completionStats || { percentage: 0 },
+
         },
       });
     } else {
@@ -29,7 +30,7 @@ accessDatabase.get("/me", async (req, res) => {
         msg: "Normal user data",
         data: {
           name: user.name,
-          isGuest: false,
+          role: user.role,
           levelCompleted: user.levelsCompleted || {},
           topWPM: user.topWPM || 0,
           completionStats: user.completionStats || { percentage: 0 },
