@@ -59,6 +59,41 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0.0,
   },
+  accountCreatedAt: {
+    // hesabın oluşturulma tarihi
+    type: Date,
+    default: Date.now(),
+    immutable: false,
+  },
+  levelsCompleted: {
+    //bitirilen leveller'in listesi
+    type: Map,
+    of: {
+      completedAt: { type: Date, default: Date.now() }, // ne zaman bitirildi
+      wpm: { type: Number, required: true }, //wpm değeri
+      timeSpent: { type: Number, required: true }, //ne kadar sürede bitirildi
+      mistakes: { type: Number, default: 0 }, //hata miktarı
+    },
+    default: new Map(), //varsayılan olarak boş
+  },
+  // Misafir Kullanıcı Özellikleri
+  guest: {
+    guestId: { type: String }, //misafir id'si
+    expiresAt: { type: Date },//ne zaman geçersiz olacak
+    createdBy: {
+      ip: { type: String }, //oluşturan kişinin ip'si
+    },
+  },
+  completionStats: {
+    //kullanıcının
+    percentage: { type: Number, default: 0 }, // bitirilme yüzdesi
+    // sonradan daha fazla eklenebilir diye böyle yazıldı
+  },
+  topWPM: {
+    //kullanıcının yaptığı en yüksek WPM (Word Per Minute) değeri
+    type: Number,
+    default: 0,
+  },
   lastLogin: {
     //kullanıcının son giriş yapma tarihi
     type: Date,

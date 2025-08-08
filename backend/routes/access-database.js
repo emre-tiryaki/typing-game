@@ -1,4 +1,6 @@
 import express from "express";
+import userModel from "../models/user.js";
+import levelsModel from "../models/levels.js";
 
 const accessDatabase = express.Router();
 //kendi verini çekmek için
@@ -20,7 +22,6 @@ accessDatabase.get("/me", async (req, res) => {
           levelCompleted: user.levelsCompleted || {},
           topWPM: user.topWPM || 0,
           completionStats: user.completionStats || { percentage: 0 },
-
         },
       });
     } else {
