@@ -27,8 +27,8 @@ const userSchema = new mongoose.Schema({
   accountCreatedAt: {
     // hesabın oluşturulma tarihi
     type: Date,
-    default: Date.now(),
-    immutable: false,
+    default: Date.now,
+    immutable: true,    // Değiştirilemez olmalı
   },
   levelsCompleted: {
     //bitirilen leveller'in listesi
@@ -62,7 +62,7 @@ const userSchema = new mongoose.Schema({
   lastLogin: {
     //kullanıcının son giriş yapma tarihi
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
   verifyOtp: {
     // email'i doğrulama kodu (OTP: One Time Password)
@@ -94,7 +94,7 @@ const userSchema = new mongoose.Schema({
 //kaydetme öncesinde en yüksek WPM'i günceller
 userSchema.pre("save", function (next) {
   if (this.levelsCompleted && this.levelsCompleted.size > 0) {
-    const wpmValues = Math.max([...this.levelsCompleted.values()]).map(
+    const wpmValues = [...this.levelsCompleted.values()].map(
       (level) => level.wpm
     );
     this.topWPM = Math.max(...wpmValues);
@@ -120,6 +120,6 @@ userSchema.pre("save", async function (next) {
 });
 
 //model zaten tanımlandıysa tekrar tanımlama tanımlanmadıysa tanımla
-const userModel = mongoose.model.user || mongoose.model("User", userSchema);
+const userModel = mongoose.models.User || mongoose.model("User", userSchema);
 
 export default userModel;
