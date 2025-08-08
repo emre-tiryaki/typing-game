@@ -13,18 +13,8 @@ admin.post("/add-level", async (req, res) => {
       .status(400)
       .json({ success: false, msg: "name and data parameters are required" });
 
-  // Data format kontrolü
-  if (!Array.isArray(data) || data.length === 0) {
-    return res.status(400).json({
-      success: false,
-      msg: "data must be a non-empty array",
-    });
-  }
-
-  name = name.trim();
-
   try {
-    const existingLevel = await levelsModel.findOne({ name: name });
+    const existingLevel = await levelsModel.findOne({ name: name.trim() });
 
     if (existingLevel)
       return res.status(409).json({
@@ -34,7 +24,7 @@ admin.post("/add-level", async (req, res) => {
 
     //verileri gir
     const levelData = {
-      name: name,
+      name: name.trim(),
       data: data,
     };
     if (description) levelData.description = description;
