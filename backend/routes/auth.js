@@ -38,7 +38,7 @@ auth.post("/register", async (req, res) => {
 
     // yeni kullanıcı için token oluşturalım
     const token = jwt.sign(
-      { id: user._id, name: name },
+      { id: user._id, name: name, isGuest: false },
       process.env.JWT_SECRET,
       {
         expiresIn: "30d",
@@ -90,10 +90,11 @@ auth.post("/login", async (req, res) => {
       return res.status(401).json({ success: false, msg: "Password is wrong" });
 
     user.lastLogin = Date.now();
+    await user.save(); //kullanıcının son girişini güncelleyip kayıt ediyoruz
 
     // yeni token oluştur
     const token = jwt.sign(
-      { id: user._id, name: user.name },
+      { id: user._id, name: user.name, isGuest: false },
       process.env.JWT_SECRET,
       {
         expiresIn: "30d",
@@ -161,13 +162,14 @@ auth.post("/google-login", async (req, res) => {
         password: "google-oauth-user",
         isAccountVerified: true,
       });
+      user.lastLogin = Date.now();
       await user.save();
       res.status(201);
     } else res.status(200);
 
     // yeni token oluştur
     const jwtToken = jwt.sign(
-      { id: user._id, name: name },
+      { id: user._id, name: name, isGuest: false },
       process.env.JWT_SECRET,
       {
         expiresIn: "7d",

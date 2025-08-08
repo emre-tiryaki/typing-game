@@ -1,54 +1,139 @@
 import mongoose from "mongoose";
+import levelsModel from "./levels.js";
 
-// sadece isim email ve şifre(hashlenmiş) tutuyoruz
+//  user bilgilerinin veritabanında tutulma şeması
 const userSchema = new mongoose.Schema({
   name: {
+    // kullanıcı adı
     type: String,
     required: true,
   },
   email: {
+    //kullanıcının e-posta adresi
     type: String,
     required: true,
     unique: true,
   },
   password: {
+    //kullanıcının şifresi(hashlenmiş)
     type: String,
     required: true,
   },
+  //kullanıcının bitirdiği levelleri bir Map veri tipinin içerisinde tutuyoruz
+  levelsCompleted: {
+    type: Map,
+    of: {
+      CompletedAt: { type: Date, default: Date.now() }, //ne zaman bitirildi
+      score: { type: Number, default: 0 }, //hangi skor ile bitirildi
+      timeSpent: { type: Number, default: 0 }, //level üzerine harcanan zaman
+      WPM: { type: Number, default: 0 }, //kullanıcının yazma hızı WPM(Words Per Minute)
+      stars: { type: Number, enum: [0, 1, 2, 3], default: 0 }, //kullanıcının levelden aldığı yıldız sayısı.
+    },
+    default: new Map(),
+  },
+  //kullanıcının sahip olduğu toplam yıldız sayısı
+  starCount: {
+    type: Number,
+    default: 0,
+  },
+  //kullanıcının yaptığı en yüksek WPM değeri
+  topWPM: {
+    type: Number,
+    default: 0.0,
+  },
   accountCreatedAt: {
+    // hesabın oluşturulma tarihi
     type: Date,
     default: Date.now(),
     immutable: false,
   },
+  levelsCompleted: {
+    //bitirilen leveller'in listesi
+    type: Map,
+    of: {
+      completedAt: { type: Date, default: Date.now() }, // ne zaman bitirildi
+      wpm: { type: Number, required: true }, //wpm değeri
+      timeSpent: { type: Number, required: true }, //ne kadar sürede bitirildi
+      mistakes: { type: Number, default: 0 }, //hata miktarı
+    },
+    default: new Map(), //varsayılan olarak boş
+  },
+  // Misafir Kullanıcı Özellikleri
+  guest: {
+    guestId: { type: String }, //misafir id'si
+    expiresAt: { type: Date },//ne zaman geçersiz olacak
+    createdBy: {
+      ip: { type: String }, //oluşturan kişinin ip'si
+    },
+  },
+  completionStats: {
+    //kullanıcının
+    percentage: { type: Number, default: 0 }, // bitirilme yüzdesi
+    // sonradan daha fazla eklenebilir diye böyle yazıldı
+  },
+  topWPM: {
+    //kullanıcının yaptığı en yüksek WPM (Word Per Minute) değeri
+    type: Number,
+    default: 0,
+  },
   lastLogin: {
+    //kullanıcının son giriş yapma tarihi
     type: Date,
     default: Date.now(),
   },
-  // email'i doğrulama kodu (OTP: One Time Password)
   verifyOtp: {
+    // email'i doğrulama kodu (OTP: One Time Password)
     type: String,
     default: "",
   },
-  // email doğrulama kodunun geçerlilik süresi
   verifyOtpExpiresAt: {
+    // email doğrulama kodunun geçerlilik süresi
     type: Number,
     default: 0,
   },
-  //hesap doğrulanmış mı
   isAccountVerified: {
+    //hesap doğrulanmış mı
     type: Boolean,
     default: false,
   },
-  //şifre sıfırlama kodu
   resetOtp: {
+    //şifre sıfırlama kodu
     type: String,
     default: "",
   },
-  // şifre sıfırlama kodunun geçerlilik süresi
   resetOtpExpiresAt: {
+    // şifre sıfırlama kodunun geçerlilik süresi
     type: Number,
     default: 0,
   },
+});
+
+//kaydetme öncesinde en yüksek WPM'i günceller
+userSchema.pre("save", function (next) {
+  if (this.levelsCompleted && this.levelsCompleted.size > 0) {
+    const wpmValues = Math.max([...this.levelsCompleted.values()]).map(
+      (level) => level.wpm
+    );
+    this.topWPM = Math.max(...wpmValues);
+  }
+  next();
+});
+
+//kaydetme öncesinde bitirme yüzdesini günceller
+userSchema.pre("save", async function (next) {
+  const levelCount = await levelsModel.countDocuments(); //tüm levellerin sayısı
+  const completedLevelCount = this.levelsCompleted.size; //bitirilen level sayısı
+
+  //yeni yüde
+  const newPercentage =
+    levelCount > 0 && completedLevelCount
+      ? Math.round((completedLevelCount / levelCount) * 100)
+      : 0;
+
+  // yeni yüzde eski yüzdeden farklıysa yüzdeyi değiştir.
+  if (newPercentage !== this.completionStats.percentage)
+    this.completionStats.percentage = newPercentage;
+  next();
 });
 
 //model zaten tanımlandıysa tekrar tanımlama tanımlanmadıysa tanımla

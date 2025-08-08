@@ -1,19 +1,39 @@
 import express from "express";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
+import userModel from "../models/user.js";
+import bcrypt from "bcrypt";
 
 const guest = express.Router();
 
 //misafir kullanıcı girişi için
-guest.post("/", (req, res) => {
+guest.post("/", async (req, res) => {
   const id = crypto.randomBytes(16).toString("hex");
   const name = `Guest-${id}`;
 
+  const newUser = await userModel.create({
+    name: name,
+    email: `guest_${id}@temp.com`,
+    password: await bcrypt.hash(id, 10),
+    guest: {
+      guestId: id,
+      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 gün sonra silinir
+      createdBy: {
+        ip: req.ip,
+      },
+    },
+  });
+  await newUser.save();
+
   try {
     // yeni token oluştur
-    const jwtToken = jwt.sign({ id: id, name: name }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
+    const jwtToken = jwt.sign(
+      { id: newUser._id, name: newUser.name, isGuest: true },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
 
     // frontend'de cookie olarak jwt saklansın
     res.cookie("token", jwtToken, {
