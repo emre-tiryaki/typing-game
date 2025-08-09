@@ -70,86 +70,15 @@ class AnimationManager {
 class TypingTutorApp {
   constructor() {
     this.themeManager = new ThemeManager();
-    this.virtualKeyboard = new VirtualKeyboard();
-    this.lessonManager = new LessonManager();
-    this.analytics = new ProgressAnalytics();
-    this.init();
   }
 
-  init() {
-    // Initialize app components
-    this.setupGlobalEventListeners();
-    this.loadUserPreferences();
-
-    // Add fade-in animation to main content
-    const mainContent = document.querySelector(".main-content");
-    if (mainContent) {
-      AnimationManager.addFadeIn(mainContent);
-    }
-
-    console.log("TypingTutor App initialized successfully");
-  }
-
-  setupGlobalEventListeners() {
-    // Global keyboard event handling
-    document.addEventListener("keydown", (e) => {
-      // Prevent default browser shortcuts that might interfere
-      if (e.ctrlKey || e.metaKey) return;
-
-      // Track keystrokes for analytics
-      this.analytics.trackKeystroke();
-
-      // Show key highlight on virtual keyboard
-      if (this.virtualKeyboard.isVisible) {
-        this.virtualKeyboard.highlightKey(e.key);
-      }
-    });
-
-    // Responsive navigation handling
-    window.addEventListener("resize", this.handleResize.bind(this));
-  }
-
-  handleResize() {
-    // Handle responsive behavior on window resize
-    const width = window.innerWidth;
-    const navLinks = document.querySelector(".nav-links");
-
-    if (navLinks) {
-      if (width < 768) {
-        navLinks.style.display = "none";
-      } else {
-        navLinks.style.display = "flex";
-      }
-    }
-  }
-
-  loadUserPreferences() {
-    // Load and apply user preferences
-    const preferences = localStorage.getItem("userPreferences");
-    if (preferences) {
-      const prefs = JSON.parse(preferences);
-      // Apply saved preferences (keyboard visibility, sound settings, etc.)
-      console.log("User preferences loaded:", prefs);
-    }
-  }
-
-  saveUserPreferences(preferences) {
-    localStorage.setItem("userPreferences", JSON.stringify(preferences));
-  }
 }
 // Initialize app when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
   window.typingApp = new TypingTutorApp();
 });
 
-// Export classes for potential module use
-if (typeof module !== "undefined" && module.exports) {
-  module.exports = {
-    ThemeManager,
-    AnimationManager,
-    TypingTutorApp,
-  };
-}
+
 document.querySelector(".login-btn").onclick = function () {
   window.location.href = "login.html";
 };

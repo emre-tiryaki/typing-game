@@ -1,5 +1,6 @@
 import { BACKEND_URL } from "../js/config.js";
 
+
 document.addEventListener("DOMContentLoaded", () => {
   const registerBtn = document.getElementById("registerBtn");
   const loginBtn = document.getElementById("enter-btn");
@@ -57,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       window.location.href = successRedirect;
     } catch (error) {
+      // Hata durumunu ele al
       const errMsg = error.response?.data?.message || "Bir hata oluştu.";
       if (errMsg.includes("password")) {
         showAlert("Şifre yanlış!");
