@@ -1,5 +1,6 @@
 import { BACKEND_URL } from "../js/config.js";
 
+
 document.addEventListener("DOMContentLoaded", () => {
   const registerBtn = document.getElementById("registerBtn");
   const loginBtn = document.getElementById("enter-btn");
@@ -50,9 +51,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const handleRequest = async (url, data, successRedirect) => {
     try {
       const response = await axios.post(url, data);
-      console.log("Response:", response.data);
       window.location.href = successRedirect;
     } catch (error) {
+      // Hata durumunu ele al
       const errMsg = error.response?.data?.message || "Bir hata oluştu.";
       if (errMsg.includes("password")) {
         showAlert("Şifre yanlış!");

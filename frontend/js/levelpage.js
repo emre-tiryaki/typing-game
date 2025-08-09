@@ -70,86 +70,111 @@ class AnimationManager {
 class TypingTutorApp {
   constructor() {
     this.themeManager = new ThemeManager();
-    this.virtualKeyboard = new VirtualKeyboard();
-    this.lessonManager = new LessonManager();
-    this.analytics = new ProgressAnalytics();
-    this.init();
   }
 
-  init() {
-    // Initialize app components
-    this.setupGlobalEventListeners();
-    this.loadUserPreferences();
-
-    // Add fade-in animation to main content
-    const mainContent = document.querySelector(".main-content");
-    if (mainContent) {
-      AnimationManager.addFadeIn(mainContent);
-    }
-
-    console.log("TypingTutor App initialized successfully");
-  }
-
-  setupGlobalEventListeners() {
-    // Global keyboard event handling
-    document.addEventListener("keydown", (e) => {
-      // Prevent default browser shortcuts that might interfere
-      if (e.ctrlKey || e.metaKey) return;
-
-      // Track keystrokes for analytics
-      this.analytics.trackKeystroke();
-
-      // Show key highlight on virtual keyboard
-      if (this.virtualKeyboard.isVisible) {
-        this.virtualKeyboard.highlightKey(e.key);
-      }
-    });
-
-    // Responsive navigation handling
-    window.addEventListener("resize", this.handleResize.bind(this));
-  }
-
-  handleResize() {
-    // Handle responsive behavior on window resize
-    const width = window.innerWidth;
-    const navLinks = document.querySelector(".nav-links");
-
-    if (navLinks) {
-      if (width < 768) {
-        navLinks.style.display = "none";
-      } else {
-        navLinks.style.display = "flex";
-      }
-    }
-  }
-
-  loadUserPreferences() {
-    // Load and apply user preferences
-    const preferences = localStorage.getItem("userPreferences");
-    if (preferences) {
-      const prefs = JSON.parse(preferences);
-      // Apply saved preferences (keyboard visibility, sound settings, etc.)
-      console.log("User preferences loaded:", prefs);
-    }
-  }
-
-  saveUserPreferences(preferences) {
-    localStorage.setItem("userPreferences", JSON.stringify(preferences));
-  }
 }
 // Initialize app when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
   window.typingApp = new TypingTutorApp();
 });
 
-// Export classes for potential module use
-if (typeof module !== "undefined" && module.exports) {
-  module.exports = {
-    ThemeManager,
-    AnimationManager,
-    TypingTutorApp,
-  };
-}
+
 document.querySelector(".login-btn").onclick = function () {
   window.location.href = "login.html";
 };
+
+
+
+
+
+// /me endpoint'inden kullanıcı verilerini çek
+async function fetchUserData() {
+  try {
+    // Kullanıcı verizlerini çek
+    const response = await axios.get(`http://localhost:4000/auth/check`, {
+      // Authorization header ile token gönder
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    // Kullanıcı verilerini isle
+    const userData = response.data;
+    console.log("Kullanıcı Verileri:", userData);
+    // Verileri sayfada göster
+    const progressElement = document.querySelector(".progress-text");
+    const bestWPMElement = document.querySelector(".best-wpm-text");
+    const userNameElement = document.getElementById("userNameDisplay");
+
+    if (progressElement) {
+      progressElement.textContent = `${userData.progress}%`;
+    }
+    if (bestWPMElement) {
+      bestWPMElement.textContent = `${userData.bestWPM} WPM`;
+    }
+    if (userNameElement) {
+      userNameElement.textContent = userData.name || "mrb la";
+    }
+  } catch (error) {
+    // Hata durumunu ele al
+    const errMsg = error.response?.data?.message || "Kullanıcı verileri alınamadı.";
+    console.error("Hata:", errMsg);
+    // Eğer 401 Unauthorized hatası alırsak, kullanıcıyı login sayfasına yönlendir
+    if (error.response?.status === 401) {
+      showAlert("Oturumunuz geçersiz, lütfen tekrar giriş yapın.");
+      localStorage.removeItem("token");
+      localStorage.removeItem("isLoggedIn");
+      window.location.href = "../html/login.html"; // Örnek yönlendirme
+    } else {
+      // Diğer hataları göster
+      showAlert(errMsg);
+    }
+  }
+}
+const checkLogin = async () => {
+  try {
+    const response = await axios.get(`${BACKEND_URL}/check`, {
+      withCredentials: true
+    });
+
+    if (response.data.loggedIn) {
+      console.log("Kullanıcı giriş yapmış");
+      document.getElementById("loginButton").style.display = "none"; // Giriş yap butonunu gizle
+      document.getElementById("logoutButton").style.display = "block"; // Çıkış yap butonunu göster
+    } else {
+      console.log("Kullanıcı giriş yapmamış");
+      document.getElementById("loginButton").style.display = "block"; // Giriş yap butonunu göster
+      document.getElementById("logoutButton").style.display = "none"; // Çıkış yap butonunu gizle
+    }
+  } catch (err) {
+    console.error("Check isteğinde hata:", err);
+  }
+};
+
+
+
+
+// Sayfa yüklendiğinde giriş durumunu kontrol et
+document.addEventListener("DOMContentLoaded", async () => {
+  await checkLogin();
+  await fetchUserData();
+
+  // Giriş Yap butonu: login.html'ye yönlendir
+  const loginButton = document.getElementById("loginButton");
+  if (loginButton) {
+    loginButton.onclick = () => {
+      window.location.href = "login.html";
+    };
+  }
+
+  // Çıkış Yap butonu: LocalStorage'ı temizle ve butonları güncelle
+  /* const logoutButton = document.getElementById("logoutButton");
+   if (logoutButton) {
+     logoutButton.onclick = () => {
+       localStorage.removeItem("isLoggedIn");
+       localStorage.removeItem("token");
+       checkLoginStatus();
+     };
+   }*/
+});
