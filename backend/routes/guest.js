@@ -8,22 +8,6 @@ const guest = express.Router();
 
 //misafir kullanıcı girişi için
 guest.post("/", async (req, res) => {
-  const id = crypto.randomBytes(16).toString("hex");
-  const name = `Guest-${id}`;
-
-  const newUser = await userModel.create({
-    name: name,
-    email: `guest_${id}@temp.com`,
-    password: await bcrypt.hash(id, 10),
-    guest: {
-      guestId: id,
-      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 gün sonra silinir
-      createdBy: {
-        ip: req.ip,
-      },
-    },
-  });
-  await newUser.save();
   try {
     //(varsa) body'den misafir id'sini al.
     const { guestId } = req.body || {};
