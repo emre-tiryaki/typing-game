@@ -8,6 +8,52 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const auth = express.Router();
 
+// Kullanıcının giriş yapmış olup olmadığını kontrol et
+auth.get("/check", async (req, res) => {
+  // cookie'lerden token'ı al
+  const token = req.cookies.token;
+
+  //token yoksa hata var
+  if (!token) {
+    return res.status(401).json({
+      success: false,
+      loggedIn: false,
+      message: "Authentication token is missing.",
+    });
+  }
+
+  try {
+    //token'ı doğrula
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    //kullanıcıyı veritabanında ara
+    const user = await userModel.findById(decoded.id).lean();
+
+    //kullanıcı yoksa hata var
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        loggedIn: false,
+        message: "Invalid authentication token.",
+      });
+    }
+
+    //başarılı cevap
+    return res.status(200).json({
+      success: true,
+      loggedIn: true,
+      message: "User is authenticated.",
+    });
+  } catch (error) {
+    return res.status(401).json({
+      success: false,
+      loggedIn: false,
+      message: "Authentication failed.",
+      error: error.message,
+    });
+  }
+});
+
 //kayıt olmak
 auth.post("/register", async (req, res) => {
   // parametreleri al
