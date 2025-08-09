@@ -27,8 +27,8 @@ const userSchema = new mongoose.Schema({
   accountCreatedAt: {
     // hesabın oluşturulma tarihi
     type: Date,
-    default: Date.now(),
-    immutable: false,
+    default: Date.now,
+    immutable: true,    // Değiştirilemez olmalı
   },
   levelsCompleted: {
     //bitirilen leveller'in listesi
@@ -59,10 +59,45 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0.0,
   },
+  accountCreatedAt: {
+    // hesabın oluşturulma tarihi
+    type: Date,
+    default: Date.now(),
+    immutable: false,
+  },
+  levelsCompleted: {
+    //bitirilen leveller'in listesi
+    type: Map,
+    of: {
+      completedAt: { type: Date, default: Date.now() }, // ne zaman bitirildi
+      wpm: { type: Number, required: true }, //wpm değeri
+      timeSpent: { type: Number, required: true }, //ne kadar sürede bitirildi
+      mistakes: { type: Number, default: 0 }, //hata miktarı
+    },
+    default: new Map(), //varsayılan olarak boş
+  },
+  // Misafir Kullanıcı Özellikleri
+  guest: {
+    guestId: { type: String }, //misafir id'si
+    expiresAt: { type: Date },//ne zaman geçersiz olacak
+    createdBy: {
+      ip: { type: String }, //oluşturan kişinin ip'si
+    },
+  },
+  completionStats: {
+    //kullanıcının
+    percentage: { type: Number, default: 0 }, // bitirilme yüzdesi
+    // sonradan daha fazla eklenebilir diye böyle yazıldı
+  },
+  topWPM: {
+    //kullanıcının yaptığı en yüksek WPM (Word Per Minute) değeri
+    type: Number,
+    default: 0,
+  },
   lastLogin: {
     //kullanıcının son giriş yapma tarihi
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
   verifyOtp: {
     // email'i doğrulama kodu (OTP: One Time Password)
@@ -94,7 +129,7 @@ const userSchema = new mongoose.Schema({
 //kaydetme öncesinde en yüksek WPM'i günceller
 userSchema.pre("save", function (next) {
   if (this.levelsCompleted && this.levelsCompleted.size > 0) {
-    const wpmValues = Math.max([...this.levelsCompleted.values()]).map(
+    const wpmValues = [...this.levelsCompleted.values()].map(
       (level) => level.wpm
     );
     this.topWPM = Math.max(...wpmValues);
@@ -120,6 +155,6 @@ userSchema.pre("save", async function (next) {
 });
 
 //model zaten tanımlandıysa tekrar tanımlama tanımlanmadıysa tanımla
-const userModel = mongoose.model.user || mongoose.model("User", userSchema);
+const userModel = mongoose.models.User || mongoose.model("User", userSchema);
 
 export default userModel;

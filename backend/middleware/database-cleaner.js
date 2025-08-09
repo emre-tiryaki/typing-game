@@ -1,11 +1,11 @@
 import cron from "node-cron";
 import userModel from "../models/user.js";
 import path from "path";
-import fs from 'fs'
+import fs from "fs";
 import { fileURLToPath } from "url";
 
 //log klasörüne erişmek için
-const __filename = fileURLToPath(import.meta.url)
+const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 //veritabanındaki istemediğimiz verileri silecek fonksiyon
@@ -19,8 +19,8 @@ const databaseClean = async () => {
 
     //silinecek kullanıcıları bul
     const usersToDelete = await userModel.find({
-      email: /@temp\.com$/,
-      accountCreatedAt: {$lte: guestThresholdDate},
+      role: "guest",
+      accountCreatedAt: { $lte: guestThresholdDate },
     });
 
     //kullanıcı bulunamadıysa bırak
@@ -36,7 +36,7 @@ const databaseClean = async () => {
       //log şemasını hazırla
       const log = `[${new Date().toISOString()}] Deleted: ${user.name}-${
         user.email
-      }-${user._id}`;
+      }-${user._id}\n`;
 
       //logu yazdır
       fs.appendFileSync(logPath, log);
