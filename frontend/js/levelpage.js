@@ -70,16 +70,11 @@ class AnimationManager {
 class TypingTutorApp {
   constructor() {
     this.themeManager = new ThemeManager();
-    this.virtualKeyboard = new VirtualKeyboard();
-    this.lessonManager = new LessonManager();
-    this.analytics = new ProgressAnalytics();
+
     this.init();
   }
 
   init() {
-    // Initialize app components
-    this.setupGlobalEventListeners();
-    this.loadUserPreferences();
 
     // Add fade-in animation to main content
     const mainContent = document.querySelector(".main-content");
@@ -87,89 +82,28 @@ class TypingTutorApp {
       AnimationManager.addFadeIn(mainContent);
     }
 
-    console.log("TypingTutor App initialized successfully");
   }
 
-  setupGlobalEventListeners() {
-    // Global keyboard event handling
-    document.addEventListener("keydown", (e) => {
-      // Prevent default browser shortcuts that might interfere
-      if (e.ctrlKey || e.metaKey) return;
-
-      // Track keystrokes for analytics
-      this.analytics.trackKeystroke();
-
-      // Show key highlight on virtual keyboard
-      if (this.virtualKeyboard.isVisible) {
-        this.virtualKeyboard.highlightKey(e.key);
-      }
-    });
-
-    // Responsive navigation handling
-    window.addEventListener("resize", this.handleResize.bind(this));
-  }
-
-  handleResize() {
-    // Handle responsive behavior on window resize
-    const width = window.innerWidth;
-    const navLinks = document.querySelector(".nav-links");
-
-    if (navLinks) {
-      if (width < 768) {
-        navLinks.style.display = "none";
-      } else {
-        navLinks.style.display = "flex";
-      }
-    }
-  }
-
-  loadUserPreferences() {
-    // Load and apply user preferences
-    const preferences = localStorage.getItem("userPreferences");
-    if (preferences) {
-      const prefs = JSON.parse(preferences);
-      // Apply saved preferences (keyboard visibility, sound settings, etc.)
-      console.log("User preferences loaded:", prefs);
-    }
-  }
-
-  saveUserPreferences(preferences) {
-    localStorage.setItem("userPreferences", JSON.stringify(preferences));
-  }
 }
 // Initialize app when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
   window.typingApp = new TypingTutorApp();
 });
 
-// Export classes for potential module use
-if (typeof module !== "undefined" && module.exports) {
-  module.exports = {
-    ThemeManager,
-    AnimationManager,
-    TypingTutorApp,
-  };
-}
+
+
 document.querySelector(".login-btn").onclick = function () {
   window.location.href = "login.html";
 };
 
+
 // /me endpoint'inden kullanıcı verilerini çek
 async function fetchUserData() {
-  const token = localStorage.getItem("token"); //  token anahtarı cek
-  if (!token) {
-    console.error("Token bulunamadı, lütfen önce giriş yapın.");
-    showAlert("Oturumunuz kapalı, lütfen giriş yapın.");
-    return;
-  }
-
   try {
-    // Kullanıcı verilerini çek
+    // Kullanıcı verizlerini çek
     const response = await axios.get(`http://localhost:4000/database/me`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
+      //cokokie ile 
+      withCredentials: true,
     });
 
     // Kullanıcı verilerini isle
@@ -181,13 +115,13 @@ async function fetchUserData() {
     const userNameElement = document.getElementById("userNameDisplay");
 
     if (progressElement) {
-      progressElement.textContent = `${userData.progress || 0}%`;
+      progressElement.textContent = `${userData.data.completionStats.percentage}%`;
     }
     if (bestWPMElement) {
-      bestWPMElement.textContent = `${userData.bestWPM || 0} WPM`;
+      bestWPMElement.textContent = `${userData.data.topWPM} WPM`;
     }
     if (userNameElement) {
-      userNameElement.textContent = userData.name || "Kullanıcı";
+      userNameElement.textContent = userData.data.name || "mrb la";
     }
   } catch (error) {
     // Hata durumunu ele al
@@ -205,28 +139,32 @@ async function fetchUserData() {
     }
   }
 }
+const checkLogin = async () => {
+  try {
+    const response = await axios.get(`http://localhost:4000/auth/check`, {
+      withCredentials: true
+    });
 
-// girişi kontrol et
-function checkLoginStatus() {
-  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-  const loginButton = document.getElementById("loginButton");
-  const logoutButton = document.getElementById("logoutButton");
-
-  // Giriş yapıldıysa butonları güncelle
-  if (loginButton && logoutButton) {
-    if (isLoggedIn) {
-      loginButton.style.display = "none"; // Giriş yaptıysa  gizle
-      logoutButton.style.display = "block"; // Çıkış Yap butonunu göster
+    if (response.data.loggedIn) {
+      console.log("Kullanıcı giriş yapmış");
+      document.getElementById("loginButton").style.display = "none"; // Giriş yap butonunu gizle
+      document.getElementById("logoutButton").style.display = "block"; // Çıkış yap butonunu göster
     } else {
-      loginButton.style.display = "block"; // Misafir ise  göster
-      logoutButton.style.display = "none"; // Çıkış Yap butonunu gizle
+      console.log("Kullanıcı giriş yapmamış");
+      document.getElementById("loginButton").style.display = "block"; // Giriş yap butonunu göster
+      document.getElementById("logoutButton").style.display = "none"; // Çıkış yap butonunu gizle
     }
+  } catch (err) {
+    console.error("Check isteğinde hata:", err);
   }
-}
+};
+
+
+
 
 // Sayfa yüklendiğinde giriş durumunu kontrol et
 document.addEventListener("DOMContentLoaded", async () => {
-  checkLoginStatus();
+  await checkLogin();
   await fetchUserData();
 
   // Giriş Yap butonu: login.html'ye yönlendir
@@ -238,12 +176,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // Çıkış Yap butonu: LocalStorage'ı temizle ve butonları güncelle
-  const logoutButton = document.getElementById("logoutButton");
-  if (logoutButton) {
-    logoutButton.onclick = () => {
-      localStorage.removeItem("isLoggedIn");
-      localStorage.removeItem("token");
-      checkLoginStatus();
-    };
-  }
+  /* const logoutButton = document.getElementById("logoutButton");
+   if (logoutButton) {
+     logoutButton.onclick = () => {
+       localStorage.removeItem("isLoggedIn");
+       localStorage.removeItem("token");
+       checkLoginStatus();
+     };
+   }*/
 });
