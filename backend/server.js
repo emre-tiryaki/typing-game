@@ -6,7 +6,7 @@ import connectDB from "./database/database.js";
 import words from "./routes/words.js";
 import guest from "./routes/guest.js";
 import auth from "./routes/auth.js";
-import admin from "./routes/admin.js"
+import admin from "./routes/admin.js";
 import accountRecovery from "./routes/account-recovery.js";
 import accessDatabase from "./routes/access-database.js";
 
@@ -30,9 +30,19 @@ connectDB(URI);
 
 //API keylerimizi hazırlayalım
 const app = express();
+
+//frontend dosyalarımızı statik olarak ayarlıyoruz
+app.use(express.static("../frontend"));
+
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ credentials: true }));
+// Geliştirme ortamı için CORS ayarları
+app.use(
+  cors({
+    origin: CLIENT,
+    credentials: true,
+  })
+);
 
 //kullanıcı girişi ve kaydı için
 app.use("/auth", auth);
@@ -41,7 +51,7 @@ app.use("/guest", guest);
 //hesap kurtarma için
 app.use("/account-recovery", accountRecovery);
 //admin endpoint'i (seviye eklemek, kullanıcı verisine erişmek falan)
-app.use("/admin", verifyToken, verifyAdmin, admin)
+app.use("/admin", verifyToken, verifyAdmin, admin);
 //kelimeler için
 app.use("/words", verifyToken, words);
 //database verilerine erişmek için
