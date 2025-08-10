@@ -83,18 +83,16 @@ document.querySelector(".login-btn").onclick = function () {
   window.location.href = "login.html";
 };
 
+
+
+
+
 // /me endpoint'inden kullanıcı verilerini çek
 async function fetchUserData() {
-  const token = localStorage.getItem("token"); //  token anahtarı cek
-  if (!token) {
-    console.error("Token bulunamadı, lütfen önce giriş yapın.");
-    showAlert("Oturumunuz kapalı, lütfen giriş yapın.");
-    return;
-  }
-
   try {
-    // Kullanıcı verilerini çek
-    const response = await axios.get(`http://localhost:4000/database/me`, {
+    // Kullanıcı verizlerini çek
+    const response = await axios.get(`http://localhost:4000/auth/check`, {
+      // Authorization header ile token gönder
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -110,13 +108,13 @@ async function fetchUserData() {
     const userNameElement = document.getElementById("userNameDisplay");
 
     if (progressElement) {
-      progressElement.textContent = `${userData.progress || 0}%`;
+      progressElement.textContent = `${userData.progress}%`;
     }
     if (bestWPMElement) {
-      bestWPMElement.textContent = `${userData.bestWPM || 0} WPM`;
+      bestWPMElement.textContent = `${userData.bestWPM} WPM`;
     }
     if (userNameElement) {
-      userNameElement.textContent = userData.name || "Kullanıcı";
+      userNameElement.textContent = userData.name || "mrb la";
     }
   } catch (error) {
     // Hata durumunu ele al
@@ -134,28 +132,32 @@ async function fetchUserData() {
     }
   }
 }
+const checkLogin = async () => {
+  try {
+    const response = await axios.get(`${BACKEND_URL}/check`, {
+      withCredentials: true
+    });
 
-// girişi kontrol et
-function checkLoginStatus() {
-  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-  const loginButton = document.getElementById("loginButton");
-  const logoutButton = document.getElementById("logoutButton");
-
-  // Giriş yapıldıysa butonları güncelle
-  if (loginButton && logoutButton) {
-    if (isLoggedIn) {
-      loginButton.style.display = "none"; // Giriş yaptıysa  gizle
-      logoutButton.style.display = "block"; // Çıkış Yap butonunu göster
+    if (response.data.loggedIn) {
+      console.log("Kullanıcı giriş yapmış");
+      document.getElementById("loginButton").style.display = "none"; // Giriş yap butonunu gizle
+      document.getElementById("logoutButton").style.display = "block"; // Çıkış yap butonunu göster
     } else {
-      loginButton.style.display = "block"; // Misafir ise  göster
-      logoutButton.style.display = "none"; // Çıkış Yap butonunu gizle
+      console.log("Kullanıcı giriş yapmamış");
+      document.getElementById("loginButton").style.display = "block"; // Giriş yap butonunu göster
+      document.getElementById("logoutButton").style.display = "none"; // Çıkış yap butonunu gizle
     }
+  } catch (err) {
+    console.error("Check isteğinde hata:", err);
   }
-}
+};
+
+
+
 
 // Sayfa yüklendiğinde giriş durumunu kontrol et
 document.addEventListener("DOMContentLoaded", async () => {
-  checkLoginStatus();
+  await checkLogin();
   await fetchUserData();
 
   // Giriş Yap butonu: login.html'ye yönlendir
@@ -167,12 +169,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // Çıkış Yap butonu: LocalStorage'ı temizle ve butonları güncelle
-  const logoutButton = document.getElementById("logoutButton");
-  if (logoutButton) {
-    logoutButton.onclick = () => {
-      localStorage.removeItem("isLoggedIn");
-      localStorage.removeItem("token");
-      checkLoginStatus();
-    };
-  }
+  /* const logoutButton = document.getElementById("logoutButton");
+   if (logoutButton) {
+     logoutButton.onclick = () => {
+       localStorage.removeItem("isLoggedIn");
+       localStorage.removeItem("token");
+       checkLoginStatus();
+     };
+   }*/
 });
