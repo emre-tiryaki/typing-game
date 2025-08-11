@@ -1,9 +1,8 @@
 import express from "express";
-import userModel from "../models/user.js";
 import levelsModel from "../models/levels.js";
 
 const accessDatabase = express.Router();
-//kendi verini çekmek için
+//istek atan kişinin verisini çekmek için
 accessDatabase.get("/me", async (req, res) => {
   //req.user tanımlı değilse hata
   const user = req.user;
@@ -14,7 +13,7 @@ accessDatabase.get("/me", async (req, res) => {
     //Normal kullanıcı yanıtı
     return res.status(200).json({
       success: true,
-      msg:  `${user.role === "guest" ? "Guest" : "Normal"} user data`,
+      msg: `${user.role === "guest" ? "Guest" : "Normal"} user data`,
       data: {
         name: user.name,
         role: user.role,
@@ -29,6 +28,23 @@ accessDatabase.get("/me", async (req, res) => {
   }
 });
 
-//şimdilik email'e göre arama silindi
+//tüm levelleri çekmek için bir endpoint
+accessDatabase.get("/all-levels", async (req, res) => {
+  try {
+    //tüm level verilerini çek
+    const allLevels = await levelsModel.find();
+
+    if (!allLevels)
+      return res
+        .status(200)
+        .json({ success: false, msg: "there are no data to send in database", data: [] });
+
+    return res
+        .status(200)
+        .json({ success: true, msg: "data found!!!", data: allLevels });
+  } catch (error) {
+    return res.status(500).json({ success: false, msg: error.message });
+  }
+});
 
 export default accessDatabase;
