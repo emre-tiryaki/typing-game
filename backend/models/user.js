@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
     // hesabın oluşturulma tarihi
     type: Date,
     default: Date.now,
-    immutable: true,    // Değiştirilemez olmalı
+    immutable: true, // Değiştirilemez olmalı
   },
   levelsCompleted: {
     //bitirilen leveller'in listesi
@@ -79,7 +79,7 @@ const userSchema = new mongoose.Schema({
   // Misafir Kullanıcı Özellikleri
   guest: {
     guestId: { type: String }, //misafir id'si
-    expiresAt: { type: Date },//ne zaman geçersiz olacak
+    expiresAt: { type: Date }, //ne zaman geçersiz olacak
     createdBy: {
       ip: { type: String }, //oluşturan kişinin ip'si
     },

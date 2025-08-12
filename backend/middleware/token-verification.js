@@ -19,7 +19,7 @@ export const verifyToken = async (req, res, next) => {
 
     if (!user)
       return res.status(404).json({ success: false, msg: "User not found" });
-    
+
     req.user = user;
     next();
   } catch (error) {
@@ -38,11 +38,17 @@ export const verifyToken = async (req, res, next) => {
 export const verifyAdmin = async (req, res, next) => {
   const user = req.user;
 
-  if(!user)
-    return res.status(403).json({ success: false, msg: "User authentication required to access this resource." });
+  if (!user)
+    return res
+      .status(403)
+      .json({
+        success: false,
+        msg: "User authentication required to access this resource.",
+      });
 
-  if(user.role === "admin")
-    next();
+  if (user.role === "admin") next();
   else
-    return res.status(401).json({ success: false, msg: "Unauthorized: Admin access required." });
+    return res
+      .status(401)
+      .json({ success: false, msg: "Unauthorized: Admin access required." });
 };

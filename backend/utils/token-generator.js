@@ -2,13 +2,9 @@ import jwt from "jsonwebtoken";
 
 export const tokenGenerator = async (res, payload) => {
   // yeni kullanıcı için token oluşturalım
-  const token = jwt.sign(
-    payload,
-    process.env.JWT_SECRET,
-    {
-      expiresIn: "30d",
-    }
-  );
+  const token = jwt.sign(payload, process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  });
 
   // frontend'de cookie olarak jwt saklansın
   res.cookie("token", token, {

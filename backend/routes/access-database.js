@@ -37,11 +37,15 @@ accessDatabase.get("/all-levels", async (req, res) => {
     if (!allLevels)
       return res
         .status(200)
-        .json({ success: false, msg: "there are no data to send in database", data: [] });
+        .json({
+          success: false,
+          msg: "there are no data to send in database",
+          data: [],
+        });
 
     return res
-        .status(200)
-        .json({ success: true, msg: "data found!!!", data: allLevels });
+      .status(200)
+      .json({ success: true, msg: "data found!!!", data: allLevels });
   } catch (error) {
     return res.status(500).json({ success: false, msg: error.message });
   }

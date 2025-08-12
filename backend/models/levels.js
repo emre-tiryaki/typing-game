@@ -63,6 +63,7 @@ levelsSchema.pre("save", function (next) {
   next();
 });
 
-const levelsModel = mongoose.models.Level || mongoose.model("Level", levelsSchema);
+const levelsModel =
+  mongoose.models.Level || mongoose.model("Level", levelsSchema);
 
 export default levelsModel;
