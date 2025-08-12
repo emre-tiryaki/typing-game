@@ -3,6 +3,7 @@ import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import userModel from "../models/user.js";
 import bcrypt from "bcrypt";
+import { tokenGenerator } from "../utils/token-generator.js";
 
 const guest = express.Router();
 
@@ -62,22 +63,7 @@ guest.post("/", async (req, res) => {
       },
     });
 
-    // yeni token oluştur
-    const jwtToken = jwt.sign(
-      { id: newUser._id, name: newUser.name, isGuest: true },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "7d",
-      }
-    );
-
-    // frontend'de cookie olarak jwt saklansın
-    res.cookie("token", jwtToken, {
-      httpOnly: true, // JS tarafından okunmaz sadece http isteklerinde
-      secure: process.env.NODE_ENV === "production", // deploy zamanı https zorunlu olsun diye
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", // farklı sitelere veri falan
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week in milliseconds
-    });
+    tokenGenerator(res, { id: newUser._id, name: newUser.name, isGuest: true });
 
     // bitiş
     return res.status(201).json({

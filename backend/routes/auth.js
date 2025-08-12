@@ -3,6 +3,7 @@ import userModel from "../models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { OAuth2Client } from "google-auth-library";
+import { tokenGenerator } from "../utils/token-generator.js";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -82,22 +83,7 @@ auth.post("/register", async (req, res) => {
     const user = new userModel({ name, email, password: hashedPassword });
     await user.save();
 
-    // yeni kullanıcı için token oluşturalım
-    const token = jwt.sign(
-      { id: user._id, name: name, isGuest: false },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "30d",
-      }
-    );
-
-    // frontend'de cookie olarak jwt saklansın
-    res.cookie("token", token, {
-      httpOnly: true, // JS tarafından okunmaz sadece http isteklerinde
-      secure: process.env.NODE_ENV === "production", // deploy zamanı https zorunlu olsun diye
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", // farklı sitelere veri falan
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 gün
-    });
+    tokenGenerator(res, { id: user._id, name: name, isGuest: false });
 
     // bitiş
     return res.status(201).json({
@@ -138,22 +124,7 @@ auth.post("/login", async (req, res) => {
     user.lastLogin = Date.now();
     await user.save(); //kullanıcının son girişini güncelleyip kayıt ediyoruz
 
-    // yeni token oluştur
-    const token = jwt.sign(
-      { id: user._id, name: user.name, isGuest: false },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "30d",
-      }
-    );
-
-    // frontend'de cookie olarak jwt saklansın
-    res.cookie("token", token, {
-      httpOnly: true, // JS tarafından okunmaz sadece http isteklerinde
-      secure: process.env.NODE_ENV === "production", // deploy zamanı https zorunlu olsun diye
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", // farklı sitelere veri falan
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 gün
-    });
+    tokenGenerator(res, { id: user._id, name: name, isGuest: false });
 
     // bitiş
     return res.status(200).json({
@@ -212,22 +183,7 @@ auth.post("/google-login", async (req, res) => {
       await user.save();
     }
 
-    // yeni token oluştur
-    const jwtToken = jwt.sign(
-      { id: user._id, name: name, isGuest: false },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "7d",
-      }
-    );
-
-    // frontend'de cookie olarak jwt saklansın
-    res.cookie("token", jwtToken, {
-      httpOnly: true, // JS tarafından okunmaz sadece http isteklerinde
-      secure: process.env.NODE_ENV === "production", // deploy zamanı https zorunlu olsun diye
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", // farklı sitelere veri falan
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+    tokenGenerator(res, { id: user._id, name: name, isGuest: false });
 
     // bitiş
     return res.status(200).json({
