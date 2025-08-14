@@ -3,7 +3,7 @@ import userModel from "../models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { OAuth2Client } from "google-auth-library";
-import { tokenGenerator } from "../utils/token-generator.js";
+import { sendMail } from "../utils/mailer.js";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -85,6 +85,9 @@ auth.post("/register", async (req, res) => {
 
     tokenGenerator(res, { id: user._id, name: name, isGuest: false });
 
+    //mail ile kayıt olduğunu kullanıcıya bildirelim
+    sendMail(email, {subject: "You Successfully created your account", text:`dear ${name}.\nYou successfully created your account.\nplease emjoy your experience!!!`});
+
     // bitiş
     return res.status(201).json({
       success: true,
@@ -126,6 +129,9 @@ auth.post("/login", async (req, res) => {
 
     tokenGenerator(res, { id: user._id, name: name, isGuest: false });
 
+    //kullanıcıya başarıyla giriş yaptığını email ile bildirelim
+    sendMail(email, {subject: "You Successfully logged in", text:`Welcome back ${user.name}.\nYou successfully logged into your account.\nplease emjoy your experience!!!`});
+
     // bitiş
     return res.status(200).json({
       success: true,
@@ -145,6 +151,8 @@ auth.post("/logout", (req, res) => {
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
     });
+
+    sendMail(email, {subject: "We hope you come back soon 😢", text:`We hope you come back soon!!!`});
 
     return res.status(200).json({ success: true, msg: "logged out" });
   } catch (error) {
@@ -171,6 +179,11 @@ auth.post("/google-login", async (req, res) => {
     //kullanıcı var mı bak
     const user = await userModel.findOne({ email });
 
+    const mailData = {
+      subject: `You Successfully logged in`,
+      text: `Welcome back ${name}.\nyou logged into your account successfully.\nenjoy your time!!`
+    };
+
     //yoksa oluştur
     if (!user) {
       user = new userModel({
@@ -181,9 +194,28 @@ auth.post("/google-login", async (req, res) => {
       });
       user.lastLogin = Date.now();
       await user.save();
+      mailData.subject = `You Successfully created your account`;
+      mailData.text = `dear ${name}.\nYou successfully created your account.\nplease emjoy your experience!!!`
     }
 
-    tokenGenerator(res, { id: user._id, name: name, isGuest: false });
+    // yeni token oluştur
+    const jwtToken = jwt.sign(
+      { id: user._id, name: name, isGuest: false },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
+
+    // frontend'de cookie olarak jwt saklansın
+    res.cookie("token", jwtToken, {
+      httpOnly: true, // JS tarafından okunmaz sadece http isteklerinde
+      secure: process.env.NODE_ENV === "production", // deploy zamanı https zorunlu olsun diye
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", // farklı sitelere veri falan
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+    
+    sendMail(email, mailData);
 
     // bitiş
     return res.status(200).json({
