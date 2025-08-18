@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { OAuth2Client } from "google-auth-library";
 import { sendMail } from "../utils/mailer.js";
+import { tokenGenerator } from "../utils/token-generator.js";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -127,7 +128,7 @@ auth.post("/login", async (req, res) => {
     user.lastLogin = Date.now();
     await user.save(); //kullanıcının son girişini güncelleyip kayıt ediyoruz
 
-    tokenGenerator(res, { id: user._id, name: name, isGuest: false });
+    tokenGenerator(res, { id: user._id, name: user.name, isGuest: false });
 
     //kullanıcıya başarıyla giriş yaptığını email ile bildirelim
     sendMail(email, {subject: "You Successfully logged in", text:`Welcome back ${user.name}.\nYou successfully logged into your account.\nplease emjoy your experience!!!`});
