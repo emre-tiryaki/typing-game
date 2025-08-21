@@ -1,0 +1,115 @@
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #e0e7ff 0%, #f0fdfa 100%);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    color: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.lesson-card {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 32px rgba(16, 24, 40, 0.12);
+    width: 480px;
+    max-width: 95vw;
+    padding: 2.2rem 2rem 1.5rem 2rem;
+    text-align: center;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(180, 200, 255, 0.18);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+h1 {
+    margin-bottom: 1.2rem;
+    color: #2563eb;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+.text-to-type {
+    font-size: 1.15rem;
+    margin: 1.2rem 0 1.5rem 0;
+    padding: 1rem;
+    background: rgba(240, 245, 255, 0.7);
+    border-radius: 1rem;
+    border: 1px solid #e0e7ff;
+    color: #374151;
+    min-height: 48px;
+    transition: background 0.2s;
+}
+
+textarea {
+    width: 100%;
+    height: 110px;
+    font-size: 1.1rem;
+    border-radius: 1rem;
+    border: 2px solid #c7d2fe;
+    padding: 0.8rem;
+    outline: none;
+    background: rgba(255, 255, 255, 0.85);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    resize: none;
+    margin-bottom: 1.2rem;
+    color: #222;
+}
+
+textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px #a5b4fc55;
+}
+
+.progress-bar {
+    width: 100%;
+    background: #e0e7ff;
+    border-radius: 0.7rem;
+    margin: 1.2rem 0;
+    height: 18px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px #2563eb11;
+}
+
+.progress {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #2563eb 0%, #10b981 100%);
+    border-radius: 0.7rem;
+    transition: width 0.2s ease-in-out;
+}
+
+button {
+    padding: 0.7rem 2.2rem;
+    font-size: 1.08rem;
+    border: none;
+    border-radius: 2rem;
+    cursor: pointer;
+    background: linear-gradient(90deg, #2563eb 0%, #10b981 100%);
+    color: #fff;
+    font-weight: 600;
+    margin-top: 0.7rem;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    box-shadow: 0 2px 8px #2563eb22;
+    letter-spacing: 0.01em;
+}
+
+button:hover {
+    transform: scale(1.04);
+    background: linear-gradient(90deg, #1d4ed8 0%, #059669 100%);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}

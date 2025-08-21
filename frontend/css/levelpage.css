@@ -12,6 +12,26 @@ body {
     transition: color 0.3s ease;
 }
 
+/* Tüm sayfa için fade-in efekti */
+body,
+.main-content,
+.lesson-card,
+.glass-card {
+    animation: fadeIn 0.6s cubic-bezier(.4, 0, .2, 1);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .page-background {
     position: fixed;
     top: 0;
