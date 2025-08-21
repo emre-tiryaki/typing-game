@@ -221,7 +221,7 @@
             </section>
         </div>
 
-        <!-- Level ekle -->
+        <!-- Level ekle (by gpt)-->
         <div id="addLevelModal"
             style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.25); z-index:9999; align-items:center; justify-content:center;">
             <form id="addLevelForm"
@@ -229,9 +229,11 @@
                 <h2 style="margin-bottom:0.5rem;">Yeni Level Ekle</h2>
                 <input name="name" type="text" placeholder="Level Adı *" required
                     style="padding:0.5rem; border-radius:6px; border:1px solid #ccc;">
-                <input name="category" type="text" placeholder="Kategori (opsiyonel)"
+                <input name="category" type="text" placeholder="Kategori"
                     style="padding:0.5rem; border-radius:6px; border:1px solid #ccc;">
                 <textarea name="description" placeholder="Açıklama (opsiyonel)"
+                    style="padding:0.5rem; border-radius:6px; border:1px solid #ccc;"></textarea>
+                <textarea name="difficulty" placeholder="Zorluk (opsiyonel)"
                     style="padding:0.5rem; border-radius:6px; border:1px solid #ccc;"></textarea>
                 <textarea name="data" placeholder="Level Data *" required
                     style="padding:0.5rem; border-radius:6px; border:1px solid #ccc; min-height:80px;"></textarea>
