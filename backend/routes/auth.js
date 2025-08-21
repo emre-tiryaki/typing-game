@@ -87,7 +87,7 @@ auth.post("/register", async (req, res) => {
     tokenGenerator(res, { id: user._id, name: name, isGuest: false });
 
     //mail ile kayıt olduğunu kullanıcıya bildirelim
-    sendMail(email, {subject: "You Successfully created your account", text:`dear ${name}.\nYou successfully created your account.\nplease emjoy your experience!!!`});
+    sendMail(email, { subject: "You Successfully created your account", text: `dear ${name}.\nYou successfully created your account.\nplease emjoy your experience!!!` });
 
     // bitiş
     return res.status(201).json({
@@ -131,7 +131,7 @@ auth.post("/login", async (req, res) => {
     tokenGenerator(res, { id: user._id, name: user.name, isGuest: false });
 
     //kullanıcıya başarıyla giriş yaptığını email ile bildirelim
-    sendMail(email, {subject: "You Successfully logged in", text:`Welcome back ${user.name}.\nYou successfully logged into your account.\nplease emjoy your experience!!!`});
+    sendMail(email, { subject: "You Successfully logged in", text: `Welcome back ${user.name}.\nYou successfully logged into your account.\nplease emjoy your experience!!!` });
 
     // bitiş
     return res.status(200).json({
@@ -153,7 +153,7 @@ auth.post("/logout", (req, res) => {
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
     });
 
-    sendMail(email, {subject: "We hope you come back soon 😢", text:`We hope you come back soon!!!`});
+    sendMail(email, { subject: "We hope you come back soon 😢", text: `We hope you come back soon!!!` });
 
     return res.status(200).json({ success: true, msg: "logged out" });
   } catch (error) {
@@ -215,7 +215,7 @@ auth.post("/google-login", async (req, res) => {
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", // farklı sitelere veri falan
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-    
+
     sendMail(email, mailData);
 
     // bitiş
