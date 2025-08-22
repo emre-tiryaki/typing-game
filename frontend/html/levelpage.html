@@ -17,41 +17,55 @@
         <nav class="navbar">
             <div class="logo">TypingClub clone</div>
             <ul class="nav-links">
+                <!-- Admin butonu ve dropdown -->
+                <li style="position: relative;">
+                    <button id="adminPanelBtn" style="display:none;" class="admin-btn">admin
+                    </button>
+                    <ul id="adminDropdown">
+                        <li>
+                            <button id="addLevelBtn">Level Ekle</button>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Dil Seçenekleri -->
                 <li><a href="#">Dil</a></li>
-                <div>
-                    <button class="login-btn" id="loginButton">Giriş Yap</button>
-                    <button class="logout-btn" id="logoutButton" style="display: none;">Çıkış Yap</button>
-                </div>
+                <!-- Kullanıcı Girişi -->
+                <li>
+                    <div>
+                        <button class="login-btn" id="loginButton">Giriş Yap</button>
+                        <button class="logout-btn" id="logoutButton" style="display: none;">Çıkış Yap</button>
+                    </div>
+                </li>
+                <!-- Tema Değiştirme -->
                 <li>
                     <button id="themeToggle" class="theme-btn" title="Tema Değiştir">🌗</button>
                 </li>
+
             </ul>
         </nav>
     </header>
 
     <main class="main-content">
         <div class="user-info-panel">
-            <p>Hoş geldin, <span id="userNameDisplay">Kullanıcı</span> 👋</p>
-            <p>İlerleme: <span class="progress-text">0%</span></p>
-            <p>En iyi WPM: <span class="best-wpm-text">0 WPM</span></p>
+            <p>Hoş geldin, <span id="userNameDisplay">Yükleniyor...</span> 👋</p>
         </div>
 
         <div class="glass-card progress-stats">
             <div class="stats-grid">
                 <div class="stat-item">
-                    <div class="stat-value">25%</div>
+                    <div class="progress-text" id="progressText">Yükleniyor...</div>
                     <div class="stat-label">Genel İlerleme</div>
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width: 25%"></div>
+                        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
                     </div>
                 </div>
-
                 <div class="stat-item">
-                    <div class="stat-value">35 WPM</div>
+                    <div class="best-wpm-text" id="bestWPMDisplay">Yükleniyor...</div>
                     <div class="stat-label">En İyi Hız</div>
                 </div>
             </div>
         </div>
+
 
         <div class="lesson-sections">
             <section class="lesson-section">
@@ -207,12 +221,38 @@
             </section>
         </div>
 
+        <!-- Level ekle -->
+        <div id="addLevelModal"
+            style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.25); z-index:9999; align-items:center; justify-content:center;">
+            <form id="addLevelForm"
+                style="background:#fff; border-radius:12px; padding:2rem 2.5rem; min-width:320px; box-shadow:0 8px 32px rgba(0,0,0,0.18); display:flex; flex-direction:column; gap:1rem;">
+                <h2 style="margin-bottom:0.5rem;">Yeni Level Ekle</h2>
+                <input name="name" type="text" placeholder="Level Adı *" required
+                    style="padding:0.5rem; border-radius:6px; border:1px solid #ccc;">
+                <input name="category" type="text" placeholder="Kategori (opsiyonel)"
+                    style="padding:0.5rem; border-radius:6px; border:1px solid #ccc;">
+                <textarea name="description" placeholder="Açıklama (opsiyonel)"
+                    style="padding:0.5rem; border-radius:6px; border:1px solid #ccc;"></textarea>
+                <textarea name="data" placeholder="Level Data *" required
+                    style="padding:0.5rem; border-radius:6px; border:1px solid #ccc; min-height:80px;"></textarea>
+                <div style="display:flex; gap:1rem; justify-content:flex-end;">
+                    <button type="button" id="cancelAddLevel"
+                        style="background:#eee; border:none; border-radius:6px; padding:0.5rem 1.2rem; cursor:pointer;">
+                        İptal
+                    </button>
+                    <button type="submit"
+                        style="background:#10b981; color:#fff; border:none; border-radius:6px; padding:0.5rem 1.2rem; cursor:pointer;">
+                        Ekle
+                    </button>
+                </div>
+                <div id="addLevelMsg" style="color:#e11d48; font-size:0.95em;"></div>
+            </form>
+        </div>
 
-        </div>
-        </div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="../js/levelpage.js"></script>
+    <script src="../js/adminControlpanel.js"></script>
 
 </body>
 
