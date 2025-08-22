@@ -153,8 +153,7 @@ auth.post("/logout", (req, res) => {
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
     });
 
-    sendMail(email, { subject: "We hope you come back soon 😢", text: `We hope you come back soon!!!` });
-
+    
     return res.status(200).json({ success: true, msg: "logged out" });
   } catch (error) {
     return res.status(500).json({ success: false, msg: error.message });
