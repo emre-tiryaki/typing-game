@@ -212,3 +212,33 @@ function setProgress(percent) {
 }
 
 
+// Kartları dinamik oluşturmanın alternatif yolu: for...of döngüsü
+async function loadLessons() {
+  try {
+    const res = await axios.get("http://localhost:4000/database/all-levels");
+    // Eğer res.data bir nesne ve içinde dizi varsa:
+    const lessons = Array.isArray(res.data) ? res.data : res.data.data || [];
+    const container = document.getElementById("lessons-container");
+    container.innerHTML = "";
+
+    console.log("Gelen lessons verisi:", lessons);
+
+    lessons.forEach(lesson => {
+      const card = document.createElement("div");
+      card.className = "lesson-card";
+      card.innerHTML = `
+        <div class="lesson-number">Ders ${lesson.data.difficulty || ""}</div>
+        <div class="lesson-title">${lesson.name || lesson.title || "Ders"}</div>
+        <div class="lesson-description">${lesson.description || ""}</div>
+      `;
+      card.onclick = () => {
+        window.location.href = `lesson.html?lesson=${lesson._id || lesson.id}`;
+      };
+      container.appendChild(card);
+    });
+  } catch (err) {
+    console.error("Dersler yüklenemedi:", err);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadLessons);
