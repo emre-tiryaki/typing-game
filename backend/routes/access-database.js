@@ -37,11 +37,35 @@ accessDatabase.get("/all-levels", async (req, res) => {
     if (!allLevels)
       return res
         .status(200)
-        .json({ success: false, msg: "there are no data to send in database", data: [] });
+        .json({
+          success: false,
+          msg: "there are no data to send in database",
+          data: [],
+        });
 
     return res
-        .status(200)
-        .json({ success: true, msg: "data found!!!", data: allLevels });
+      .status(200)
+      .json({ success: true, msg: "data found!!!", data: allLevels });
+  } catch (error) {
+    return res.status(500).json({ success: false, msg: error.message });
+  }
+});
+
+//spesifik level verisi almak için
+accessDatabase.get("/level", async (req, res) => {
+  const { levelId } = req.body;
+
+  try {
+    const level = await levelsModel.findById(levelId);
+
+    if (!level)
+      return res
+        .status(404)
+        .json({ success: false, msg: "level data not found!!!", data: {} });
+
+    return res
+      .status(200)
+      .json({ success: true, msg: "level data found!!!", data: level });
   } catch (error) {
     return res.status(500).json({ success: false, msg: error.message });
   }
