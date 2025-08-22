@@ -211,12 +211,11 @@ function setProgress(percent) {
   document.getElementById('progressFill').style.width = percent + '%';
 }
 
-
-// Kartları dinamik oluşturmanın alternatif yolu: for...of döngüsü
+// Dersleri yükle
 async function loadLessons() {
   try {
     const res = await axios.get("http://localhost:4000/database/all-levels");
-    // Eğer res.data bir nesne ve içinde dizi varsa:
+    // Eğer res.data bir nesne ve içinde dizi varsa(gpt):
     const lessons = Array.isArray(res.data) ? res.data : res.data.data || [];
     const container = document.getElementById("lessons-container");
     container.innerHTML = "";
@@ -227,14 +226,24 @@ async function loadLessons() {
       const card = document.createElement("div");
       card.className = "lesson-card";
       card.innerHTML = `
-        <div class="lesson-number">Ders ${lesson.data.difficulty || ""}</div>
-        <div class="lesson-title">${lesson.name || lesson.title || "Ders"}</div>
-        <div class="lesson-description">${lesson.description || ""}</div>
-      `;
-      card.onclick = () => {
+        <div class="lesson-card">
+            <div class="lesson-content">
+                <div class="lesson-number">kategorı:${lesson.category || ""}</div>
+                <h3 class="lesson-title">ders adı: ${lesson.name || ""}</h3>
+                <p class="lesson-description">açıklama:${lesson.description || ""}</p>
+                <div class="lesson-footer">
+                    <div class="lesson-wpm">${lesson.__v || ""}</div>
+                    <div class="lesson-duration">Zorluk: ${lesson.data.difficulty || ""}</div>
+                </div>
+            </div>
+        </div>
+        `;
+      /*card.onclick = () => {
         window.location.href = `lesson.html?lesson=${lesson._id || lesson.id}`;
-      };
-      container.appendChild(card);
+      };*/
+
+
+      container.appendChild(card);// Add card to container
     });
   } catch (err) {
     console.error("Dersler yüklenemedi:", err);
