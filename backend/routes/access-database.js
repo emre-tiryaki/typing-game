@@ -35,13 +35,11 @@ accessDatabase.get("/all-levels", async (req, res) => {
     const allLevels = await levelsModel.find();
 
     if (!allLevels)
-      return res
-        .status(200)
-        .json({
-          success: false,
-          msg: "there are no data to send in database",
-          data: [],
-        });
+      return res.status(200).json({
+        success: false,
+        msg: "there are no data to send in database",
+        data: [],
+      });
 
     return res
       .status(200)
@@ -53,16 +51,19 @@ accessDatabase.get("/all-levels", async (req, res) => {
 
 //spesifik level verisi almak için
 accessDatabase.get("/level", async (req, res) => {
+  //parametre olarak gelen id'yi alalım ve veritabanında aratalım
   const { levelId } = req.body;
 
   try {
     const level = await levelsModel.findById(levelId);
 
+    //o id'ye sahip bir level yoksa hata mesajı ve boş bir veri döndürelim
     if (!level)
       return res
         .status(404)
         .json({ success: false, msg: "level data not found!!!", data: {} });
 
+    //varsa level verisini döndürelim
     return res
       .status(200)
       .json({ success: true, msg: "level data found!!!", data: level });
