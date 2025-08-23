@@ -219,27 +219,25 @@ async function loadLessons() {
 
     console.log("Gelen lessons verisi:", lessons);
 
-    lessons.forEach(lesson => {
+    lessons.forEach((lesson, idx) => {
+      const isAvailable = lesson.isAvailable || idx < 2; // örnek: ilk 2 ders açık, diğerleri kilitli
       const card = document.createElement("div");
-      card.className = "lesson-card";
+      card.className = `lesson-card ${isAvailable ? 'lesson-card-available' : 'lesson-card-locked'}`;
       card.innerHTML = `
-        <div class="lesson-card">
-            <div class="lesson-content">
-                <div class="lesson-number">kategorı:${lesson.category || ""}</div>
-                <h3 class="lesson-title">ders adı: ${lesson.name || ""}</h3>
-                <p class="lesson-description">açıklama:${lesson.description || ""}</p>
-                <div class="lesson-footer">
-                    <div class="lesson-difficulty">Zorluk: ${lesson.data.difficulty || ""}</div>
-                </div>
-            </div>
+        <div class="lesson-content">
+          <div class="lesson-number">${idx + 1}</div>
+          <div class="lesson-icon">${isAvailable ? '▶️' : '🔒'}</div>
+          <h3 class="lesson-title">${lesson.name || ''}</h3>
+          <p class="lesson-description">${lesson.description || ''}</p>
+          <div class="lesson-footer">
+            <div class="lesson-wpm">${isAvailable ? `${lesson.__v}` : '🔒'}</div>
+          </div>
         </div>
-        `;
-      /*card.onclick = () => {
-        window.location.href = `lesson.html?lesson=${lesson._id || lesson.id}`;
-      };*/
-
-
-      container.appendChild(card);// Add card to container
+      `;
+      if (isAvailable) {
+        card.onclick = () => startLesson(idx + 1);
+      }
+      container.appendChild(card);
     });
   } catch (err) {
     console.error("Dersler yüklenemedi:", err);
