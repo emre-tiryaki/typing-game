@@ -1,0 +1,98 @@
+/* Admin Panel & Modal Styles */
+#adminDropdown {
+    display: none;
+    position: absolute;
+    top: 110%;
+    left: 0;
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    min-width: 150px;
+    z-index: 100;
+    padding: 0.25rem 0;
+}
+
+#adminDropdown li {
+    list-style: none;
+}
+
+#adminDropdown button {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 10px 16px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 1em;
+    color: #2563eb;
+    border-radius: 0;
+    transition: background 0.2s;
+}
+
+#adminDropdown button:hover {
+    background: #f3f4f6;
+}
+
+#addLevelModal {
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.25);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+#addLevelModal.show {
+    display: flex;
+}
+
+#addLevelForm {
+    background: #fff;
+    border-radius: 12px;
+    padding: 2rem 2.5rem;
+    min-width: 320px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#addLevelForm input,
+#addLevelForm textarea {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+}
+
+#addLevelForm button[type="submit"] {
+    background: #10b981;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1.2rem;
+    cursor: pointer;
+}
+
+#addLevelForm button[type="button"] {
+    background: #eee;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1.2rem;
+    cursor: pointer;
+}
+
+#addLevelMsg {
+    color: #e11d48;
+    font-size: 0.95em;
+    min-height: 1.2em;
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 10px 16px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 1em;
+}
