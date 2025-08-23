@@ -323,6 +323,7 @@ body {
     padding: 1rem 2rem;
     border-radius: 1rem;
     background: rgba(52, 37, 37, 0.25);
+    backdrop-filter: blur(2px);
     box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.37);
     text-align: center;
     font-size: 2.15rem;

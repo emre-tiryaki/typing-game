@@ -87,19 +87,24 @@
                     style="padding:0.5rem; border-radius:6px; border:1px solid #ccc;"></textarea>
                 <textarea name="difficulty" placeholder="Zorluk (opsiyonel)"
                     style="padding:0.5rem; border-radius:6px; border:1px solid #ccc;"></textarea>
-                <textarea name="data" placeholder="Level Data *" required
-                    style="padding:0.5rem; border-radius:6px; border:1px solid #ccc; min-height:80px;"></textarea>
                 <div style="display:flex; gap:1rem; justify-content:flex-end;">
-                    <button type="button" id="cancelAddLevel"
-                        style="background:#eee; border:none; border-radius:6px; padding:0.5rem 1.2rem; cursor:pointer;">
-                        İptal
-                    </button>
-                    <button type="submit"
-                        style="background:#10b981; color:#fff; border:none; border-radius:6px; padding:0.5rem 1.2rem; cursor:pointer;">
-                        Ekle
-                    </button>
-                </div>
-                <div id="addLevelMsg" style="color:#e11d48; font-size:0.95em;"></div>
+                    <input name="text" type="text" placeholder="Level Metni *" required style="padding:0.5rem;
+                    border-radius:6px; border:1px solid #ccc;">
+                    <input name="wordCount" type="number" placeholder="Kelime Sayısı *" required
+                        style="padding:0.5rem; border-radius:6px; border:1px solid #ccc;">
+                    <input name="data" type="text" placeholder="Süre Sınırı (sn) *" required
+                        style="padding:0.5rem; border-radius:6px; border:1px solid #ccc;">
+                    <div style="display:flex; gap:1rem; justify-content:flex-end;">
+                        <button type="button" id="cancelAddLevel"
+                            style="background:#eee; border:none; border-radius:6px; padding:0.5rem 1.2rem; cursor:pointer;">
+                            İptal
+                        </button>
+                        <button type="submit"
+                            style="background:#10b981; color:#fff; border:none; border-radius:6px; padding:0.5rem 1.2rem; cursor:pointer;">
+                            Ekle
+                        </button>
+                    </div>
+                    <div id="addLevelMsg" style="color:#e11d48; font-size:0.95em;"></div>
             </form>
         </div>
 

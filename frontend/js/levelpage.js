@@ -113,9 +113,6 @@ async function fetchUserData() {
     console.log("Kullanıcı Verileri:", userData);
     if (userData.data.role === "admin") {
       document.getElementById("adminPanelBtn").style.display = "block";
-      document.getElementById("adminPanelBtn").onclick = () => {
-        //window.location.href = "admin.html";
-      };
     }
 
     // Progress bar güncelle
@@ -232,8 +229,7 @@ async function loadLessons() {
                 <h3 class="lesson-title">ders adı: ${lesson.name || ""}</h3>
                 <p class="lesson-description">açıklama:${lesson.description || ""}</p>
                 <div class="lesson-footer">
-                    <div class="lesson-wpm">${lesson.__v || ""}</div>
-                    <div class="lesson-duration">Zorluk: ${lesson.data.difficulty || ""}</div>
+                    <div class="lesson-difficulty">Zorluk: ${lesson.data.difficulty || ""}</div>
                 </div>
             </div>
         </div>
