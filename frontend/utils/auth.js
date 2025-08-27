@@ -18,8 +18,8 @@ export async function checkLogin() {
                     await axios.post(`http://localhost:4000/auth/logout`, {}, {
                         withCredentials: true
                     }).then(() => {
-                        window.location.href = "login.html";
-                        checkLogin();
+                        window.location.href = "welcome.html";
+                        checkLogin(); // Oturum kontrolü
                     }).catch(error => {
                         console.error("Çıkış yaparken hata:", error);
                     });

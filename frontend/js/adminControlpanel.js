@@ -72,7 +72,6 @@ document.getElementById("addLevelForm").onsubmit = async function (e) {
                 difficulty: form.difficulty.value || undefined, // opsiyonel zorluk
                 timeLimit: form.data.value, // süre sınırı
                 text: form.text.value, // metin
-                wordCount: form.wordCount.value // kelime sayısı
             }
         };
         const res = await axios.post("http://localhost:4000/admin/add-level", leveldata, {

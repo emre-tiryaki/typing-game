@@ -81,17 +81,21 @@
                 <h2 style="margin-bottom:0.5rem;">Yeni Level Ekle</h2>
                 <input name="name" type="text" placeholder="Level Adı *" required
                     style="padding:0.5rem; border-radius:6px; border:1px solid #ccc;">
-                <input name="category" type="text" placeholder="Kategori"
-                    style="padding:0.5rem; border-radius:6px; border:1px solid #ccc;">
+                <select name="category" required style="padding:0.5rem; border-radius:6px; border:1px solid #ccc;">
+                    <option value="lesson">lesson</option>
+                    <option value="free mod">free mod</option>
+                </select>
                 <textarea name="description" placeholder="Açıklama (opsiyonel)"
                     style="padding:0.5rem; border-radius:6px; border:1px solid #ccc;"></textarea>
-                <textarea name="difficulty" placeholder="Zorluk (opsiyonel)"
-                    style="padding:0.5rem; border-radius:6px; border:1px solid #ccc;"></textarea>
+                <select name="difficulty" required
+                    style="padding:0.3rem 0.5rem; border-radius:6px; border:1px solid #ccc; font-size:0.95em; width:120px;">
+                    <option value="easy">Kolay</option>
+                    <option value="medium">Orta</option>
+                    <option value="hard">Zor</option>
+                </select>
+                <textarea name="text" placeholder="Level Metni *" required rows="6"
+                    style="padding:0.7rem; border-radius:6px; border:1px solid #ccc; min-width:220px; min-height:120px; resize:vertical;"></textarea>
                 <div style="display:flex; gap:1rem; justify-content:flex-end;">
-                    <input name="text" type="text" placeholder="Level Metni *" required style="padding:0.5rem;
-                    border-radius:6px; border:1px solid #ccc;">
-                    <input name="wordCount" type="number" placeholder="Kelime Sayısı *" required
-                        style="padding:0.5rem; border-radius:6px; border:1px solid #ccc;">
                     <input name="data" type="text" placeholder="Süre Sınırı (sn) *" required
                         style="padding:0.5rem; border-radius:6px; border:1px solid #ccc;">
                     <div style="display:flex; gap:1rem; justify-content:flex-end;">
