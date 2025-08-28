@@ -86,14 +86,49 @@ auth.post("/register", async (req, res) => {
 
     tokenGenerator(res, { id: user._id, name: name, isGuest: false });
 
-    //mail ile kayıt olduğunu kullanıcıya bildirelim
-    sendMail(email, { subject: "You Successfully created your account", text: `dear ${name}.\nYou successfully created your account.\nplease emjoy your experience!!!` });
-
     // bitiş
     return res.status(201).json({
       success: true,
       msg: `${user.name} registered successfully`,
     });
+  } catch (error) {
+    return res.status(500).json({ success: false, msg: error.message });
+  }
+});
+
+auth.post("/verify-account", async (req, res) => {
+  //parametreleri alalım
+  const { code, email } = req.body;
+
+  // parametre geçerli mi kontrol et
+  if (!code)
+    return res
+      .status(400)
+      .json({ success: false, msg: "insufficient parameters" });
+
+  try {
+    //kullanıcıyı ara
+    const user = await userModel.findOne({ email: email });
+    // kullanıcı var mı?
+    if (!user)
+      return res
+        .status(404)
+        .json({ success: false, msg: "There are no users with this email" });
+    //kullanıcı varsa halihazırda doğrulanmış mı?
+    if (user.isAccountVerified && user.verifyOtpExpiresAt > Date.now())
+      return res
+        .status(409)
+        .json({ success: false, msg: "Account is already verified" });
+
+    //doğrulanmamışs ve kodlar uyuşuyorlarsa
+    if (user.verifyOtp === code) {
+      user.isAccountVerified = true;
+      await user.save();
+
+      return res.status(200).json({ success: true, msg: "account verified" });
+    }
+    //kod uyuşmuyorsa
+    else return res.status(400).json({ success: false, msg: "code is wrong" });
   } catch (error) {
     return res.status(500).json({ success: false, msg: error.message });
   }
@@ -131,7 +166,10 @@ auth.post("/login", async (req, res) => {
     tokenGenerator(res, { id: user._id, name: user.name, isGuest: false });
 
     //kullanıcıya başarıyla giriş yaptığını email ile bildirelim
-    sendMail(email, { subject: "You Successfully logged in", text: `Welcome back ${user.name}.\nYou successfully logged into your account.\nplease emjoy your experience!!!` });
+    sendMail(email, {
+      subject: "You Successfully logged in",
+      text: `Welcome back ${user.name}.\nYou successfully logged into your account.\nplease emjoy your experience!!!`,
+    });
 
     // bitiş
     return res.status(200).json({
@@ -153,7 +191,6 @@ auth.post("/logout", (req, res) => {
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
     });
 
-    
     return res.status(200).json({ success: true, msg: "logged out" });
   } catch (error) {
     return res.status(500).json({ success: false, msg: error.message });
@@ -181,7 +218,7 @@ auth.post("/google-login", async (req, res) => {
 
     const mailData = {
       subject: `You Successfully logged in`,
-      text: `Welcome back ${name}.\nyou logged into your account successfully.\nenjoy your time!!`
+      text: `Welcome back ${name}.\nyou logged into your account successfully.\nenjoy your time!!`,
     };
 
     //yoksa oluştur
@@ -195,7 +232,7 @@ auth.post("/google-login", async (req, res) => {
       user.lastLogin = Date.now();
       await user.save();
       mailData.subject = `You Successfully created your account`;
-      mailData.text = `dear ${name}.\nYou successfully created your account.\nplease emjoy your experience!!!`
+      mailData.text = `dear ${name}.\nYou successfully created your account.\nplease emjoy your experience!!!`;
     }
 
     // yeni token oluştur
