@@ -32,13 +32,12 @@ auth.get("/check", async (req, res) => {
     const user = await userModel.findById(decoded.id).lean();
 
     //kullanıcı yoksa hata var
-    if (!user) {
+    if (!user)
       return res.status(401).json({
         success: false,
         loggedIn: false,
         message: "Invalid authentication token.",
       });
-    }
 
     //başarılı cevap
     return res.status(200).json({
@@ -101,7 +100,7 @@ auth.post("/verify-account", async (req, res) => {
   const { code, email } = req.body;
 
   // parametre geçerli mi kontrol et
-  if (!code)
+  if (!code || !email)
     return res
       .status(400)
       .json({ success: false, msg: "insufficient parameters" });
@@ -115,13 +114,17 @@ auth.post("/verify-account", async (req, res) => {
         .status(404)
         .json({ success: false, msg: "There are no users with this email" });
     //kullanıcı varsa halihazırda doğrulanmış mı?
-    if (user.isAccountVerified && user.verifyOtpExpiresAt > Date.now())
+    if (user.isAccountVerified)
       return res
         .status(409)
         .json({ success: false, msg: "Account is already verified" });
+    else if(user.verifyOtpExpiresAt > Date.now())
+      return res
+        .status(400)
+        .json({ success: false, msg: "time exceeded" });
 
     //doğrulanmamışs ve kodlar uyuşuyorlarsa
-    if (user.verifyOtp === code) {
+    if (user.verifyOtp === code && user.verifyOtpExpiresAt <= Date.now()) {
       user.isAccountVerified = true;
       await user.save();
 
