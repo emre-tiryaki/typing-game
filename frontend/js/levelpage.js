@@ -211,4 +211,11 @@ function setProgress(percent) {
   document.getElementById('progressFill').style.width = percent + '%';
 }
 
+// Ders başlatma fonksiyonu
+function startLesson(lessonNumber) {
+  console.log(`Starting lesson ${lessonNumber}`);
+  // Game sayfasına yönlendir ve lesson ID'yi parametre olarak gönder
+  window.location.href = `game.html?lesson=${lessonNumber}`;
+}
+
 

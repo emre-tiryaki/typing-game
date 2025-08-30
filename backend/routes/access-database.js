@@ -1,5 +1,6 @@
 import express from "express";
 import levelsModel from "../models/levels.js";
+import userModel from "../models/user.js";
 
 const accessDatabase = express.Router();
 //istek atan kişinin verisini çekmek için
@@ -52,7 +53,7 @@ accessDatabase.get("/all-levels", async (req, res) => {
 //spesifik level verisi almak için
 accessDatabase.get("/level", async (req, res) => {
   //parametre olarak gelen id'yi alalım ve veritabanında aratalım
-  const { levelId } = req.body;
+  const { levelId } = req.query;
 
   try {
     const level = await levelsModel.findById(levelId);
@@ -67,6 +68,45 @@ accessDatabase.get("/level", async (req, res) => {
     return res
       .status(200)
       .json({ success: true, msg: "level data found!!!", data: level });
+  } catch (error) {
+    return res.status(500).json({ success: false, msg: error.message });
+  }
+});
+
+//level tamamlama ve progress kaydetme endpoint'i
+accessDatabase.post("/complete-level", async (req, res) => {
+  const user = req.user;
+  if (!user)
+    return res.status(401).json({ success: false, msg: "token error" });
+
+  const { levelId, wpm, timeSpent, mistakes } = req.body;
+
+  try {
+    //kullanıcıyı bul ve güncelle
+    const foundUser = await userModel.findById(user._id);
+    
+    if (!foundUser)
+      return res.status(404).json({ success: false, msg: "User not found" });
+
+    //level completion verisini kaydet
+    foundUser.levelsCompleted.set(levelId, {
+      completedAt: new Date(),
+      wpm: wpm,
+      timeSpent: timeSpent,
+      mistakes: mistakes || 0
+    });
+
+    //kullanıcıyı kaydet (pre-save hooks otomatik olarak WPM ve completion stats'ları güncelleyecek)
+    await foundUser.save();
+
+    return res.status(200).json({ 
+      success: true, 
+      msg: "Level completion saved successfully!",
+      data: {
+        topWPM: foundUser.topWPM,
+        completionPercentage: foundUser.completionStats.percentage
+      }
+    });
   } catch (error) {
     return res.status(500).json({ success: false, msg: error.message });
   }
