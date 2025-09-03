@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import levelsModel from "./levels.js";
+import crypto from "crypto";
+import { sendMail } from "../utils/mailer.js";
 
 //  user bilgilerinin veritabanında tutulma şeması
 const userSchema = new mongoose.Schema({
@@ -28,7 +30,7 @@ const userSchema = new mongoose.Schema({
     // hesabın oluşturulma tarihi
     type: Date,
     default: Date.now,
-    immutable: true,    // Değiştirilemez olmalı
+    immutable: true, // Değiştirilemez olmalı
   },
   levelsCompleted: {
     //bitirilen leveller'in listesi
@@ -79,7 +81,7 @@ const userSchema = new mongoose.Schema({
   // Misafir Kullanıcı Özellikleri
   guest: {
     guestId: { type: String }, //misafir id'si
-    expiresAt: { type: Date },//ne zaman geçersiz olacak
+    expiresAt: { type: Date }, //ne zaman geçersiz olacak
     createdBy: {
       ip: { type: String }, //oluşturan kişinin ip'si
     },
@@ -102,12 +104,15 @@ const userSchema = new mongoose.Schema({
   verifyOtp: {
     // email'i doğrulama kodu (OTP: One Time Password)
     type: String,
-    default: "",
+    default: function () {
+      const code = crypto.randomInt(0, 10000);
+      return String(code).padStart(4, "0");
+    },
   },
   verifyOtpExpiresAt: {
     // email doğrulama kodunun geçerlilik süresi
-    type: Number,
-    default: 0,
+    type: Date,
+    default: () => new Date(Date.now() + 10 * 60 * 1000), // Şu andan 10 dakika sonrası
   },
   isAccountVerified: {
     //hesap doğrulanmış mı
@@ -152,6 +157,17 @@ userSchema.pre("save", async function (next) {
   if (newPercentage !== this.completionStats.percentage)
     this.completionStats.percentage = newPercentage;
   next();
+});
+
+userSchema.post("save", async function () {
+  if (this.isAccountVerified) return;
+
+  const data = {
+    subject: "Your verification code",
+    text: `Welcome to Typing Game ${this.name}!\n\nYour account has been created successfully.\n\nYour verification code is: ${this.verifyOtp}\n\nPlease enter this code to verify your email address.\n\nThank you!`,
+  };
+
+  await sendMail(this.email, data);
 });
 
 //model zaten tanımlandıysa tekrar tanımlama tanımlanmadıysa tanımla

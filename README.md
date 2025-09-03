@@ -1,1 +1,3 @@
 # typing-game
+bıseyler
+asd
