@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Ders - Typing Game</title>
+    <link rel="stylesheet" href="../css/lessonPage.css">
+    <link rel="stylesheet" href="../genel/darkTheme.css">
+</head>
+
+<body>
+    <main class="lesson-page-container">
+        <aside class="lesson-list">
+            <header>
+                <h2>Dersler</h2>
+                <input id="search" placeholder="Ders ara..." />
+            </header>
+            <ul id="lessons"></ul>
+        </aside>
+
+        <section class="lesson-card" aria-live="polite">
+            <div class="card-header">
+                <button id="back-btn" class="ghost">← Geri</button>
+                <h1 id="lesson-title">Ders Seçin</h1>
+            </div>
+
+            <div class="lesson-body">
+                <div class="meta-row">
+                    <span id="lesson-category" class="pill"></span>
+                    <span id="lesson-difficulty" class="pill"></span>
+                </div>
+                +
+                <div class="status-row">
+                    <div class="status-item">WPM: <strong id="wpm">0</strong></div>
+                    <div class="status-item">Doğruluk: <strong id="accuracy">0%</strong></div>
+                    <div class="status-item">Süre: <strong id="timer">00:00</strong></div>
+                </div>
+                +
+                <div class="text-to-type" id="lesson-text" aria-label="ders metni">Ders seçerek başlayın.</div>
+
+                <!-- Görünmez ama odaklanılabilir input: kullanıcı sayfada kutu görmeyecek -->
+                <textarea id="user-input" class="hidden-input" placeholder="" aria-label="yazma alanı"></textarea>
+                +
+                <div class="controls">
+                    <div class="progress-bar" aria-hidden="true">
+                        <div class="progress" id="progress"></div>
+                    </div>
+                    + <div class="actions">
+                        <button id="start-btn">Başlat</button>
+                        + <button id="reset-btn" class="ghost">Sıfırla</button>
+                        +
+                    </div>
+                    +
+                </div>
+                +
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/lessonPage.js"></script>
+</body>
+
+</html>
