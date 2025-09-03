@@ -9,7 +9,7 @@ words.get("/health-check", (req, res) =>
 );
 
 //istenen uzunlukta ve sayıda kelimeler döndürmesi için(free mode'da kullanılır)
-words.get("/get-random-words", async (req, res) => {
+words.get("/random-words", async (req, res) => {
   const length = req.query.length;
   const number = req.query.number || 1;
 
