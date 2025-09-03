@@ -42,7 +42,7 @@ async function loadLessons() {
       // Her bir ders için kart oluştur
       const isAvailable = lesson.isAvailable || idx < 2;
       // Kart oluşturma fonksiyonunu çağır
-      const card = createLessonCard(lesson, idx, isAvailable, startLesson);
+      const card = createLessonCard(lesson, idx, isAvailable);
       // Kartı konteynere ekle
       container.appendChild(card);
     });

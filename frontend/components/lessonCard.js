@@ -13,7 +13,9 @@ export function createLessonCard(lesson, idx, isAvailable, startLesson) {
   `;
   // Kartın tıklanabilirliğini ayarla
   if (isAvailable) {
-    card.onclick = () => startLesson(idx + 1);// ders başlat
+    card.onclick = () => {
+      window.location.href = `./lessonPage.html?lesson=${idx + 1}`;
+    };
   }
   return card;
 }
