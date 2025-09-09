@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 import connectDB from "./database/database.js";
@@ -36,7 +36,12 @@ connectDB(URI);
 const app = express();
 
 //frontend dosyalarımızı statik olarak ayarlıyoruz
-app.use(express.static(path.join(__dirname, '..', 'frontend')));
+app.use(express.static(path.join(__dirname, "..", "frontend")));
+
+//direkt olarak ana sayfaya atma metodu
+app.get("/", (req, res) => {
+  res.redirect("/html/welcome.html");
+});
 
 app.use(express.json());
 app.use(cookieParser());
