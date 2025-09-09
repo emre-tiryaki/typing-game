@@ -110,10 +110,10 @@ const startBtn = document.getElementById("startBtn");
 if (startBtn) {
   startBtn.addEventListener("click", async (e) => {
     e.preventDefault();
-    // Buton tıklama süresince devre dışı bırak(gpt denaldım)
+    // Buton tıklama süresince devre dışı bırak
     startBtn.classList.add("disabled");
     try {
-      await axios.post("http://localhost:4000/guest");
+      await axios.post(window.api('/guest'));
       // Başarılıysa yönlendirme veya başka bir işlem yapılabilir
       window.location.href = "levelpage.html";
     } catch (err) {

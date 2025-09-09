@@ -1,4 +1,6 @@
 // kullanıcı paneli verilerini alma
+import { api } from '../js/config.js';
+
 export async function fetchUserData() {
     // DOM elemanlarını seç
     const progressElement = document.querySelector(".progress-text");
@@ -7,7 +9,7 @@ export async function fetchUserData() {
 
     try {
         // Kullanıcı verilerini al
-        const response = await axios.get(`http://localhost:4000/database/me`, {
+        const response = await axios.get(api('/database/me'), {
             withCredentials: true,
         });
         const userData = response.data;

@@ -1,8 +1,9 @@
 import { ThemeManager } from "../utils/themeManager.js";
 import { AnimationManager } from "../utils/animationManager.js";
-import { fetchUserData, setProgress } from "../components/userPanel.js";
+import { fetchUserData } from "../components/userPanel.js";
 import { checkLogin } from "../utils/auth.js";
 import { createLessonCard } from "../components/lessonCard.js";
+import { api } from './config.js';
 
 // Uygulama başlatıcı
 class TypingTutorApp {
@@ -33,7 +34,7 @@ document.querySelector(".login-btn").onclick = function () {
 // Dersleri yükle
 async function loadLessons() {
   try {
-    const res = await axios.get("http://localhost:4000/database/all-levels");// Tüm dersleri al
+    const res = await axios.get(api('/database/all-levels'));// Tüm dersleri al
     // Gelen verileri kontrol et(burwsı gptden)
     const lessons = Array.isArray(res.data) ? res.data : res.data.data || [];
     const container = document.getElementById("lessons-container");// Dersler konteynerini al
@@ -51,7 +52,3 @@ async function loadLessons() {
   }
 }
 
-function startLesson(idx) {
-  //eklenecekk
-  alert(`Ders ${idx} başlatılacak!`);
-}

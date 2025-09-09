@@ -1,6 +1,6 @@
 
 
-const API_BASE = (window.location.hostname === 'localhost') ? 'http://localhost:4000' : '';
+import { api } from './config.js';
 
 let lessons = [];
 let currentLesson = null;
@@ -24,7 +24,7 @@ const difficultyPill = document.getElementById('lesson-difficulty');
 
 async function loadLessons() {
     try {
-        const res = await axios.get(`${API_BASE}/database/all-levels`, { withCredentials: true });
+        const res = await axios.get(api('/database/all-levels'), { withCredentials: true });
         if (res.data && res.data.success) lessons = res.data.data || [];
         else lessons = [];
     } catch (err) {

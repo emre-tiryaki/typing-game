@@ -1,4 +1,4 @@
-import { BACKEND_URL } from "../js/config.js";
+
 let googleAuthClient;
 
 window.onload = function () {

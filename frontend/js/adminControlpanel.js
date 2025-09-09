@@ -1,7 +1,9 @@
 
+import { api } from './config.js';
+
 document.addEventListener("DOMContentLoaded", async () => {
     try {
-        const res = await axios.get("http://localhost:4000/database/me", { withCredentials: true });
+        const res = await axios.get(api('/database/me'), { withCredentials: true });
         if (res.data.data.role === "admin") {
             const adminBtn = document.getElementById("adminPanelBtn");
             const dropdown = document.getElementById("adminDropdown");
@@ -74,7 +76,7 @@ document.getElementById("addLevelForm").onsubmit = async function (e) {
                 text: form.text.value, // metin
             }
         };
-        const res = await axios.post("http://localhost:4000/admin/add-level", leveldata, {
+        const res = await axios.post(api('/admin/add-level'), leveldata, {
             withCredentials: true
         });
         // Level başarıyla eklendi mesajı
@@ -94,7 +96,4 @@ document.getElementById("addLevelForm").onsubmit = async function (e) {
         // Hata mesajını göster
         msg.textContent = "Hata: " + (err.res || "Level eklenemedi.");
     }
-};
-const handleRequest = async (url, data,) => {// guncellenecek
-    const res = await axios.post(url, data);
 };

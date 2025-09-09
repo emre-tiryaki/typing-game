@@ -1,8 +1,10 @@
 // giriş/çıkış ve oturum kontrolü 
+import { api } from '../js/config.js';
+
 export async function checkLogin() {
     try {
         // Oturum kontrolü yap
-        const response = await axios.get(`http://localhost:4000/auth/check`, {
+        const response = await axios.get(api('/auth/check'), {
             withCredentials: true
         });
         // Oturum açma durumu kontrolü
@@ -15,10 +17,10 @@ export async function checkLogin() {
                 logoutBtn.style.display = "block";
                 logoutBtn.onclick = async function () {
                     // Çıkış yap
-                    await axios.post(`http://localhost:4000/auth/logout`, {}, {
+                    await axios.post(api('/auth/logout'), {}, {
                         withCredentials: true
                     }).then(() => {
-                        window.location.href = "welcome.html";
+                        window.location.href = "welcome.html";// kullanıcı çıkış yaptıktan sonra welcome sayfasına yönlendir
                         checkLogin(); // Oturum kontrolü
                     }).catch(error => {
                         console.error("Çıkış yaparken hata:", error);

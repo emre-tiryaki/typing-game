@@ -1,4 +1,4 @@
-import { BACKEND_URL } from "../js/config.js";
+import { api } from '../js/config.js';
 
 document.addEventListener("DOMContentLoaded", () => {
   const registerBtn = document.getElementById("registerBtn");
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
       registerBtn.disabled = false;
       return;
     }
-    await handleRequest(`${BACKEND_URL}/register`, { name: regName, email: regEmail, password: regPass1 }, "../html/levelpage.html");
+    await handleRequest(`${api('/auth/register')}`, { name: regName, email: regEmail, password: regPass1 }, "../html/levelpage.html");
     registerBtn.disabled = false;
   };
 
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
       loginBtn.disabled = false;
       return;
     }
-    await handleRequest(`${BACKEND_URL}/login`, { email: logEmail, password: logPassword }, "../html/levelpage.html");
+    await handleRequest(`${api('/auth/login')}`, { email: logEmail, password: logPassword }, "../html/levelpage.html");
     loginBtn.disabled = false;
   };
 });
