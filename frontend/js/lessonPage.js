@@ -5,11 +5,11 @@ const API_BASE = (window.location.hostname === 'localhost') ? 'http://localhost:
 let lessons = [];
 let currentLesson = null;
 let started = false;
-// check URL for lesson query param (numeric id)
+
 const urlParams = new URLSearchParams(window.location.search);
 const requestedLessonId = urlParams.has('lesson') ? parseInt(urlParams.get('lesson'), 10) : null;
 
-// DOM refs
+
 const lessonsList = document.getElementById('lessons');
 const titleEl = document.getElementById('lesson-title');
 const textEl = document.getElementById('lesson-text');
@@ -32,11 +32,11 @@ async function loadLessons() {
         console.error('Lessons fetch failed', err);
     }
     renderLessonList(lessons);
-    // if a lesson id was requested via URL, auto-select it (ids use 1-based index)
+
     if (requestedLessonId && Number.isFinite(requestedLessonId)) {
         const idx = requestedLessonId - 1;
         if (idx >= 0 && idx < lessons.length) {
-            // small timeout to ensure UI is ready
+
             setTimeout(() => selectLesson(idx), 80);
         }
     }
@@ -66,7 +66,7 @@ function selectLesson(index) {
     renderTargetText(text || 'Bu dersin içeriği boş.');
     inputEl.value = '';
     inputEl.readOnly = true;
-    // make sure hidden input is focusable (some browsers require tabindex)
+
     inputEl.tabIndex = 0;
     progressEl.style.width = '0%';
     categoryPill.textContent = (currentLesson.category || '').toUpperCase();
@@ -77,7 +77,7 @@ function selectLesson(index) {
 function startLesson() {
     if (!currentLesson) return alert('Lütfen önce bir ders seçin.');
     inputEl.readOnly = false;
-    // focus the hidden input so keyboard input is captured
+
     inputEl.focus();
     started = true;
     startTimer();
@@ -109,7 +109,7 @@ function updateProgress() {
     }
 }
 
-// --- New: render target text as spans for per-char highlighting
+
 function renderTargetText(text) {
     textEl.innerHTML = '';
     for (let i = 0; i < text.length; i++) {
@@ -120,7 +120,7 @@ function renderTargetText(text) {
     }
 }
 
-// Timer & WPM
+
 let timerId = null;
 let startTime = null;
 
@@ -159,7 +159,7 @@ function updateAccuracy() {
         const c = spans[i].textContent;
         const t = typed[i];
         spans[i].classList.remove('correct', 'incorrect', 'current');
-        if (t == null) { /* not typed yet */ }
+        if (t == null) { }
         else if (t === c) { spans[i].classList.add('correct'); correct++; }
         else { spans[i].classList.add('incorrect'); }
     }
@@ -167,7 +167,7 @@ function updateAccuracy() {
     document.getElementById('accuracy').textContent = isFinite(accuracy) ? accuracy + '%' : '0%';
 }
 
-// update input handler to highlight characters and manage timer
+
 inputEl.addEventListener('input', () => {
     if (!started) return;
     updateProgress();
