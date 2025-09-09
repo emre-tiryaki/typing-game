@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import path from "path";
 import connectDB from "./database/database.js";
 import words from "./routes/words.js";
 import guest from "./routes/guest.js";
