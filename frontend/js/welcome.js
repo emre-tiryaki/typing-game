@@ -10,7 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
     "On parmak yazmayı öğren",
     "dönerci olmak vardı şimdi",
     "Yavaş yazmaktan sıkılmadın mı?",
-    "osbir", // :D sarıyo
+    "Hadi başlayalım!",
+    "Yazma becerini geliştir!",
+    "Hızlı ve doğru yaz!",
   ];
   const h1 = document.querySelector(".hero h1");
   let i = 0;
