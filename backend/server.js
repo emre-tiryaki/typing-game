@@ -32,7 +32,7 @@ connectDB(URI);
 const app = express();
 
 //frontend dosyalarımızı statik olarak ayarlıyoruz
-app.use(express.static("../frontend"));
+app.use(express.static(path.join(__dirname, '..', 'frontend')));
 
 app.use(express.json());
 app.use(cookieParser());
