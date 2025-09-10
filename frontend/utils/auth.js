@@ -16,15 +16,19 @@ export async function checkLogin() {
             if (logoutBtn) {
                 logoutBtn.style.display = "block";
                 logoutBtn.onclick = async function () {
-                    // Çıkış yap
-                    await axios.post(api('/auth/logout'), {}, {
-                        withCredentials: true
-                    }).then(() => {
-                        window.location.href = "welcome.html";// kullanıcı çıkış yaptıktan sonra welcome sayfasına yönlendir
-                        checkLogin(); // Oturum kontrolü
-                    }).catch(error => {
+                    // Çıkış yapma isteği gönder
+                    try {
+                        await axios.post(api('/auth/logout'), {}, {
+                            withCredentials: true
+                        });
+                        // Çıkış başarılı, kullanıcıyı welcome sayfasına yönlendir
+                    } catch (error) {
+                        // Hata durumunda konsola hata mesajı yazdır
                         console.error("Çıkış yaparken hata:", error);
-                    });
+                    } finally {
+                        // Her durumda kullanıcıyı welcome sayfasına yönlendir
+                        window.location.href = "welcome.html";
+                    }
                 };
             }
         } else {

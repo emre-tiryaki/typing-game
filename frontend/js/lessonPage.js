@@ -10,17 +10,18 @@ const urlParams = new URLSearchParams(window.location.search);
 const requestedLessonId = urlParams.has('lesson') ? parseInt(urlParams.get('lesson'), 10) : null;
 
 
-const lessonsList = document.getElementById('lessons');
-const titleEl = document.getElementById('lesson-title');
-const textEl = document.getElementById('lesson-text');
-const inputEl = document.getElementById('user-input');
-const progressEl = document.getElementById('progress');
-const startBtn = document.getElementById('start-btn');
-const resetBtn = document.getElementById('reset-btn');
-const backBtn = document.getElementById('back-btn');
-const searchInput = document.getElementById('search');
-const categoryPill = document.getElementById('lesson-category');
-const difficultyPill = document.getElementById('lesson-difficulty');
+// DOM elements will be initialized after DOMContentLoaded(gptden)
+let lessonsList = null;
+let titleEl = null;
+let textEl = null;
+let inputEl = null;
+let progressEl = null;
+let startBtn = null;
+let resetBtn = null;
+let backBtn = null;
+let searchInput = null;
+let categoryPill = null;
+let difficultyPill = null;
 
 async function loadLessons() {
     try {
@@ -168,11 +169,14 @@ function updateAccuracy() {
 }
 
 
-inputEl.addEventListener('input', () => {
-    if (!started) return;
-    updateProgress();
-    updateHighlighting();
-});
+function wireInputHandler() {
+    if (!inputEl) return;
+    inputEl.addEventListener('input', () => {
+        if (!started) return;
+        updateProgress();
+        updateHighlighting();
+    });
+}
 
 function updateHighlighting() {
     const spans = textEl.querySelectorAll('.char');
@@ -196,17 +200,35 @@ function escapeHtml(s) {
         })[c];
     });
 }
+// Sayfa yüklendiğinde gerekli elemanları al ve olayları bağla(gptden)
 
-startBtn.addEventListener('click', startLesson);
-resetBtn.addEventListener('click', resetLesson);
-backBtn.addEventListener('click', () => window.location.href = 'levelpage.html');
-inputEl.addEventListener('input', () => { if (started) updateProgress(); });
-searchInput.addEventListener('input', (e) => {
-    const q = e.target.value.trim().toLowerCase();
-    if (!q) return renderLessonList(lessons);
-    const filtered = lessons.filter(l => (l.name || '').toLowerCase().includes(q) || (l.description || '').toLowerCase().includes(q));
-    renderLessonList(filtered);
+document.addEventListener('DOMContentLoaded', () => {
+    lessonsList = document.getElementById('lessons');
+    titleEl = document.getElementById('lesson-title');
+    textEl = document.getElementById('lesson-text');
+    inputEl = document.getElementById('user-input');
+    progressEl = document.getElementById('progress');
+    startBtn = document.getElementById('start-btn');
+    resetBtn = document.getElementById('reset-btn');
+    backBtn = document.getElementById('back-btn');
+    searchInput = document.getElementById('search');
+    categoryPill = document.getElementById('lesson-category');
+    difficultyPill = document.getElementById('lesson-difficulty');
+
+    if (startBtn) startBtn.addEventListener('click', startLesson);
+    if (resetBtn) resetBtn.addEventListener('click', resetLesson);
+    if (backBtn) backBtn.addEventListener('click', () => window.location.href = 'levelpage.html');
+    wireInputHandler();
+
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const q = e.target.value.trim().toLowerCase();
+            if (!q) return renderLessonList(lessons);
+            const filtered = lessons.filter(l => (l.name || '').toLowerCase().includes(q) || (l.description || '').toLowerCase().includes(q));
+            renderLessonList(filtered);
+        });
+    }
+
+    loadLessons();
 });
-
-loadLessons();
 

@@ -1,3 +1,5 @@
+import { api } from './config.js';
+
 document.addEventListener("DOMContentLoaded", () => {
   // Login sayfasına yönlendirme
   document.querySelector(".login-btn").addEventListener("click", () => {
@@ -113,7 +115,7 @@ if (startBtn) {
     // Buton tıklama süresince devre dışı bırak
     startBtn.classList.add("disabled");
     try {
-      await axios.post(window.api('/guest'));
+      await axios.post(api('/guest'));
       // Başarılıysa yönlendirme veya başka bir işlem yapılabilir
       window.location.href = "levelpage.html";
     } catch (err) {
