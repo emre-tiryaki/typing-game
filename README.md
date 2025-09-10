@@ -1,3 +1,0 @@
-# typing-game
-bıseyler
-asd
