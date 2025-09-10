@@ -1,4 +1,4 @@
-[İngilizce versiyonu için tıklayın](Readme.en.md) / Click for Turkish version
+[Click for the English version](Readme.en.md) / Türkçe versiyonu için tıklayın
 
 ---
 
@@ -141,3 +141,4 @@ http://localhost:{sizin ayarladığınız port}
 3. Projemiz facebook ile giriş yapmayı desteklememektedir!!! Daha sonradan ekleriz diye koyup vazgeçtik. Butonu görmezden gelin.
 4. kayıt olurken mail adresinize kod gelse bile direkt olarak kod girmek için bir arayüz yoktur. Bunuda ekleyeceğiz 😅
 5. Projemizlevel bitirmeyi malesefki desteklememektedir bunu en yakın güncellemede getireceğiz.
+
